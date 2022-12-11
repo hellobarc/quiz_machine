@@ -128,7 +128,7 @@ footer{
 .content{
     background-color: #F9F7F7;
     border-radius: 5px;
-    padding: 20px;
+    padding: 50px;
     position: relative;
 }
 .content_button{
@@ -154,6 +154,37 @@ footer{
 .questions_radio span{
     display: block;
     margin-top: 1px;
+}
+.right_radio{
+    color: #00c437;
+    font-weight: 700;
+}
+.wrong_radio{
+    color: #EB1010;
+    font-weight: 700;
+}
+input[name="right_radio"] {
+	accent-color: rgb(10, 173, 10);
+}
+input[name="wrong_radio"] {
+	accent-color: red;
+}
+.check_box{
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0px 4px 33px 10px rgba(98,106,115,0.07)!important;
+    border-radius: 10px;
+}
+.result_progress{
+    width: 25%;
+    position: relative;
+}
+.result_star{
+    position: absolute;
+    bottom: 11%;
+    right: 72%;
+    font-size: 30px;
+    color: #198754;
 }
 /* third page css end */
 /* responsive css start */
