@@ -174,19 +174,99 @@ input[name="wrong_radio"] {
     padding: 10px 0;
     box-shadow: 0px 4px 33px 10px rgba(98,106,115,0.07)!important;
     border-radius: 10px;
+    width: 32%;
 }
 .result_progress{
-    width: 25%;
+    width: 80%;
     position: relative;
 }
 .result_star{
     position: absolute;
     bottom: 11%;
-    right: 72%;
+    right: 71%;
     font-size: 30px;
     color: #198754;
 }
+.result_marks{
+    position: absolute;
+    left: 29%;
+    bottom: 11%;
+    font-size: 25px;
+    font-weight: 700;
+}
+.retry_button{
+    position: absolute;
+    left: 34%;
+    bottom: 11%;
+}
 /* third page css end */
+/* fouth page css start */
+.fill_blanks{
+    position: relative;
+}
+.fill_blanks input{
+    border: none;
+    border-bottom: 2px solid #000;
+    background-color: transparent;
+    width: 20%;
+}
+.fill_blanks .fill_right{
+    border: none;
+    border-bottom: 2px solid #0BAE39;
+    background-color: transparent;
+    color: #0BAE39;
+    text-align: center;
+}
+.fill_blanks .fill_wrong{
+    border: none;
+    border-bottom: 2px solid red;
+    background-color: transparent;
+    color: red;
+    text-align: center;
+}
+.fill_check{
+    position: absolute;
+    right: 35%;
+    color: #0BAE39;
+}
+.fill_cross{
+    position: absolute;
+    right: 84%;
+    color: red;
+}
+/* fouth page css end */
+/* fith page css start */
+.mltiple_choice_option{
+    background-color: #D9D9D9;
+    width: 30%;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.mltiple_choice_option_correct{
+    background-color: #7CCF94;
+    width: 30%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: relative;
+}
+.mltiple_choice_option_wrong{
+    background-color: red;
+    width: 30%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: relative;
+}
+.multiple_choice_check{
+    color: #0BAE39;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+.multiple_choice_cross{
+    color: red;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+/* fith page css end */
 /* responsive css start */
 @media only screen and (max-width:500px) {
     .logo-image-size{
