@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/admin_dashboard', [App\Http\Controllers\HomeController::class, 'dashboard']);
 
-Route::prefix('admin')->group(function () {
+Route::group(['middleware' => 'api', 'prefix'=> 'admin'], function ($routes) {
     Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
 });
 
