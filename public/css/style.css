@@ -1,0 +1,338 @@
+body{
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100%;
+}
+
+h1,h2,h3,h4{
+    font-family: 'Istok Web', sans-serif;
+}
+p,span,li,button,a,label{
+    /* font-family: "Lora", Sans-serif; */
+    font-family: 'Inter', sans-serif;
+}
+.service h2{
+    font-size: 1.375rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+}
+.collapse_color{
+    background-color: #D9D9D9;
+}
+.header_style{
+    outline: none;
+    /* box-shadow: 0px 4px 33px 10px rgba(98,106,115,0.07)!important; */
+    background-position: center !important;
+    box-shadow: rgba(0, 0, 0, 0.11) 0px 5px 15px;
+    /* position: fixed;
+    width: 100%; */
+}
+
+.logo-image-size{
+    width: 100%;
+}
+.image-size{
+    width: 100%;
+}
+.navbar-font{
+    font-size: 1.375rem;
+    font-weight: 700;
+}
+.nav-margin{
+    margin-left: 8%;
+
+}
+.list-style{
+    list-style: none;
+}
+.side-bar-font{
+    font-size: 1.25rem;
+}
+input.check_box{
+    width: 25px;
+    height: 25px;
+}
+.check_box_font{
+    font-size: 1.34rem;
+}
+.main-text{
+    font-size: 1.25rem;
+}
+.text_right{
+    text-align: right;
+}
+.large-button{
+    font-size: 22px;
+    font-weight: 700;
+    background-color: #ffc107;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+}
+.large-button:hover{
+    background-color: #000;
+    color: #fff;
+    transition: 0.4s ease-in;
+}
+.test-border{
+    background-color: rgb(255, 255, 255);
+    border-color: transparent;
+    border-radius: 5px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 10px 15px -3px;
+    margin-top: 20px;
+
+}
+.sub-title{
+    font-size: 22px;
+    font-weight: 700;
+}
+.test-start-button{
+    border: none;
+    background-color: #000;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.test-start-button:hover{
+    background-color: #ffc107;
+    color: #000;
+    transition: 0.4s ease-in;
+}
+.main-color{
+    background-color: #ffc107;
+}
+.footer-image-size{
+    width: 10%;
+}
+.icon-size{
+    font-size: 35px;
+}
+.footer_input{
+    width: 50%;
+    margin-left: 40%;
+}
+footer{
+   
+}
+/* second page css start */
+.breadcrumb{
+    margin-top: 20px;
+}
+.breadcrumb ul{
+    list-style: none;
+    display: inline-flex;
+}
+.content{
+    background-color: #F9F7F7;
+    border-radius: 5px;
+    padding: 50px;
+    position: relative;
+}
+.content_button{
+    margin-top: 30px;
+    text-align: right;
+}
+.content_button a:hover{
+    background-color: #000;
+    color: #fff;
+    border: none;
+    transition: 0.4s ease-in;
+}
+/* second page css end */
+/* third page css start */
+.questions_radio{
+    margin-top: 15px;
+}
+.questions_radio input{
+    display: block;
+    margin-top: 8px;
+    margin-right: 10px;
+}
+.questions_radio span{
+    display: block;
+    margin-top: 1px;
+}
+.right_radio{
+    color: #00c437;
+    font-weight: 700;
+}
+.wrong_radio{
+    color: #EB1010;
+    font-weight: 700;
+}
+input[name="right_radio"] {
+	accent-color: rgb(10, 173, 10);
+}
+input[name="wrong_radio"] {
+	accent-color: red;
+}
+.check_box{
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0px 4px 33px 10px rgba(98,106,115,0.07)!important;
+    border-radius: 10px;
+    width: 32%;
+}
+.result_progress{
+    width: 80%;
+    position: relative;
+}
+.result_star{
+    position: absolute;
+    bottom: 11%;
+    right: 71%;
+    font-size: 30px;
+    color: #198754;
+}
+.result_marks{
+    position: absolute;
+    left: 29%;
+    bottom: 11%;
+    font-size: 25px;
+    font-weight: 700;
+}
+.retry_button{
+    position: absolute;
+    left: 34%;
+    bottom: 11%;
+}
+/* third page css end */
+/* fouth page css start */
+.fill_blanks{
+    position: relative;
+}
+.fill_blanks input{
+    border: none;
+    border-bottom: 2px solid #000;
+    background-color: transparent;
+    width: 20%;
+}
+.fill_blanks .fill_right{
+    border: none;
+    border-bottom: 2px solid #0BAE39;
+    background-color: transparent;
+    color: #0BAE39;
+    text-align: center;
+}
+.fill_blanks .fill_wrong{
+    border: none;
+    border-bottom: 2px solid red;
+    background-color: transparent;
+    color: red;
+    text-align: center;
+}
+.fill_check{
+    position: absolute;
+    right: 35%;
+    color: #0BAE39;
+}
+.fill_cross{
+    position: absolute;
+    right: 84%;
+    color: red;
+}
+/* fouth page css end */
+/* fith page css start */
+.mltiple_choice_option{
+    background-color: #D9D9D9;
+    width: 30%;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.mltiple_choice_option_correct{
+    background-color: #7CCF94;
+    width: 30%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: relative;
+}
+.mltiple_choice_option_wrong{
+    background-color: red;
+    width: 30%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: relative;
+}
+.multiple_choice_check{
+    color: #0BAE39;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+.multiple_choice_cross{
+    color: red;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+/* fith page css end */
+/* seven page css start */
+.article{
+    font-size: 1.1rem;
+    height: 550px;
+    overflow: auto;
+    margin-top: 10px;
+}
+/* seven page css end */
+/* eigth page css start */
+.suggest_test{
+    position: relative;
+}
+.suggest_test h2{
+    font-size: 1.375rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+}
+/* eigth page css end */
+/* owl carousel css start */
+.owl-dots{
+    display: none;
+}
+button.owl-prev {
+    margin: -52px !important;
+}
+button.owl-next {
+    margin: 27px !important;
+}
+.owl-nav {
+    display: flex; 
+    justify-content: space-between; 
+}
+.owl-nav span{
+    font-size: 60px;
+    background-color: #fff;
+    padding: 0px 32px 4px 31px;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: 0px 4px 33px 10px rgba(98,106,115,0.07)!important;
+    position: absolute;
+    bottom: 38%;
+    /* border: 1px solid #000; */
+}
+.owl-nav span:hover{
+    color:#000;
+}
+/* owl carousel css end */
+
+/* responsive css start */
+@media only screen and (max-width:500px) {
+    .logo-image-size{
+        width: 15%;
+    }
+    .nav_bar{
+        position: absolute;
+        top: 0;
+        left: 79%;
+    }
+    input.check_box{
+    display: inherit;
+    margin-right: 10px;
+    margin-top: 8px;
+    }
+    .check_box_font span {
+        display: inherit;
+        margin-top: 3px;
+    }
+  }
+  /* responsive css end */
