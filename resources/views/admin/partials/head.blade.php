@@ -14,6 +14,8 @@
 	<link rel="stylesheet" href="{{asset('ed_admin/css/vendors_css.css')}}">
 	  {{-- fontawesome cdn --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    
+
 	<!-- Style-->  
 	<link rel="stylesheet" href="{{asset('ed_admin/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('ed_admin/css/skin_color.css')}}">

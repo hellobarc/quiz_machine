@@ -18,9 +18,9 @@ class CreateQuizzesTable extends Migration
             $table->bigInteger('exam_id');
             $table->string('title');
             $table->longText('instruction');
-            $table->longText('quiz_type');
+            $table->enum('quiz_type',['fill-blank', 'multiple-choice', 'drop-down', 'radio','true-false']);
             $table->integer('marks');
-            $table->string('status');
+            $table->enum('status', ['active', 'pause']);
             $table->timestamps();
         });
     }

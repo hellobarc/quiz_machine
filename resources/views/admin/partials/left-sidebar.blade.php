@@ -28,7 +28,9 @@
 				  </a>
 				  <ul class="treeview-menu">
 					<li><a href="{{route('admin.settings.level')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Level</a></li>
-					<li><a href="contact_app.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
+					<li><a href="{{route('admin.settings.category')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
+					<li><a href="{{route('admin.settings.exam')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Exam</a></li>
+					<li><a href="{{route('admin.settings.quiz')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Quiz</a></li>
 					<li><a href="contact_app_chat.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Site Setting</a></li>
 				  </ul>
 				</li>

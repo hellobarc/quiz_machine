@@ -139,7 +139,10 @@
 				 <a class="dropdown-item" href="#"><i class="ti-wallet text-muted me-2"></i> My Wallet</a>
 				 <a class="dropdown-item" href="#"><i class="ti-settings text-muted me-2"></i> Settings</a>
 				 <div class="dropdown-divider"></div>
-				 <a class="dropdown-item" href="#"><i class="ti-lock text-muted me-2"></i> Logout</a>
+				 {{-- <form action="{{ route('admin.logout') }}" method="POST">
+					@csrf --}}
+				 <a class="dropdown-item" href="{{route('admin.logout')}}"><i class="ti-lock text-muted me-2"></i> Logout</a>
+				{{-- </form> --}}
               </li>
             </ul>
           </li>	
