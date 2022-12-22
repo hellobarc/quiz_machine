@@ -27,6 +27,7 @@
 					</span>
 				  </a>
 				  <ul class="treeview-menu">
+					<li><a href="{{route('admin.users')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All User</a></li>
 					<li><a href="{{route('admin.settings.level')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Level</a></li>
 					<li><a href="{{route('admin.settings.category')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
 					<li><a href="{{route('admin.settings.exam')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Exam</a></li>

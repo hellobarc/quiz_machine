@@ -32,6 +32,8 @@ Route::get('/admin_dashboard', [App\Http\Controllers\HomeController::class, 'das
 Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::get('/logout', [AdminController::class, 'adminLogout'])->name('admin.logout');
+    // users routes
+    Route::get('/users', [AdminController::class, 'allUser'])->name('admin.users');
     //admin level routes
     Route::get('/level', [LevelController::class, 'level'])->name('admin.settings.level');
     Route::get('/level/create', [LevelController::class, 'createLevel'])->name('admin.settings.level.create');
@@ -61,7 +63,11 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::post('/quiz/update/{id}', [QuizController::class, 'updateQuiz'])->name('admin.settings.quiz.update');
     Route::get('/quiz/delete/{id}', [QuizController::class, 'deleteExam'])->name('admin.settings.quiz.delete');
     //admin add quizzes
-    Route::get('/add-question', [QuestionController::class, 'addQuestion'])->name('admin.settings.quiz.add-question');
+    Route::get('/add-question/{quizType}/{quizId}', [QuestionController::class, 'addQuestion'])->name('admin.settings.quiz.add-question');
+    Route::post('/store-question/fill-blanks', [QuestionController::class, 'storeFillBlank'])->name('admin.settings.quiz.fill-blank.store-question');
+    Route::get('/delete-question/fill-blanks/{id}', [QuestionController::class, 'deleteFillBlank'])->name('admin.settings.quiz.fill-blank.delete-question');
+    Route::post('/store-question/multiple-choice', [QuestionController::class, 'storeMultipleChoice'])->name('admin.settings.quiz.multiple-choice.store-question');
+    Route::get('/delete-question/multiple-choice/{id}/{quizType}', [QuestionController::class, 'deleteMultipleChoice'])->name('admin.settings.quiz.multiple-choice.delete-question');
 });
 
 

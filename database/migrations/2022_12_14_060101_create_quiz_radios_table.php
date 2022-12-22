@@ -16,6 +16,7 @@ class CreateQuizRadiosTable extends Migration
         Schema::create('quiz_radios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('quiz_id');
+            $table->string('text');
             $table->string('option_text');
             $table->string('is_correct');
             $table->timestamps();

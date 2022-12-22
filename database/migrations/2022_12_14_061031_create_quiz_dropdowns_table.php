@@ -17,9 +17,11 @@ class CreateQuizDropdownsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('quiz_id');
             $table->longText('text');
-            $table->string('is_dropdown');
-            $table->string('correct_answer');
-            $table->string('is_newline');
+            $table->string('option_text');
+            $table->string('is_correct');
+            // $table->string('is_dropdown');
+            // $table->string('correct_answer');
+            // $table->string('is_newline');
             $table->timestamps();
         });
     }

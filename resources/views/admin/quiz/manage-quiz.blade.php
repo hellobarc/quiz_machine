@@ -50,7 +50,7 @@
 											<td>
 												<a href="{{route('admin.settings.quiz.edit', $rows->id)}}" class="btn btn-success btn-sm">Edit</a>
 												<a href="{{route('admin.settings.quiz.delete', $rows->id)}}" class="btn btn-danger btn-sm">Delete</a>
-												<a href="{{route('admin.settings.quiz.add-question', $rows->quiz_type)}}" class="btn btn-primary btn-sm">Add Question</a>
+												<a href="{{route('admin.settings.quiz.add-question', ['quizType'=>$rows->quiz_type, 'quizId'=>$rows->id])}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-circle-plus"></i> Add Question</a>
 											</td>
 										</tr>
 										@endforeach

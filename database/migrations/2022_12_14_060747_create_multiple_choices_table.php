@@ -16,6 +16,7 @@ class CreateMultipleChoicesTable extends Migration
         Schema::create('multiple_choices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('quiz_id');
+            $table->string('text');
             $table->string('option_text');
             $table->string('is_correct');
             $table->timestamps();

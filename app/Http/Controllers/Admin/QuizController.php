@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SaveQuizRequest;
 use App\Interfaces\QuizRepositoryInterface;
 use App\Http\Resources\QuizResource;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use App\Models\Exam;
 use App\Models\Quiz;
 

@@ -14,3 +14,8 @@
 <script src="{{asset('ed_admin/js/pages/dashboard.js')}}"></script>
 <script src="{{asset('ed_admin/js/pages/calendar.js')}}"></script>
 
+<script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+<script>
+    CKEDITOR.replace('ck');
+</script>
+<script src="{{asset('js/main.js')}}"></script>

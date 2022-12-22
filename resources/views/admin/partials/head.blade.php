@@ -19,5 +19,7 @@
 	<!-- Style-->  
 	<link rel="stylesheet" href="{{asset('ed_admin/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('ed_admin/css/skin_color.css')}}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
      
   </head>

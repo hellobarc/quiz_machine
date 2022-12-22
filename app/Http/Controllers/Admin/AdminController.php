@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\UserRole;
 
 class AdminController extends Controller
 {
@@ -22,5 +22,11 @@ class AdminController extends Controller
         Auth::logout();
 
         return redirect('/');
+    }
+
+    public function allUser()
+    {
+        $allUsers = UserRole::with('user')->get();
+        return view('admin.user.index', compact('allUsers'));
     }
 }

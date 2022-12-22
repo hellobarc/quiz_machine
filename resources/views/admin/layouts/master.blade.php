@@ -32,6 +32,8 @@
 	<!-- Page Content overlay -->
 	
 	@include('admin.partials.footer-js')
+
+
 	
 	
 </body>

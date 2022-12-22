@@ -20,6 +20,7 @@ class CreateFillBlanksTable extends Migration
             $table->string('is_blank')->default(NULL);
             $table->string('blank_answer')->default(NULL);
             $table->string('is_newline')->default(NULL);
+            $table->mediumText('instruction')->nullable();
             $table->timestamps();
         });
     }
