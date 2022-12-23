@@ -21,6 +21,7 @@ class CreateQuizzesTable extends Migration
             $table->enum('quiz_type',['fill-blank', 'multiple-choice', 'drop-down', 'radio','true-false']);
             $table->integer('marks');
             $table->enum('status', ['active', 'pause']);
+            $table->enum('templete', ['with_passage', 'with_audio', 'general']);
             $table->timestamps();
         });
     }

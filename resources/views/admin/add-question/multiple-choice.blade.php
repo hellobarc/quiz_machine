@@ -89,7 +89,7 @@
                                                             <td>{!!$items->text!!}</td>
                                                             <td>{!!$items->option_text!!}</td>
                                                             <td>
-                                                                <a href="{{route('admin.settings.quiz.multiple-choice.delete-question', $items->id)}}" class="btn btn-danger btn-sm">Delete</a>
+                                                                <a href="{{route('admin.settings.quiz.multiple-choice.delete-question', ['id'=>$items->id, 'quizType'=>$quizType])}}" class="btn btn-danger btn-sm">Delete</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach

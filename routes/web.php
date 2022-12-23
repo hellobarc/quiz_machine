@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ListeningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,13 +63,24 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::post('/quiz/store', [QuizController::class, 'storeQuiz'])->name('admin.settings.quiz.store');
     Route::get('/quiz/show/{id}', [QuizController::class, 'editQuiz'])->name('admin.settings.quiz.edit');
     Route::post('/quiz/update/{id}', [QuizController::class, 'updateQuiz'])->name('admin.settings.quiz.update');
-    Route::get('/quiz/delete/{id}', [QuizController::class, 'deleteExam'])->name('admin.settings.quiz.delete');
+    Route::get('/quiz/delete/{templete}/{quizType}/{id}', [QuizController::class, 'deleteQuiz'])->name('admin.settings.quiz.delete');
     //admin add quizzes
     Route::get('/add-question/{quizType}/{quizId}', [QuestionController::class, 'addQuestion'])->name('admin.settings.quiz.add-question');
     Route::post('/store-question/fill-blanks', [QuestionController::class, 'storeFillBlank'])->name('admin.settings.quiz.fill-blank.store-question');
     Route::get('/delete-question/fill-blanks/{id}', [QuestionController::class, 'deleteFillBlank'])->name('admin.settings.quiz.fill-blank.delete-question');
     Route::post('/store-question/multiple-choice', [QuestionController::class, 'storeMultipleChoice'])->name('admin.settings.quiz.multiple-choice.store-question');
     Route::get('/delete-question/multiple-choice/{id}/{quizType}', [QuestionController::class, 'deleteMultipleChoice'])->name('admin.settings.quiz.multiple-choice.delete-question');
+    //admin article
+    Route::get('/article/{quizType}/{quizId}', [ArticleController::class, 'article'])->name('admin.settings.quiz.article');
+    Route::post('/article/store', [ArticleController::class, 'articleStore'])->name('admin.settings.quiz.store-article');
+    Route::get('/article/delelete/perm/{id}',  [ArticleController::class, 'articleDelete'])->name('admin.settings.quiz.delete-article');
+    //admin listening
+    Route::get('/listening/{quizId}', [ListeningController::class, 'listening'])->name('admin.settings.quiz.listening');
+    Route::post('/listening/store', [ListeningController::class, 'listeningStore'])->name('admin.settings.quiz.store-listening');
+    Route::get('/listening/delelete/perm/{id}',  [ListeningController::class, 'listeningDelete'])->name('admin.settings.quiz.delete-listening');
+    
+
+
 });
 
 

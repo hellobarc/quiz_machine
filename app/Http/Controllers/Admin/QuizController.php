@@ -10,6 +10,13 @@ use App\Interfaces\QuizRepositoryInterface;
 use App\Http\Resources\QuizResource;
 use App\Models\Exam;
 use App\Models\Quiz;
+use App\Models\MultipleChoice;
+use App\Models\QuizRadio;
+use App\Models\QuizDropDown;
+use App\Models\FillBlank;
+use App\Models\Article;
+use App\Models\Listening;
+use Illuminate\Support\Facades\File; 
 
 class QuizController extends Controller
 {
@@ -39,6 +46,7 @@ class QuizController extends Controller
             'quiz_type',
             'marks',
             'status',
+            'templete',
         ]);
         $getData = $this->quizRepository->create($levelDetails);
         return redirect()->route('admin.settings.quiz')->with('success', 'Quiz Created Successfully.');
@@ -66,10 +74,42 @@ class QuizController extends Controller
 
         return redirect()->route('admin.settings.quiz')->with('success', 'Quiz Update Successfully.');
     }
+
+    private function deleteQuizQuery($quizId)
+    {
+        MultipleChoice::where('quiz_id', $quizId)->delete();
+        QuizRadio::where('quiz_id', $quizId)->delete();
+        QuizDropDown::where('quiz_id', $quizId)->delete();
+        FillBlank::where('quiz_id', $quizId)->delete();
+        Article::where('quiz_id', $quizId)->delete();
+        Listening::where('quiz_id', $quizId)->delete();
+    }
+    private function deleteQuizFile($quizId, $templete)
+    {
+        if($templete == 'with_passage'){
+            $article = Article::where('quiz_id', $quizId)->first();
+            if (File::exists('image/uploads/article/'.$article->image)) {
+                File::delete('image/uploads/article/'.$article->image);
+            }
+        }elseif($templete == 'with_audio'){
+            $listening = Listening::where('quiz_id', $quizId)->first();
+            if (File::exists('listening/uploads/'.$listening->audio)) {
+                File::delete('listening/uploads/'.$listening->audio);
+            }
+        }
+
+    }
     public function deleteQuiz(Request $request) 
     {
-        $catId = $request->route('id');
-        $this->quizRepository->delete($catId);
+        $quizId = $request->route('id');
+        $quiz_type = $request->route('quizType');
+        $templete = $request->route('templete');
+
+        $deleteFile = $this->deleteQuizFile($quizId, $templete);
+        $deleteAll = $this->deleteQuizQuery($quizId);
+
+        $this->quizRepository->delete($quizId);
         return redirect()->route('admin.settings.quiz')->with('success', 'Quiz Delete Successfully.');
     }
+
 }

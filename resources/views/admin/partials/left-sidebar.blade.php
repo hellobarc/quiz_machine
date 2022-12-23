@@ -20,6 +20,18 @@
 				</li>
 				<li class="treeview">
 				  <a href="#">
+					<i span class="fa-solid fa-user"><span class="path1"></span><span class="path2"></span></i>
+					<span>User</span>
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+				  </a>
+				  <ul class="treeview-menu">
+					<li><a href="{{route('admin.users')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All User</a></li>
+				  </ul>
+				</li>
+				<li class="treeview">
+				  <a href="#">
 					<i span class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i>
 					<span>Settings</span>
 					<span class="pull-right-container">
@@ -30,9 +42,20 @@
 					<li><a href="{{route('admin.users')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>All User</a></li>
 					<li><a href="{{route('admin.settings.level')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Level</a></li>
 					<li><a href="{{route('admin.settings.category')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Category</a></li>
+					<li><a href="contact_app_chat.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Site Setting</a></li>
+				  </ul>
+				</li>
+				<li class="treeview">
+				  <a href="#">
+					<i span class="fa-solid fa-clipboard"><span class="path1"></span><span class="path2"></span></i>
+					<span>Content</span>
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+				  </a>
+				  <ul class="treeview-menu">
 					<li><a href="{{route('admin.settings.exam')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Exam</a></li>
 					<li><a href="{{route('admin.settings.quiz')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Quiz</a></li>
-					<li><a href="contact_app_chat.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Site Setting</a></li>
 				  </ul>
 				</li>
 			  </ul>

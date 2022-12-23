@@ -17,6 +17,7 @@ class Quiz extends Model
         'quiz_type',
         'marks',
         'status',
+        'templete',
     ];
     public function exam()
     {

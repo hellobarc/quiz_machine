@@ -73,6 +73,15 @@
 											  <option value="pause">Pause</option>
 											</select>
 										</div>
+										<div class="form-group">
+											<label for="name" class="mb-2">Templete</label>
+											<select class="form-control" name="templete">
+											  <option value="">Please select one</option>
+											  <option value="general">General</option>
+											  <option value="with_passage">With Passage</option>
+											  <option value="with_audio">With Audio</option>
+											</select>
+										</div>
 										<button type="submit" class="btn btn-primary">Submit</button>
 									  </form>
 								</div>

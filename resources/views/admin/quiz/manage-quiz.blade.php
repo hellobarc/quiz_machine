@@ -36,6 +36,7 @@
 										<th>Quiz Type</th>
 										<th>Marks</th>
 										<th>Status</th>
+										<th>Templete</th>
 										<th>Action</th>
 									</thead>
 									<tbody>
@@ -47,10 +48,16 @@
 											<td>{{$rows->quiz_type}}</td>
 											<td>{{$rows->marks}}</td>
 											<td>{{$rows->status}}</td>
+											<td>{{$rows->templete}}</td>
 											<td>
 												<a href="{{route('admin.settings.quiz.edit', $rows->id)}}" class="btn btn-success btn-sm">Edit</a>
-												<a href="{{route('admin.settings.quiz.delete', $rows->id)}}" class="btn btn-danger btn-sm">Delete</a>
+												<a href="{{route('admin.settings.quiz.delete', ['templete'=>$rows->templete, 'quizType'=>$rows->quiz_type, 'id'=>$rows->id])}}" class="btn btn-danger btn-sm">Delete</a>
 												<a href="{{route('admin.settings.quiz.add-question', ['quizType'=>$rows->quiz_type, 'quizId'=>$rows->id])}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-circle-plus"></i> Add Question</a>
+												@if($rows->templete == 'with_passage')
+												<a href="{{route('admin.settings.quiz.article', ['quizType'=>$rows->quiz_type, 'quizId'=>$rows->id])}}" class="btn btn-info btn-sm"><i class="fa-solid fa-circle-plus"></i> Add Passage</a>
+												@elseif($rows->templete == 'with_audio')
+												<a href="{{route('admin.settings.quiz.listening', ['quizType'=>$rows->quiz_type, 'quizId'=>$rows->id])}}" class="btn btn-warning btn-sm"><i class="fa-solid fa-circle-plus"></i> Add Audio</a>
+												@endif
 											</td>
 										</tr>
 										@endforeach

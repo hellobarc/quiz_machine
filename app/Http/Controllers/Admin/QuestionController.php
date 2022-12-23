@@ -11,6 +11,7 @@ use App\Http\Resources\QuizResource;
 use App\Models\FillBlank;
 use App\Models\QuizRadio;
 use App\Models\QuizDropdown;
+use App\Models\MultipleChoice;
 
 
 class QuestionController extends Controller
@@ -19,16 +20,16 @@ class QuestionController extends Controller
     {
         if($quizType == 'fill-blank')
         {
-            $fillBlanks = FillBlank::with('quiz')->get();
+            $fillBlanks = FillBlank::where('quiz_id', $quizId)->with('quiz')->get();
             return view('admin.add-question.fill-blanks', compact('quizType', 'quizId', 'fillBlanks'));
         }elseif($quizType == 'multiple-choice'){
-            $multipleChoice = MultipleChoice::with('quiz')->get();
+            $multipleChoice = MultipleChoice::where('quiz_id', $quizId)->with('quiz')->get();
             return view('admin.add-question.multiple-choice', compact('quizType', 'quizId', 'multipleChoice'));
         }elseif($quizType == 'radio'){
-            $radio = QuizRadio::with('quiz')->get();
+            $radio = QuizRadio::where('quiz_id', $quizId)->with('quiz')->get();
             return view('admin.add-question.multiple-choice', compact('quizType', 'quizId', 'radio'));
         }elseif($quizType == 'drop-down'){
-            $dropDown = QuizDropdown::with('quiz')->get();
+            $dropDown = QuizDropdown::where('quiz_id', $quizId)->with('quiz')->get();
             return view('admin.add-question.multiple-choice', compact('quizType', 'quizId', 'dropDown'));
         }
     }
