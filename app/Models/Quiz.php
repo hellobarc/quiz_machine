@@ -23,4 +23,9 @@ class Quiz extends Model
     {
         return $this->belongsTo(Exam::class, 'exam_id');
     }
+    public function quizRadio()
+    {
+        return $this->hasmany(QuizRadio::class, 'quiz_id');
+    }
+
 }

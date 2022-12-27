@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ListeningController;
+use App\Http\Controllers\Frontend\FrontendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,9 @@ use App\Http\Controllers\Admin\ListeningController;
 */
 Auth::routes(['register' => false]);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 //Auth::routes();
 
@@ -78,9 +79,12 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::get('/listening/{quizId}', [ListeningController::class, 'listening'])->name('admin.settings.quiz.listening');
     Route::post('/listening/store', [ListeningController::class, 'listeningStore'])->name('admin.settings.quiz.store-listening');
     Route::get('/listening/delelete/perm/{id}',  [ListeningController::class, 'listeningDelete'])->name('admin.settings.quiz.delete-listening');
-    
-
-
 });
 
+// frontend routes
+Route::get('/', [FrontendController::class, 'frontendHome'])->name('frontend.home');
+Route::group(['prefix'=> 'frontend'], function ($routes) {
+    Route::get('/exam-info/{test_id}', [FrontendController::class, 'frontendExamInfo'])->name('frontend.exam.info'); 
+    Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start'); 
+});
 
