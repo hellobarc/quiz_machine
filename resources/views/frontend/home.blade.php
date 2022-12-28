@@ -5,6 +5,8 @@
     <section>
         <div class="container">
             <div class="row">
+                @include('frontend.partials.flash-message')
+                
                 <div class="col-xl-6 col-lg-6 col-md-6 col-md-6 col-sm-6 col-xs-6"></div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-md-66 col-sm-12 col-xs-12">
                     <div class="mt-3">
@@ -19,48 +21,55 @@
             </div>
             <div class="row">
                 <!-- left-side bar start -->
-                <div class="col-xl-2 col-lg-2 col-md-2 col-md-2 col-sm-2 col-xs-2">
-                    <div class="mt-4">
-                        <p class="navbar-font">Levels</p>
-                    </div>
-                    <div class="d-flex">
-                        <div class="side-bar-font mt-1">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="left_side_filter">
+                        <div class="d-flex justify-content-between fw-bold navbar-font" style="cursor: pointer">
+                            <div><p><i class="fa-solid fa-filter"></i> Filter</p></div>
+                            <div><p>Clear All</p></div>
                         </div>
-                        <div class="check_box_font">
-                            <span> A1 Basic</span>
-                            <span> A2 Foundation</span>
-                            <span> B1 Intermediate</span>
-                            <span> B2 Moderate</span>
-                            <span> C1 Advance</span>
+
+                        <div class="mt-4">
+                            <p class="navbar-font">Levels</p>
                         </div>
-                    </div>
-                    <div class="mt-4">
-                        <p class="navbar-font">Subject</p>
-                    </div>
-                    <div class="d-flex">
-                        <div class="side-bar-font mt-1">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
-                            <input type="checkbox" class="check_box">
+                        <div class="d-flex">
+                            <div class="side-bar-font mt-1 d-block">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                            </div>
+                            <div class="check_box_font mt-2">
+                                <span> A1 Basic</span>
+                                <span> A2 Foundation</span>
+                                <span> B1 Intermediate</span>
+                                <span> B2 Moderate</span>
+                                <span> C1 Advance</span>
+                            </div>
                         </div>
-                        <div class="check_box_font">
-                            <span> Vocabulary</span>
-                            <span> Grammar</span>
-                            <span> Reading</span>
-                            <span> Listening</span>
-                            <span> Writing</span>
+                        <div class="mt-4">
+                            <p class="navbar-font">Subject</p>
+                        </div>
+                        <div class="d-flex">
+                            <div class="side-bar-font mt-1">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                                <input type="checkbox" class="check_box">
+                            </div>
+                            <div class="check_box_font">
+                                <span> Vocabulary</span>
+                                <span> Grammar</span>
+                                <span> Reading</span>
+                                <span> Listening</span>
+                                <span> Writing</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- left-side bar end -->
-                <div class="col-xl-10 col-lg-10 col-md-10 col-md-10 col-sm-12 col-xs-12">
+                <div class="col-xl-9 col-lg-9 col-md-9 col-md-9 col-sm-12 col-xs-12">
                     <div class="mt-4">
                         <h1 class="fw-bolder">Prepare for your English exam</h1>
                         <p class="main-text">On test-english.com you will find lots of free practice tests and materials to help you improve your English skills and be more prepared for your English exam: KEY (KET), PET, FCE, IELTS, TOEIC® and TOEFL iBT™. If you don't know your level, you can start by taking a Level Test.</p>

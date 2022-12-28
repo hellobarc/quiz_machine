@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ListeningController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\UserAuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +84,11 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
 
 // frontend routes
 Route::get('/', [FrontendController::class, 'frontendHome'])->name('frontend.home');
+
 Route::group(['prefix'=> 'frontend'], function ($routes) {
+    Route::post('/user-login', [UserAuthenticationController::class, 'login'])->name('frontend.user.login'); 
+    Route::post('/user-regitster', [UserAuthenticationController::class, 'register'])->name('frontend.user.register'); 
+    Route::get('/user-logout', [UserAuthenticationController::class, 'logout'])->name('frontend.user.logout'); 
     Route::get('/exam-info/{test_id}', [FrontendController::class, 'frontendExamInfo'])->name('frontend.exam.info'); 
     Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start'); 
 });

@@ -25,7 +25,15 @@ class Quiz extends Model
     }
     public function quizRadio()
     {
-        return $this->hasmany(QuizRadio::class, 'quiz_id');
+        return $this->hasMany(QuizRadio::class,'quiz_id', 'id');
+    }
+    public function multipleChoice()
+    {
+        return $this->hasMany(MultipleChoice::class, 'quiz_id');
+    }
+    public function dropDown()
+    {
+        return $this->hasMany(QuizDropDown::class, 'quiz_id');
     }
 
 }

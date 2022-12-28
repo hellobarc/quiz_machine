@@ -30,54 +30,23 @@
                       </div>
                       <div style="text-align:right;"><p id="timer" class="sub-title mt-2"></p></div>
                       @foreach ($quizzes as $rows)
+                        @php
+                            $options = json_decode($rows->quizRadio[0]->option_text)  ;  
+                        @endphp
                         <div class="questions_radio">
                           <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p> 
-                          <div class="d-flex">
-                            @foreach ( $option[0] as $row)
-                             <div class="side-bar-font">
-                                  <input type="radio" class="check_box">
-                                  {{-- <input type="radio" class="check_box">
-                                  <input type="radio" class="check_box"> --}}
-                             </div>
-                              <div class="check_box_font">
-                                  <span> {{$row}}</span>
-                                  {{-- <span> a walk in the park</span>
-                                  <span> a nightmare</span> --}}
-                              </div>
-                              @endforeach
-                          </div>
+                          @foreach( $options as $option)
+                            <div class="d-flex">
+                                <div class="side-bar-font">
+                                    <input type="radio" class="check_box">
+                                </div>
+                                <div class="check_box_font">
+                                    <span> {{$option}}</span>  
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                         @endforeach
-                      {{-- <div class="questions_radio">
-                          <p class="check_box_font">2. She said it would be difficult, but it was_____________</p>
-                          <div class="d-flex">
-                             <div class="side-bar-font">
-                                  <input type="radio" class="check_box">
-                                  <input type="radio" class="check_box">
-                                  <input type="radio" class="check_box">
-                             </div>
-                              <div class="check_box_font">
-                                  <span> a piece of cake</span>
-                                  <span> a walk in the park</span>
-                                  <span> a nightmare</span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="questions_radio">
-                          <p class="check_box_font">3. She said it would be difficult, but it was_____________</p>
-                          <div class="d-flex">
-                             <div class="side-bar-font">
-                                  <input type="radio" class="check_box">
-                                  <input type="radio" class="check_box">
-                                  <input type="radio" class="check_box">
-                             </div>
-                              <div class="check_box_font">
-                                  <span> a piece of cake</span>
-                                  <span> a walk in the park</span>
-                                  <span> a nightmare</span>
-                              </div>
-                          </div>
-                      </div> --}}
                       <!-- check button -->
                      <div class="mt-4">
                           <form action="">

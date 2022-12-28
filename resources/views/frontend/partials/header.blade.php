@@ -6,7 +6,7 @@
                     <img src="{{asset('frontend/image/logo.png')}}" alt="" class="logo-image-size">
                 </div>
             </div>
-            <div class="col-xl-10 col-lg-10 col-md-10 col-md-10 col-sm-10 col-xs-10">
+            <div class="col-xl-9 col-lg-9 col-md-9 col-md-9 col-sm-9 col-xs-9">
                 <div class="mt-2 nav_bar">
                     <nav class="navbar navbar-expand-lg navbar-light ml-5">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,9 +35,23 @@
                       </nav>
                 </div>
             </div>
-            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <div class="mt-4">
+                  @php
+                     //dd(Auth::user()) ;
+                  @endphp
+                  @if(Auth::check())
+                  <div class="custom_dropdown">
+                    <a class="navbar-font text-dark text-decoration-none dropbtn" href="#" style="cursor: pointer;">
+                      {{Auth::user()->name}} <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                      <a href="{{route('frontend.user.logout')}}">Logout</a>
+                    </div>
+                  </div>
+                  @else
                     <a class="navbar-font text-dark text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#useLogin">Login</a>
+                  @endif
                 </div>
             </div>
         </div>
@@ -50,30 +64,66 @@
               <h2 class="modal-title fw-bold" id="useLoginLabel">Login your account</h2>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body mb-5">
               <div class="container">
                 <div class="row">
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <form action="">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
+                    <div class="user_login_registration">
+                      <ul>
+                        <li id="login">Login</li>
+                        <li id="register">Register</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="user_login">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
+                      <form action="{{route('frontend.user.login')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                          <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
+                          </div>
+                          <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="*******">
+                          </div>
+                          <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn test-start-button mw-100 px-5">Login</button>
+                            {{-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div id="user_register">
+                  @include('frontend.partials.flash-message')
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
+                      <form action="{{route('frontend.user.register')}}" method="post" enctype="multipart/form-data">
+                        @csrf
                         <div class="mb-3">
-                          <label for="exampleInputEmail1" class="form-label">Email address</label>
-                          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                          <label for="name" class="form-label">Name</label>
+                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputPassword1" class="form-label">Password</label>
-                          <input type="password" class="form-control" id="exampleInputPassword1">
+                          <label for="email" class="form-label">Email address</label>
+                          <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
+                        </div>
+                        <div class="mb-3">
+                          <label for="password" class="form-label">Password</label>
+                          <input type="password" class="form-control" name="password" id="password" placeholder="******">
+                        </div>
+                        <div class="mb-3">
+                          <label for="confirm_password" class="form-label">Confirm Password</label>
+                          <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="******">
                         </div>
                         <div class="d-flex justify-content-between">
-                          <button type="submit" class="btn test-start-button mw-100 px-5">Login</button>
-                          {{-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> --}}
+                          <button type="submit" class="btn test-start-button mw-100 px-5">Register</button>
                         </div>
-                    </form>
-                  </div>
-                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                    <h1>OR</h1>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Register</a>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -82,25 +132,31 @@
         </div>
       </div>
     <!-- LoginModal end-->
-    <!-- Registration Modal start-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Registration Modal end-->
 </header>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#user_login").show();
+  $("#user_register").hide();
+  $("#login").addClass('user_login_registration_active');
+
+  $("#login").click(function(){
+    $("#user_login").show();
+    $("#user_register").hide();
+    $("#login").addClass('user_login_registration_active');
+    $("#register").removeClass('user_login_registration_active');
+  });
+
+  $("#register").click(function(){
+    $("#user_login").hide();
+    $("#user_register").show();
+    $("#login").removeClass('user_login_registration_active');
+    $("#register").addClass('user_login_registration_active');
+  });
+});
+</script>
+
+
+  

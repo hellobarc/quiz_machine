@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Exam;
 use App\Models\Quiz;
+use App\Models\QuizRadio;
 
 class FrontendController extends Controller
 {
@@ -24,12 +25,19 @@ class FrontendController extends Controller
     {
         $option = [];
         $exams = Exam::where('id', $test_id)->first();
-        $quizzes = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'radio')->with('quizRadio')->get();
-        foreach($quizzes as $items)
-        {   
-            $option[] = json_decode($items->quizRadio[0]->option_text);
+        //$quizzes = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type')->with('quizRadio')->get();
+        $quizzes = Quiz::where('exam_id', $test_id)->where('status', 'active')->get();
+        foreach($quizzes as $questions)
+        {
+            $quiz_id[] = $questions->id;
+            $quiz_type[] = $questions->quiz_type;
+            // if($quiz_type =='radio'){
+               $quiz =  QuizRadio::where('quiz_id', $quiz_id)->get();
+            // }
+            
         }
-        return view('frontend.start-exam', compact('exams', 'quizzes', 'option'));
+        dd($quiz_id);
+        return view('frontend.start-exam', compact('exams', 'quizzes'));
     }
 
 }
