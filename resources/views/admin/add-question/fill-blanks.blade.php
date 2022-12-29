@@ -61,6 +61,7 @@
                                                 <th>SL No</th>
                                                 <th>Quiz Name</th>
                                                 <th>Question</th>
+                                                <th>Show Box</th>
                                                 <th>Action</th>
                                             </thead>
                                             <tbody>
@@ -69,6 +70,7 @@
                                                     <td>{{$loop->index+1}}</td>
                                                     <td>{{$items->quiz->title}}</td>
                                                     <td>{!!$items->text!!}</td>
+                                                    <td>{{$items->is_show}}</td>
                                                     <td>
                                                         <a href="{{route('admin.settings.quiz.fill-blank.delete-question', $items->id)}}" class="btn btn-danger btn-sm">Delete</a>
                                                     </td>

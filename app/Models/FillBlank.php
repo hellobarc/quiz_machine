@@ -13,7 +13,7 @@ class FillBlank extends Model
         'id',
         'quiz_id',
         'text',
-        'is_blank',
+        'is_show',
         'blank_answer',
         'is_newline',
         'instruction',

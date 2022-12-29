@@ -314,13 +314,13 @@ input[name="wrong_radio"] {
 /* fith page css start */
 .mltiple_choice_option{
     background-color: #D9D9D9;
-    width: 30%;
+    width: 100%;
     padding: 5px 10px;
     border-radius: 5px;
 }
 .mltiple_choice_option_correct{
-    background-color: #7CCF94;
-    width: 30%;
+    background-color: #00c437;
+    width: 100%;
     padding: 5px 10px;
     border-radius: 5px;
     position: relative;
@@ -343,6 +343,21 @@ input[name="wrong_radio"] {
     margin-top: 5px;
 }
 /* fith page css end */
+/* drop down css start */
+.drop_down_select{
+    border: none;
+    width: 25%;
+    padding: 2px 2px 8px 20px;
+    border-radius: 5px;
+    background-color: #d9d9d9;
+}
+/* drop down css end */
+/* check radio css start */
+input[type="radio"]:checked{
+    accent-color: green;
+}
+/* check radio css end */
+
 /* seven page css start */
 .article{
     font-size: 1.1rem;

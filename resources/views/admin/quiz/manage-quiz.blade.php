@@ -58,6 +58,9 @@
 												@elseif($rows->templete == 'with_audio')
 												<a href="{{route('admin.settings.quiz.listening', ['quizType'=>$rows->quiz_type, 'quizId'=>$rows->id])}}" class="btn btn-warning btn-sm"><i class="fa-solid fa-circle-plus"></i> Add Audio</a>
 												@endif
+												@if ($rows->quiz_type =='fill-blank')
+												<a href="{{route('admin.settings.quiz.show.box', ['quizType'=>$rows->quiz_type, 'quizId'=>$rows->id])}}" class="btn btn-secondary btn-sm"  data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa-solid fa-circle-plus"></i> Show Box</a>
+												@endif
 											</td>
 										</tr>
 										@endforeach

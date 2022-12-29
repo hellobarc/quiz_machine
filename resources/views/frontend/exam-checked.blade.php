@@ -35,17 +35,33 @@
                             @foreach ($quizRadio as $rows)
                                 @php
                                     $options = json_decode($rows->quizRadio[0]->option_text)  ;  
+                                    $correct_ans = json_decode($rows->quizRadio[0]->is_correct)  ;  
                                 @endphp
                                 <div class="questions_radio">
                                 <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p> 
                                     @foreach( $options as $option)
                                         <div class="d-flex">
+                                            @if(in_array( $loop->index ,$correct_ans ))
                                             <div class="side-bar-font">
-                                                <input type="radio" class="check_box">
+                                                <input type="radio" class="check_box" checked="checked">
                                             </div>
                                             <div class="check_box_font">
-                                                <span> {{$option}}</span>  
+                                                <span class="right_radio"> 
+                                                    {{$option}} 
+                                                        <i class="fa-solid fa-check right_radio"></i>
+                                                </span>
                                             </div>
+                                            @else
+                                                <div class="side-bar-font">
+                                                    <input type="radio" class="check_box">
+                                                </div>
+                                                <div class="check_box_font">
+                                                    <span class=""> 
+                                                        {{$option}} 
+                                                            
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>
@@ -56,13 +72,27 @@
                         @if($multipleChoice != NULL)
                             @foreach ($multipleChoice as $rows)
                                 @php
-                                    $options = json_decode($rows->multipleChoice[0]->option_text);  
+                                    $options = json_decode($rows->multipleChoice[0]->option_text);
+                                    $correct_ans = json_decode($rows->multipleChoice[0]->is_correct)  ;  
                                 @endphp
                                 <div class="questions_radio">
                                     <p class="check_box_font">{{$loop->index+1}}. {{$rows->multipleChoice[0]->text}}</p>
                                     <div class="main-text">
                                         @foreach( $options as $option)
-                                            <p class="mltiple_choice_option">{{$option}}</p>
+                                        <div class="d-flex">
+                                            @if(in_array( $loop->index ,$correct_ans ))
+                                                <div>
+                                                    <p class="mltiple_choice_option_correct">{{$option}}</p>
+                                                </div>
+                                                <div>
+                                                    <i class="fa-solid fa-check right_radio mx-2"></i>
+                                                </div>
+                                            @else
+                                                <div>
+                                                    <p class="mltiple_choice_option">{{$option}}</p>
+                                                </div>
+                                            @endif
+                                        </div>
                                             {{-- <p class="mltiple_choice_option_correct">a piece of cake</p> --}}
                                         @endforeach
                                     </div>
@@ -77,6 +107,8 @@
                                 <div class="fill_blanks main-text">
                                     @if($rows->fillBlank[0]->is_show == 'yes')
                                         @php
+                                            $row_options = json_decode($rows->fillBlank[0]->blank_answer);
+                                            $count_row_option = count($row_options);
                                             $options = json_decode($rows->fillBlank[0]->blank_answer);
                                             shuffle($options);
                                         @endphp
@@ -86,7 +118,19 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                    <p class="">{!!str_replace('##blank##','<input type="text">', $rows->fillBlank[0]->text)!!}</p>
+
+                                    @php
+                                        $raw_content = explode('##blank##',$rows->fillBlank[0]->text);
+                                        $processed_content = '';
+                                        foreach ($raw_content as $key => $value) {
+                                           if($key==0 ){
+                                                $processed_content .=$value;
+                                           }else{
+                                                $processed_content .= '<input type="text" value="'.$row_options[$key-1] .'">' .  $value;
+                                           }
+                                        }
+                                    @endphp
+                                        {!!$processed_content!!}
                                     <br>
                                 </div>
                             @endforeach
@@ -97,14 +141,19 @@
                         <p class="main-text">Drop Down</p>
                             @foreach ($dropDown as $rows)
                                 @php
-                                    $options = json_decode($rows->dropDown[0]->option_text);  
+                                    $options = json_decode($rows->dropDown[0]->option_text); 
+                                    $correct_ans = json_decode($rows->dropDown[0]->is_correct)  ; 
                                 @endphp
                                 <div class="questions_radio">
                                     <p class="check_box_font">{{$loop->index+1}}. {{$rows->dropDown[0]->text}}</p>
                                     <div class="main-text">
                                         <select name="" id="" class="drop_down_select">
                                             @foreach( $options as $option)
+                                            @if(in_array( $loop->index ,$correct_ans ))
+                                                <option value="" selected>{{$option}}</option>
+                                                @else
                                                 <option value="">{{$option}}</option>
+                                            @endif
                                             @endforeach
                                         </select> 
                                     </div>
@@ -113,11 +162,9 @@
                         @endif
                         {{-- drop down end --}}
                         <!-- check button -->
-                        <div class="mt-4">
-                            {{-- <form action=""> --}}
-                                <a href="{{route('frontend.exam.checked', ['test_id'=>$test_id])}}" class="btn btn-dark fw-bolder">Check</a>
-                            {{-- </form> --}}
-                        </div>
+                        {{-- <div class="mt-4">
+                            <a href="{{route('frontend.exam.checked', ['test_id'=>$test_id])}}" class="btn btn-dark fw-bolder">Check</a>
+                        </div> --}}
                         <!-- next page button -->
                         <div class="text_right">
                             <a href="" class="btn btn-dark btn-lg fw-bolder">Next <i class="fa-solid fa-angle-right"></i></a>

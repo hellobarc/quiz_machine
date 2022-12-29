@@ -80,6 +80,9 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::get('/listening/{quizId}', [ListeningController::class, 'listening'])->name('admin.settings.quiz.listening');
     Route::post('/listening/store', [ListeningController::class, 'listeningStore'])->name('admin.settings.quiz.store-listening');
     Route::get('/listening/delelete/perm/{id}',  [ListeningController::class, 'listeningDelete'])->name('admin.settings.quiz.delete-listening');
+    Route::get('/quiz/fillBlank/box/{quizId}/{quizType}',  [QuestionController::class, 'showOptionBox'])->name('admin.settings.quiz.show.box');
+    Route::post('/quiz/fillBlank/box/add',  [QuestionController::class, 'showOptionBoxUpdate'])->name('admin.settings.quiz.update.box');
+
 });
 
 // frontend routes
@@ -91,5 +94,6 @@ Route::group(['prefix'=> 'frontend'], function ($routes) {
     Route::get('/user-logout', [UserAuthenticationController::class, 'logout'])->name('frontend.user.logout'); 
     Route::get('/exam-info/{test_id}', [FrontendController::class, 'frontendExamInfo'])->name('frontend.exam.info'); 
     Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start'); 
+    Route::get('/start-exam/{test_id}/check', [FrontendController::class, 'frontendExamChecked'])->name('frontend.exam.checked'); 
 });
 

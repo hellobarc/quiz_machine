@@ -111,5 +111,6 @@ class QuizController extends Controller
         $this->quizRepository->delete($quizId);
         return redirect()->route('admin.settings.quiz')->with('success', 'Quiz Delete Successfully.');
     }
+    
 
 }

@@ -17,7 +17,7 @@ class CreateFillBlanksTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('quiz_id');
             $table->longText('text')->default(NULL);
-            $table->string('is_blank')->default(NULL);
+            $table->enum('is_show', ['yes', 'no'])->default(NULL);
             $table->string('blank_answer')->default(NULL);
             $table->string('is_newline')->default(NULL);
             $table->mediumText('instruction')->nullable();

@@ -123,4 +123,20 @@ class QuestionController extends Controller
         
         return redirect()->back()->with('success', 'Question Delete Successfully.');
     }
+    public function showOptionBox($quizId, $quizType) 
+    {
+        return view('admin.add-question.fill-blank-show-box', compact('quizId', 'quizType'));
+    }
+    public function showOptionBoxUpdate(Request $request)
+    {
+        FillBlank::updateOrCreate(
+            [
+                'quiz_id'=>$request->quiz_id,
+        ],
+        [
+            'is_show'=>$request->add_box,
+        ]
+        );
+        return redirect()->route('admin.settings.quiz')->with('success', 'Added Successfully.');
+    }
 }
