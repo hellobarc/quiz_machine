@@ -317,6 +317,7 @@ input[name="wrong_radio"] {
     width: 100%;
     padding: 5px 10px;
     border-radius: 5px;
+    cursor: pointer;
 }
 .mltiple_choice_option_correct{
     background-color: #00c437;
@@ -327,7 +328,7 @@ input[name="wrong_radio"] {
 }
 .mltiple_choice_option_wrong{
     background-color: red;
-    width: 30%;
+    width: 100%;
     padding: 5px 10px;
     border-radius: 5px;
     position: relative;
@@ -350,6 +351,16 @@ input[name="wrong_radio"] {
     padding: 2px 2px 8px 20px;
     border-radius: 5px;
     background-color: #d9d9d9;
+}
+.drop_down_select option:checked{
+    color: green;
+    font-weight: 700;
+
+}
+.drop_down_select option.wrong_drop{
+    color: red;
+    font-weight: 700;
+
 }
 /* drop down css end */
 /* check radio css start */

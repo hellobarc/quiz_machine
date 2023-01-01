@@ -17,6 +17,7 @@ class CreateExamSubmissionsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->bigInteger('quiz_id');
+            $table->string('quiz_type');
             $table->string('answered_text');
             $table->string('is_correct');
             $table->integer('obtained_marks');

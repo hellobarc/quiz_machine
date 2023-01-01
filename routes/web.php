@@ -94,6 +94,7 @@ Route::group(['prefix'=> 'frontend'], function ($routes) {
     Route::get('/user-logout', [UserAuthenticationController::class, 'logout'])->name('frontend.user.logout'); 
     Route::get('/exam-info/{test_id}', [FrontendController::class, 'frontendExamInfo'])->name('frontend.exam.info'); 
     Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start'); 
-    Route::get('/start-exam/{test_id}/check', [FrontendController::class, 'frontendExamChecked'])->name('frontend.exam.checked'); 
+    Route::get('/start-exam/check/view', [FrontendController::class, 'frontendExamChecked'])->name('frontend.exam.checked'); 
+    Route::post('/start-exam/user-ans', [FrontendController::class, 'frontendExamUserAns'])->name('frontend.exam.user.ans'); 
 });
 

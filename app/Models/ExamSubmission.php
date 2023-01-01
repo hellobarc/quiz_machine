@@ -12,8 +12,11 @@ class ExamSubmission extends Model
         'id',
         'user_id',
         'quiz_id',
+        'quiz_type',
+        'exam_id',
         'answered_text',
         'is_correct',
         'obtained_marks',
+        'submitted_ans',
     ];
 }
