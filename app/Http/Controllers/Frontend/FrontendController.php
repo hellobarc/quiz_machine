@@ -8,6 +8,7 @@ use App\Models\Exam;
 use App\Models\Quiz;
 use App\Models\QuizRadio;
 use App\Models\ExamSubmission;
+// use App\Models\QuizRadio;
 
 class FrontendController extends Controller
 {
@@ -83,9 +84,22 @@ class FrontendController extends Controller
                     foreach($radiosAns as $key=>$rAns){
                         if($radio == $key){
                             $ans= $rAns;
+
+                            $allRadio = QuizRadio::where('quiz_id', $radio)->get();
+
+                            foreach($allRadio as $rowCorrect){
+                                $decode = json_decode($rowCorrect->is_correct);
+                                if($decode == $ans){
+                                    $right = "right";
+                                }else{
+                                  $right = "wrong";  
+                                }
+                            }
                             $array = ['quiz_id'=>$radio,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$ans, 'quiz_type' => $radio_quiz_type];
-                        }   
+                        }
+                        //dd($right);   
                     }
+                    dd($allRadio );
                 $this->examCreate($array);
             }
         }

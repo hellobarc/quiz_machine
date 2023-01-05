@@ -148,10 +148,14 @@
                                            if($key==0 ){
                                                 $processed_content .=$value;
                                            }else{
-                                            $processed_content .= '<input type="text" class="fill_right" value="'.$row_options[$key-1] .'"><i class="fa-solid fa-check right_radio mx-2"></i>' .  $value; 
-                                                if($row_options[$key-1] != $submitted_ans[$loop->index]){
-                                                    $processed_content .= '<input type="text" class="fill_wrong" value="'.$submitted_ans[$loop->index].'"><i class="fa-solid fa-xmark wrong_radio mx-2"></i>';  
-                                                }   
+                                                $show_ans = $row_options[$key-1] . '<i class="fa-solid fa-check right_radio mx-2"></i>';
+
+                                                if($row_options[$key-1] != $submitted_ans[$key-1]){
+                                                    $show_ans = '<span style="border-bottom: 2px solid red; color:red">'.$submitted_ans[$key-1].'<i class="fa-solid fa-xmark wrong_radio mx-2"></i>'.'</span>'."&emsp; " .$row_options[$key-1]. '<i class="fa-solid fa-check right_radio mx-2"></i>';  
+                                                }  
+
+                                              $processed_content .= '<span>' . '<span style="border-bottom: 2px solid #00c437; color:#00c437">'.$show_ans.'</span>'.' '.    $value .'</span>'; 
+                                                
                                            }
                                         }
                                     @endphp
@@ -178,16 +182,31 @@
                                             @if(in_array( $loop->index ,$correct_ans ))
                                                 <option value="" selected=true>{{$option}}</option>
                                             @else
-                                                @if($correct_ans != $submitted_ans[0])
+                                                {{-- @if($correct_ans != $submitted_ans[0])
                                                     @if($key == $submitted_ans[0])
                                                         <option value="" class="wrong_drop">{{$option}} (Wrong Ans)</option>
-                                                    @else
+                                                    @else --}}
                                                         <option value="">{{$option}}</option>
-                                                    @endif
-                                                @endif
+                                                    {{-- @endif
+                                                @endif --}}
                                             @endif
                                             @endforeach
-                                        </select> 
+                                        </select>
+                                        {{-- @if($correct_ans != $submitted_ans[0])  --}}
+                                        {{-- <select name="" id="" class="drop_down_select"> --}}
+                                            {{-- @foreach( $options as $key=>$option)
+                                            @if(in_array( $loop->index ,$correct_ans ))
+                                                <option value="" selected=true>{{$option}}</option>
+                                            @else --}}
+                                                @if($correct_ans != $submitted_ans[0])
+                                                    @if($key == $submitted_ans[0])
+                                                        <span class="wrong_drop" >{{$option}} <i class="fa-solid fa-xmark wrong_radio mx-2"></i></span>
+                                                    @endif
+                                                @endif
+                                            {{-- @endif 
+                                            @endforeach --}}
+                                        {{-- </select> --}}
+                                        {{-- @endif  --}}
                                     </div>
                                 </div>
                             @endforeach

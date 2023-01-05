@@ -357,7 +357,7 @@ input[name="wrong_radio"] {
     font-weight: 700;
 
 }
-.drop_down_select option.wrong_drop{
+.wrong_drop{
     color: red;
     font-weight: 700;
 
