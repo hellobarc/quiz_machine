@@ -8,7 +8,7 @@ use App\Models\Exam;
 use App\Models\Quiz;
 use App\Models\QuizRadio;
 use App\Models\ExamSubmission;
-// use App\Models\QuizRadio;
+use App\Models\MultipleChoice;
 
 class FrontendController extends Controller
 {
@@ -33,6 +33,7 @@ class FrontendController extends Controller
         $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
         $dropDown = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
         }
+        //dd($multipleChoice);
         return view('frontend.start-exam', compact('test_id','exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown'));
 
     }
@@ -56,7 +57,7 @@ class FrontendController extends Controller
         }
 
         
-        //dd($radioExamSubmission);
+        //dd($multipleChoice);
         return view('frontend.exam-checked', compact('exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown', 'radioExamSubmission', 'multipleChoiceExamSubmission', 'dropDownExamSubmission', 'fillBlankExamSubmission'));
 
     }
@@ -77,7 +78,7 @@ class FrontendController extends Controller
         $fillBlank_quiz_type = $data['fillBlank_quiz_type'];
         $dropDown_quiz_type = $data['dropDown_quiz_type'];
         
-       //dd($ans);
+       //dd($multiplesAns);
        // $quiz_id = [];
         if(isset($radios)){
             foreach($radios as $radio){
@@ -89,35 +90,51 @@ class FrontendController extends Controller
 
                             foreach($allRadio as $rowCorrect){
                                 $decode = json_decode($rowCorrect->is_correct);
-                                if($decode == $ans){
-                                    $right = "right";
+                                if($decode[0] == $ans[0]){
+                                    $is_correct = "yes";
                                 }else{
-                                  $right = "wrong";  
+                                  $is_correct = "no";  
                                 }
                             }
-                            $array = ['quiz_id'=>$radio,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$ans, 'quiz_type' => $radio_quiz_type];
-                        }
-                        //dd($right);   
+                            $array = ['quiz_id'=>$radio,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$ans, 'quiz_type' => $radio_quiz_type, 'is_correct'=>$is_correct];
+                        } 
                     }
-                    dd($allRadio );
                 $this->examCreate($array);
             }
         }
         if(isset($multiples)){
-            foreach($multiples as $multiple){
-                $array = ['quiz_id'=>$multiple,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$multiplesAns, 'quiz_type' => $multiple_quiz_type];
-                $this->examCreate($array);
+            foreach($multiplesAns as $key => $multipleBlanksAns){
+                $ansMultiple = $multipleBlanksAns;
+                foreach($multiples as $multiple){
+
+                    $allMultipleChoice = MultipleChoice::where('quiz_id', $multiple)->get();
+                    foreach($allMultipleChoice as $rowCorrect){
+                        $decode[] = json_decode($rowCorrect->is_correct);
+                        //dd($decode[1] ."==" .$ansMultiple[1]);
+                        if($decode[0] == $ansMultiple[0]){
+                            $is_correct = "yes";
+                        }else{
+                            $is_correct = "no";
+                        }
+                    }
+
+                    dd($ansMultiple);
+
+                    
+                        $array = ['quiz_id'=>$multiple,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$ansMultiple, 'quiz_type' => $multiple_quiz_type, 'is_correct'=>$is_correct];
+                        $this->examCreate($array);
+                    }
             }
         }
         if(isset($fillblanks)){
             foreach($fillblanks as $fillblank){
-                $array = ['quiz_id'=>$fillblank,'exam_id'=>$exam_id, 'fillblankans'=> $fillblankans, 'submitted_ans'=>NULL, 'quiz_type' => $fillBlank_quiz_type];
+                $array = ['quiz_id'=>$fillblank,'exam_id'=>$exam_id, 'fillblankans'=> $fillblankans, 'submitted_ans'=>NULL, 'quiz_type' => $fillBlank_quiz_type, 'is_correct'=>NULL];
                 $this->examCreate($array);
             }
         }
         if(isset($dropdowns)){
             foreach($dropdowns as $dropdown){
-                $array = ['quiz_id'=>$dropdown,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$dropdownsAns, 'quiz_type' => $dropDown_quiz_type];
+                $array = ['quiz_id'=>$dropdown,'exam_id'=>$exam_id, 'fillblankans'=> NULL, 'submitted_ans'=>$dropdownsAns, 'quiz_type' => $dropDown_quiz_type, 'is_correct'=>NULL];
                 $this->examCreate($array);
             }
         }
@@ -134,6 +151,7 @@ class FrontendController extends Controller
             'exam_id'=>  $array['exam_id'],
             'submitted_ans'=> json_encode($array['submitted_ans']), // ans_id
             'answered_text'=> $array['fillblankans'], // fill ans
+            'is_correct'=> $array['is_correct'], // fill ans
         ]);
     }
 

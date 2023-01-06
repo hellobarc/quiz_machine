@@ -14,6 +14,7 @@ class MultipleChoice extends Model
         'text',
         'option_text',
         'is_correct',
+        'marks',
     ];
 
     public function quiz()

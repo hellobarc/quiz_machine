@@ -61,20 +61,22 @@
                         {{-- quiz multiple choice start --}}
                         @if($multipleChoice != NULL)
                             @foreach ($multipleChoice as $rows)
-                            <input type="hidden" name="multiple[]" value="{{$rows->id}}">
-                            <input type="hidden" name="multiple_quiz_type" value="{{$rows->quiz_type}}">
-                                @php
-                                    $options = json_decode($rows->multipleChoice[0]->option_text);  
-                                @endphp
-                                <div class="questions_radio">
-                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->multipleChoice[0]->text}}</p>
-                                    <div class="main-text">
-                                        <input type="hidden"  value="" id="user_multiple_choice" name="user_multipe_ans[]">
-                                        @foreach( $options as $key=>$option)
-                                            <p class="mltiple_choice_option" id="multipleColorChange_{{$key}}" onclick="hitMultipleChoice({{$key}})">{{$option}}</p>
-                                        @endforeach
+                                <input type="hidden" name="multiple[]" value="{{$rows->id}}">
+                                <input type="hidden" name="multiple_quiz_type" value="{{$rows->quiz_type}}">
+                                @foreach ($rows->multipleChoice as $items)
+                                    @php
+                                        $options = json_decode($items->option_text);  
+                                    @endphp
+                                    <div class="questions_radio">
+                                        <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
+                                        <div class="main-text">
+                                            <input type="hidden"  value="" id="user_multiple_choice_{{$items->id}}" name="user_multipe_ans[]">
+                                            @foreach( $options as $key=>$option)
+                                                <p class="mltiple_choice_option option_item{{$items->id}}" id="multipleColorChange_{{$items->id}}{{$key}}" onclick="hitMultipleChoice({{$key}},{{$items->id}})">{{$option}}</p>
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             @endforeach
                         @endif
                         {{-- quiz multiple choice end --}}
@@ -146,10 +148,12 @@
 @endsection
 
 <script>
-    function hitMultipleChoice(key) {
-        var element = document.getElementById("user_multiple_choice").value = key;
-        let myid = "#multipleColorChange_"+key;
-        $(".mltiple_choice_option").removeClass("mltiple_choice_option_correct");
+    function hitMultipleChoice(key,option_key) {
+        let input_var = "user_multiple_choice_"+option_key;
+        var element = document.getElementById(input_var).value = key;
+        let myid = "#multipleColorChange_"+option_key+key;
+        let myclass = ".option_item"+option_key;
+        $(myclass).removeClass("mltiple_choice_option_correct");
         $(myid).addClass("mltiple_choice_option_correct");
     }
 </script>
