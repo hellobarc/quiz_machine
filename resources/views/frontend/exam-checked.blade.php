@@ -81,41 +81,44 @@
                         {{-- quiz multiple choice start --}}
                         @if($multipleChoice != NULL)
                             @foreach ($multipleChoice as $rows)
-                                @php
-                                    $options = json_decode($rows->multipleChoice[0]->option_text);
-                                    $correct_ans = json_decode($rows->multipleChoice[0]->is_correct)  ; 
-                                    $submitted_ans = json_decode($multipleChoiceExamSubmission[$loop->index]['submitted_ans']); 
-                                @endphp
-                                <div class="questions_radio">
-                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->multipleChoice[0]->text}}</p>
-                                    <div class="main-text">
-                                        @foreach( $options as $key=>$option)
-                                            <div class="d-flex">
-                                                @if(in_array( $loop->index ,$correct_ans ))
-                                                    <div>
-                                                        <p class="mltiple_choice_option_correct">{{$option}}</p>
-                                                    </div>
-                                                    <div>
-                                                        <i class="fa-solid fa-check right_radio mx-2"></i>
-                                                    </div>
-                                                @else
-                                                    <div>
-                                                        @if($correct_ans != $submitted_ans[0])
-                                                            @if($key == $submitted_ans[0])
-                                                                <div class="d-flex">
-                                                                    <p class="mltiple_choice_option_wrong">{{$option}}</p>
-                                                                    <p class="multiple_choice_cross"><i class="fa-solid fa-xmark"></i></p>
-                                                                </div>
-                                                            @else
-                                                                <p class="mltiple_choice_option">{{$option}}</p>
+                                
+                                @foreach ($rows->multipleChoice as $items)
+                                    @php
+                                        $options = json_decode($items->option_text);
+                                        $correct_ans = json_decode($items->is_correct)  ; 
+                                        $submitted_ans = json_decode($multipleChoiceExamSubmission[$loop->index]['submitted_ans']); 
+                                    @endphp
+                                    <div class="questions_radio">
+                                        <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
+                                        <div class="main-text">
+                                            @foreach( $options as $key=>$option)
+                                                <div class="d-flex">
+                                                    @if(in_array( $loop->index ,$correct_ans ))
+                                                        <div>
+                                                            <p class="mltiple_choice_option_correct">{{$option}}</p>
+                                                        </div>
+                                                        <div>
+                                                            <i class="fa-solid fa-check right_radio mx-2"></i>
+                                                        </div>
+                                                    @else
+                                                        <div>
+                                                            @if($correct_ans != $submitted_ans[0])
+                                                                @if($key == $submitted_ans[0])
+                                                                    <div class="d-flex">
+                                                                        <p class="mltiple_choice_option_wrong">{{$option}}</p>
+                                                                        <p class="multiple_choice_cross"><i class="fa-solid fa-xmark"></i></p>
+                                                                    </div>
+                                                                @else
+                                                                    <p class="mltiple_choice_option">{{$option}}</p>
+                                                                @endif
                                                             @endif
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @endforeach
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             @endforeach
                         @endif
                         {{-- quiz multiple choice end --}}
@@ -169,46 +172,33 @@
                         @if($dropDown != NULL)
                         <p class="main-text">Drop Down</p>
                             @foreach ($dropDown as $rows)
-                                @php
-                                    $options = json_decode($rows->dropDown[0]->option_text); 
-                                    $correct_ans = json_decode($rows->dropDown[0]->is_correct)  ; 
-                                    $submitted_ans = json_decode($dropDownExamSubmission[$loop->index]['submitted_ans']);
-                                @endphp
-                                <div class="questions_radio">
-                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->dropDown[0]->text}}</p>
-                                    <div class="main-text">
-                                        <select name="" id="" class="drop_down_select">
-                                            @foreach( $options as $key=>$option)
-                                            @if(in_array( $loop->index ,$correct_ans ))
-                                                <option value="" selected=true>{{$option}}</option>
-                                            @else
-                                                {{-- @if($correct_ans != $submitted_ans[0])
-                                                    @if($key == $submitted_ans[0])
-                                                        <option value="" class="wrong_drop">{{$option}} (Wrong Ans)</option>
-                                                    @else --}}
+                                @foreach ($rows->dropDown as $items)
+                                    @php
+                                        $options = json_decode($items->option_text); 
+                                        $correct_ans = json_decode($items->is_correct)  ; 
+                                        $dropDown_submitted_ans = json_decode($dropDownExamSubmission[$loop->index]['submitted_ans']);
+                                        print_r('default ans = '.$correct_ans[0]. " " .'submitted ans ='. $dropDown_submitted_ans);
+                                    @endphp
+                                    <div class="questions_radio">
+                                        <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
+                                        <div class="main-text">
+                                            <select name="" id="" class="drop_down_select">
+                                                @foreach( $options as $key=>$option)
+                                                    @if(in_array( $loop->index ,$correct_ans ))
+                                                        <option value="" selected="selected">{{$option}}</option>
+                                                    @else
                                                         <option value="">{{$option}}</option>
-                                                    {{-- @endif
-                                                @endif --}}
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                        {{-- @if($correct_ans != $submitted_ans[0])  --}}
-                                        {{-- <select name="" id="" class="drop_down_select"> --}}
-                                            {{-- @foreach( $options as $key=>$option)
-                                            @if(in_array( $loop->index ,$correct_ans ))
-                                                <option value="" selected=true>{{$option}}</option>
-                                            @else --}}
-                                                @if($correct_ans != $submitted_ans[0])
-                                                    @if($key == $submitted_ans[0])
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                                @if($correct_ans[0] != $dropDown_submitted_ans)
+                                                    @if($key == $dropDown_submitted_ans)
                                                         <span class="wrong_drop" >{{$option}} <i class="fa-solid fa-xmark wrong_radio mx-2"></i></span>
                                                     @endif
                                                 @endif
-                                            {{-- @endif 
-                                            @endforeach --}}
-                                        {{-- </select> --}}
-                                        {{-- @endif  --}}
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             @endforeach
                         @endif
                         {{-- drop down end --}}

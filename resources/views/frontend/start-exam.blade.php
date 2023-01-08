@@ -38,6 +38,7 @@
                             @foreach ($quizRadio as $rows)
                                 <input type="hidden" name="radio[]" value="{{$rows->id}}">
                                 <input type="hidden" name="radio_quiz_type" value="{{$rows->quiz_type}}">
+                                <input type="hidden" name="radio_question_id[]" value="{{$rows->quizRadio[0]->id}}">
                                 @php
                                     $options = json_decode($rows->quizRadio[0]->option_text)  ;  
                                     $big_loop = $loop->index;
@@ -64,6 +65,7 @@
                                 <input type="hidden" name="multiple[]" value="{{$rows->id}}">
                                 <input type="hidden" name="multiple_quiz_type" value="{{$rows->quiz_type}}">
                                 @foreach ($rows->multipleChoice as $items)
+                                    <input type="hidden" name="multiple_question_id[]" value="{{$items->id}}">
                                     @php
                                         $options = json_decode($items->option_text);  
                                     @endphp
@@ -86,6 +88,7 @@
                             @foreach ($fillBlank as $rows)
                             <input type="hidden" name="fillblanks[]" value="{{$rows->id}}">
                             <input type="hidden" name="fillBlank_quiz_type" value="{{$rows->quiz_type}}">
+                            <input type="hidden" name="fillBlank_question_id[]" value="{{$rows->fillBlank[0]->id}}">
                                 <div class="fill_blanks main-text">
                                     @if($rows->fillBlank[0]->is_show == 'yes')
                                         @php
@@ -106,23 +109,27 @@
                         {{-- fill blanks end --}}
                         {{-- drop down start --}}
                         @if($dropDown != NULL)
-                        <p class="main-text">Drop Down</p>
+                            <p class="main-text">Drop Down</p>
                             @foreach ($dropDown as $rows)
-                            <input type="hidden" name="dropdown[]" value="{{$rows->id}}">
-                            <input type="hidden" name="dropDown_quiz_type" value="{{$rows->quiz_type}}">
-                                @php
-                                    $options = json_decode($rows->dropDown[0]->option_text);  
-                                @endphp
-                                <div class="questions_radio">
-                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->dropDown[0]->text}}</p>
-                                    <div class="main-text">
-                                        <select name="user_dropDown_ans[]" id="" class="drop_down_select">
-                                            @foreach( $options as $key=>$option)
-                                                <option value="{{$key}}">{{$option}}</option>
-                                            @endforeach
-                                        </select> 
+                                <input type="hidden" name="dropdown[]" value="{{$rows->id}}">
+                                <input type="hidden" name="dropDown_quiz_type" value="{{$rows->quiz_type}}">
+                                
+                                @foreach ($rows->dropDown as $items)
+                                    @php
+                                        $options = json_decode($items->option_text);  
+                                    @endphp
+                                     <input type="hidden" name="dropDown_question_id[]" value="{{$items->id}}">
+                                    <div class="questions_radio">
+                                        <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
+                                        <div class="main-text">
+                                            <select name="user_dropDown_ans[]" id="" class="drop_down_select">
+                                                @foreach( $options as $key=>$option)
+                                                    <option value="{{$key}}">{{$option}}</option>
+                                                @endforeach
+                                            </select> 
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             @endforeach
                         @endif
                         {{-- drop down end --}}

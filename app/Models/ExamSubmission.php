@@ -12,6 +12,7 @@ class ExamSubmission extends Model
         'id',
         'user_id',
         'quiz_id',
+        'question_id',
         'quiz_type',
         'exam_id',
         'answered_text',
