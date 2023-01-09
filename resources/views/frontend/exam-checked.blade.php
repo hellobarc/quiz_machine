@@ -177,25 +177,26 @@
                                         $options = json_decode($items->option_text); 
                                         $correct_ans = json_decode($items->is_correct)  ; 
                                         $dropDown_submitted_ans = json_decode($dropDownExamSubmission[$loop->index]['submitted_ans']);
-                                        print_r('default ans = '.$correct_ans[0]. " " .'submitted ans ='. $dropDown_submitted_ans);
                                     @endphp
                                     <div class="questions_radio">
                                         <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
                                         <div class="main-text">
                                             <select name="" id="" class="drop_down_select">
                                                 @foreach( $options as $key=>$option)
-                                                    @if(in_array( $loop->index ,$correct_ans ))
+                                                    @if( $key == $dropDown_submitted_ans )
                                                         <option value="" selected="selected">{{$option}}</option>
                                                     @else
                                                         <option value="">{{$option}}</option>
                                                     @endif
                                                 @endforeach
                                             </select>
+                                            @foreach( $options as $key=>$option)
                                                 @if($correct_ans[0] != $dropDown_submitted_ans)
-                                                    @if($key == $dropDown_submitted_ans)
-                                                        <span class="wrong_drop" >{{$option}} <i class="fa-solid fa-xmark wrong_radio mx-2"></i></span>
+                                                    @if($key == $correct_ans[0])
+                                                        <span class="right_drop" >{{$option}} <i class="fa-solid fa-check right_radio mx-2"></i></span>
                                                     @endif
                                                 @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                 @endforeach
@@ -206,9 +207,18 @@
                         {{-- <div class="mt-4">
                             <a href="{{route('frontend.exam.checked', ['test_id'=>$test_id])}}" class="btn btn-dark fw-bolder">Check</a>
                         </div> --}}
+                        {{-- marks show start --}}
+                        <div class="mt-4">
+                            <div class="check_box">
+                                <div class="progress result_progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div><span class="result_star"><i class="fa-solid fa-star"></i></span><span class="result_marks">{{$marks}}/{{$question}}</span> <a href="#" class="btn btn-warning retry_button"><i class="fa-solid fa-rotate-right"></i> Retry</a>
+                            </div>
+                       </div>
+                        {{-- marks show end --}}
                         <!-- next page button -->
                         <div class="text_right">
-                            <a href="" class="btn btn-dark btn-lg fw-bolder">Next <i class="fa-solid fa-angle-right"></i></a>
+                            <a href="{{route('frontend.exam.congratulation', ['test_id'=>$exams])}}" class="btn btn-dark btn-lg fw-bolder">Next <i class="fa-solid fa-angle-right"></i></a>
                         </div>
                   </div>
                   <!-- main content start -->

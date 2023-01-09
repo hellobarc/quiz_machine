@@ -96,5 +96,6 @@ Route::group(['prefix'=> 'frontend'], function ($routes) {
     Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start'); 
     Route::get('/start-exam/check/view', [FrontendController::class, 'frontendExamChecked'])->name('frontend.exam.checked'); 
     Route::post('/start-exam/user-ans', [FrontendController::class, 'frontendExamUserAns'])->name('frontend.exam.user.ans'); 
+    Route::get('/congratulation/{test_id}', [FrontendController::class, 'congratulation'])->name('frontend.exam.congratulation'); 
 });
 

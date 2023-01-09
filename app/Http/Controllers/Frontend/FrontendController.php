@@ -56,11 +56,34 @@ class FrontendController extends Controller
         $multipleChoiceExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'multiple-choice')->get();
         $dropDownExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'drop-down')->get();
         $fillBlankExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+
+        //mark calculation
+        $totalQuestion = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+                                        ->where('quiz_type', '!=', 'fill-blank')
+                                        ->count();
+        $obtainMarks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+                                    ->where('quiz_type', '!=', 'fill-blank')
+                                    ->where('is_correct', '=', 'yes')
+                                    ->count();
+
+        //$totalFillBlanksCount = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->count();
+        $totalFillBlanks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+        $countOption = 0;
+        $result = 0;
+        foreach($totalFillBlanks as $rows){
+            $totalOption = json_decode($rows->answered_text);
+            $countOption = count($totalOption);
+            $result = $rows->is_correct;
+        }
+
+        $question = $totalQuestion + $countOption;
+        $marks = $obtainMarks + $result;
+           
         }
 
         
-        //dd($dropDownExamSubmission);
-        return view('frontend.exam-checked', compact('exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown', 'radioExamSubmission', 'multipleChoiceExamSubmission', 'dropDownExamSubmission', 'fillBlankExamSubmission'));
+        //dd($marks);
+        return view('frontend.exam-checked', compact('exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown', 'radioExamSubmission', 'multipleChoiceExamSubmission', 'dropDownExamSubmission', 'fillBlankExamSubmission', 'question', 'marks'));
 
     }
     public function frontendExamUserAns(Request $request)
@@ -190,6 +213,33 @@ class FrontendController extends Controller
             'answered_text'=> $array['fillblankans'], // fill ans
             'is_correct'=> $array['is_correct'], // fill ans
         ]);
+    }
+
+    public function congratulation(Request $request, $test_id)
+    {
+        $exams = Exam::where('id', $test_id)->first();
+        //mark calculation
+        $totalQuestion = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+                                        ->where('quiz_type', '!=', 'fill-blank')
+                                        ->count();
+        $obtainMarks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+                                    ->where('quiz_type', '!=', 'fill-blank')
+                                    ->where('is_correct', '=', 'yes')
+                                    ->count();
+
+        //$totalFillBlanksCount = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->count();
+        $totalFillBlanks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+        $countOption = 0;
+        $result = 0;
+        foreach($totalFillBlanks as $rows){
+            $totalOption = json_decode($rows->answered_text);
+            $countOption = count($totalOption);
+            $result = $rows->is_correct;
+        }
+
+        $question = $totalQuestion + $countOption;
+        $marks = $obtainMarks + $result;
+        return view('frontend.congratulation', compact('exams', 'question', 'marks'));
     }
 
 }
