@@ -20,4 +20,9 @@ class ExamSubmission extends Model
         'obtained_marks',
         'submitted_ans',
     ];
+
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class, 'exam_id');
+    }
 }

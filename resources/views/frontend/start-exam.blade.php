@@ -22,14 +22,16 @@
                       <h2 class="fw-bolder">{{$exams->title}}</h2>
                       <p>For the questions below, please choose the best option to complete the sentence or conversation.</p>
                       <div class="progress">
-                          <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                          <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
+                      
                       <div class="d-flex justify-content-between mt-1">
                           <p>10% Completed</p>
                           <p>2 of 5</p>
                       </div>
                       <div style="text-align:right;"><p id="timer" class="sub-title mt-2"></p></div>
-                      <form action="{{route('frontend.exam.user.ans')}}" method="POST" enctype="multipart/form-data">
+
+                      <form action="{{route('frontend.exam.user.ans')}}" method="POST" enctype="multipart/form-data" id="check_form">
                         @csrf
                         <input type="hidden" name="exam_id" value="{{$exams->id}}">
                       {{-- quiz radio start --}}
@@ -48,7 +50,7 @@
                                     @foreach( $options as $option)
                                         <div class="d-flex">
                                             <div class="side-bar-font">
-                                                <input type="radio" class="check_box" name="radioAns[{{$rows->id}}][]" value="{{$loop->index}}">
+                                                <input type="radio" class="check_box" name="radioAns[{{$rows->id}}][]" value="{{$loop->index}}" onclick="countSelected(event)">
                                             </div>
                                             <div class="check_box_font">
                                                 <span>{{$option}}</span>  
@@ -74,7 +76,7 @@
                                         <div class="main-text">
                                             <input type="hidden"  value="" id="user_multiple_choice_{{$items->id}}" name="user_multipe_ans[]">
                                             @foreach( $options as $key=>$option)
-                                                <p class="mltiple_choice_option option_item{{$items->id}}" id="multipleColorChange_{{$items->id}}{{$key}}" onclick="hitMultipleChoice({{$key}},{{$items->id}})">{{$option}}</p>
+                                                <p class="mltiple_choice_option option_item{{$items->id}}" id="multipleColorChange_{{$items->id}}{{$key}}" onclick="hitMultipleChoice({{$key}},{{$items->id}}); countSelected(event)">{{$option}}</p>
                                             @endforeach
                                         </div>
                                     </div>
@@ -101,7 +103,7 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                    <p class="">{!!str_replace('##blank##','<input type="text" name="user_fillBlank_ans[]">', $rows->fillBlank[0]->text)!!}</p>
+                                    <p class="">{!!str_replace('##blank##','<input type="text" name="user_fillBlank_ans[]" onchange="countSelected(event)">', $rows->fillBlank[0]->text)!!}</p>
                                     <br>
                                 </div>
                             @endforeach
@@ -122,7 +124,7 @@
                                     <div class="questions_radio">
                                         <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
                                         <div class="main-text">
-                                            <select name="user_dropDown_ans[]" id="" class="drop_down_select">
+                                            <select name="user_dropDown_ans[]" id="" class="drop_down_select" onChange="countSelected(event)">
                                                 @foreach( $options as $key=>$option)
                                                     <option value="{{$key}}">{{$option}}</option>
                                                 @endforeach
@@ -135,8 +137,13 @@
                         {{-- drop down end --}}
                         <!-- check button -->
                         <div class="mt-4">
-                            
-                                <button type="submit" class="btn btn-dark fw-bolder">Check</button>
+                                @if(auth()->user())
+                                    <button type="submit" class="btn btn-dark fw-bolder">Check</button>
+                                @else
+                                    <div id="uncheck_button">
+                                        <button type="submit" class="btn btn-dark fw-bolder" id="checkAuth" >check</button>
+                                    </div>
+                                @endif
                             </form>
                         </div>
                         <!-- next page button -->
@@ -165,6 +172,45 @@
     }
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#checkAuth').click(function (e) {
+            e.preventDefault();
+            $("#useLogin").modal('show');
+            // $.ajax({
+            //     type:'POST',
+            //     url:"{{route('frontend.check.authentication')}}",
+            //     data:{"action":"check-authentication"},
+            //     dataType: 'json',
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     },
+            //     success: function(data){		
+            //         let is_login = data.is_login;
+            //         if(is_login == false){
+            //             $("#useLogin").modal('show');
+            //         }else{
+            //             $(this).trigger('submit');
+            //         }
+            //     },
+            //     error: function(data){
+            //         //console.log($data);
+            //         return false;
+            //     }
+            // });
+         
+        });
+    });
+</script>
+<script>
+    function countSelected(event){
+        event.target.classList.add('ans_done')
+        const countAll = document.querySelectorAll('.ans_done').length;
+        
+        console.log(countAll);
+    }
+</script>
+
 
 
     

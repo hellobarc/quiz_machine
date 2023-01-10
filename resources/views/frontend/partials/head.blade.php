@@ -17,6 +17,9 @@
     <!-- owl carousel -->
     <link rel="stylesheet" href="{{asset('frontend/owlcarousel/dist/assets/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('owlcarousel/dist/assets/owl.theme.default.min.css')}}">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
 </head>
 <body>

@@ -5,19 +5,24 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Exam;
+use App\Models\Category;
+use App\Models\Level;
 use App\Models\Quiz;
 use App\Models\QuizRadio;
 use App\Models\ExamSubmission;
 use App\Models\MultipleChoice;
 use App\Models\FillBlank;
 use App\Models\QuizDropdown;
+use Auth;
 
 class FrontendController extends Controller
 {
     public function frontendHome()
     {
         $exams = Exam::get();
-        return view('frontend.home', compact('exams'));
+        $categories = Category::all();
+        $levels = Level::all();
+        return view('frontend.home', compact('exams', 'categories', 'levels'));
     }
     public function frontendExamInfo($test_id)
     {
@@ -35,13 +40,13 @@ class FrontendController extends Controller
         $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
         $dropDown = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
         }
-        //dd($dropDown);
         return view('frontend.start-exam', compact('test_id','exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown'));
 
     }
-    public function frontendExamChecked()
+    public function frontendExamChecked(Request $request)
     {
-        $test_id = 1;
+        $user_id = Auth::user()->id;
+        $test_id = $request->test_id;
         $submittedAns = [];
         $quiz_id = [];
         $exams = Exam::where('id', $test_id)->with('category')->first();
@@ -52,22 +57,22 @@ class FrontendController extends Controller
         $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
         $dropDown = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
 
-        $radioExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'radio')->get();
-        $multipleChoiceExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'multiple-choice')->get();
-        $dropDownExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'drop-down')->get();
-        $fillBlankExamSubmission = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+        $radioExamSubmission = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'radio')->get();
+        $multipleChoiceExamSubmission = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'multiple-choice')->get();
+        $dropDownExamSubmission = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'drop-down')->get();
+        $fillBlankExamSubmission = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
 
         //mark calculation
-        $totalQuestion = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+        $totalQuestion = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
                                         ->where('quiz_type', '!=', 'fill-blank')
                                         ->count();
-        $obtainMarks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+        $obtainMarks = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
                                     ->where('quiz_type', '!=', 'fill-blank')
                                     ->where('is_correct', '=', 'yes')
                                     ->count();
 
         //$totalFillBlanksCount = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->count();
-        $totalFillBlanks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+        $totalFillBlanks = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
         $countOption = 0;
         $result = 0;
         foreach($totalFillBlanks as $rows){
@@ -198,13 +203,14 @@ class FrontendController extends Controller
             
         }
         
-        return redirect()->back();
+        return redirect()->route('frontend.exam.checked', ['test_id'=>$exam_id]);
     }
 
     private function examCreate($array)
     {
+        $user_id = Auth::user()->id;
         ExamSubmission::firstOrcreate([
-            'user_id'=> 1,
+            'user_id'=> $user_id,
             'quiz_id'=> $array['quiz_id'],
             'question_id'=> $array['question_id'],
             'quiz_type'=> $array['quiz_type'],
@@ -217,18 +223,19 @@ class FrontendController extends Controller
 
     public function congratulation(Request $request, $test_id)
     {
+        $user_id = Auth::user()->id;
         $exams = Exam::where('id', $test_id)->first();
         //mark calculation
-        $totalQuestion = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+        $totalQuestion = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
                                         ->where('quiz_type', '!=', 'fill-blank')
                                         ->count();
-        $obtainMarks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)
+        $obtainMarks = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
                                     ->where('quiz_type', '!=', 'fill-blank')
                                     ->where('is_correct', '=', 'yes')
                                     ->count();
 
         //$totalFillBlanksCount = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->count();
-        $totalFillBlanks = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+        $totalFillBlanks = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
         $countOption = 0;
         $result = 0;
         foreach($totalFillBlanks as $rows){
@@ -240,6 +247,32 @@ class FrontendController extends Controller
         $question = $totalQuestion + $countOption;
         $marks = $obtainMarks + $result;
         return view('frontend.congratulation', compact('exams', 'question', 'marks'));
+    }
+
+    public function test()
+    {
+
+    }
+    public function checkAuthentication(Request $request)
+    {
+        if(Auth::check()){
+            $check = true;
+        }else{
+            $check = false;
+        }
+
+        $response = [
+            'success' => 200,
+            'is_login' => $check,
+        ];
+        return response()->json($response, 202);
+    }
+
+    public function userDashboard()
+    {
+        $user_id = Auth::user()->id;
+        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->get();
+        return view('frontend.user.dashboard');
     }
 
 }

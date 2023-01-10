@@ -46,6 +46,7 @@
                       {{Auth::user()->name}} <i class="fa-solid fa-angle-down"></i>
                     </a>
                     <div class="dropdown-content">
+                      <a href="{{route('frontend.user.dashboard')}}">Dashboard</a>
                       <a href="{{route('frontend.user.logout')}}">Logout</a>
                     </div>
                   </div>
@@ -79,8 +80,8 @@
                 <div id="user_login">
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
-                      <form action="{{route('frontend.user.login')}}" method="POST" enctype="multipart/form-data">
-                        @csrf
+                      <form  id="handleAjaxLogin">
+                        {{-- @csrf --}}
                           <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
@@ -101,23 +102,23 @@
                   @include('frontend.partials.flash-message')
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
-                      <form action="{{route('frontend.user.register')}}" method="post" enctype="multipart/form-data">
-                        @csrf
+                      <form id="signUpLogin">
+                        
                         <div class="mb-3">
                           <label for="name" class="form-label">Name</label>
-                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
+                          <input type="text" class="form-control" name="name" id="register_name" placeholder="Enter your name">
                         </div>
                         <div class="mb-3">
                           <label for="email" class="form-label">Email address</label>
-                          <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
+                          <input type="email" class="form-control" name="email" id="register_email" placeholder="Enter your email">
                         </div>
                         <div class="mb-3">
                           <label for="password" class="form-label">Password</label>
-                          <input type="password" class="form-control" name="password" id="password" placeholder="******">
+                          <input type="password" class="form-control" name="password" id="register_password" placeholder="******">
                         </div>
                         <div class="mb-3">
                           <label for="confirm_password" class="form-label">Confirm Password</label>
-                          <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="******">
+                          <input type="password" class="form-control" name="confirm_password" id="register_confirm_password" placeholder="******">
                         </div>
                         <div class="d-flex justify-content-between">
                           <button type="submit" class="btn test-start-button mw-100 px-5">Register</button>
@@ -156,6 +157,62 @@ $(document).ready(function(){
     $("#register").addClass('user_login_registration_active');
   });
 });
+</script>
+<script>
+  $(document).ready(function(){
+      $('#handleAjaxLogin').submit(function (e) {
+          e.preventDefault();
+          $.ajax({
+              type:'POST',
+              url:"{{route('frontend.user.login')}}",
+              data:{"action":"Login", email:$("#email").val(), password:$("#password").val()},
+              dataType: 'json',
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              success: function(data){
+                $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" >New check</button>`);
+                $("#useLogin").modal('hide');
+              },
+              error: function(data){
+                  console.log($data);
+              }
+          });
+
+          return false;
+      });
+  });
+</script>
+<script>
+  $(document).ready(function(){
+      $('#signUpLogin').submit(function (e) {
+        //alert('registration');
+          e.preventDefault();
+          
+          //return false;
+          $.ajax({
+              type:'POST',
+              url:"{{route('frontend.user.register')}}",
+              data:{"action":"Registration", name:$("#register_name").val(),email:$("#register_email").val(), password:$("#register_password").val(), confirm_password:$("#register_confirm_password").val()},
+              dataType: 'json',
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              success: function(data){
+                //alert('Register Successful');		
+                $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" >New check</button>`);
+                $("#useLogin").modal('hide');
+                
+                //window.location.reload();
+              },
+              error: function(data){
+                  console.log($data);
+              }
+          });
+
+          return false;
+      });
+  });
 </script>
 
 

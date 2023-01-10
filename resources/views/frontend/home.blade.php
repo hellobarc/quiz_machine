@@ -31,41 +31,29 @@
                         <div class="mt-4">
                             <p class="navbar-font">Levels</p>
                         </div>
-                        <div class="d-flex">
-                            <div class="side-bar-font mt-1 d-block">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
+                        @foreach ($levels as $level)
+                            <div class="d-flex">
+                                <div class="side-bar-font mt-1 d-block">
+                                    <input type="checkbox" class="check_box" value="{{$level->id}}" id="">
+                                </div>
+                                <div class="check_box_font mt-2">
+                                    <span>{{$level->name}}</span>
+                                </div>
                             </div>
-                            <div class="check_box_font mt-2">
-                                <span> A1 Basic</span>
-                                <span> A2 Foundation</span>
-                                <span> B1 Intermediate</span>
-                                <span> B2 Moderate</span>
-                                <span> C1 Advance</span>
-                            </div>
-                        </div>
+                        @endforeach
                         <div class="mt-4">
                             <p class="navbar-font">Subject</p>
                         </div>
-                        <div class="d-flex">
-                            <div class="side-bar-font mt-1">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
-                                <input type="checkbox" class="check_box">
+                        @foreach ($categories as $category)
+                            <div class="d-flex">
+                                <div class="side-bar-font mt-1">
+                                    <input type="checkbox" class="check_box" value="{{$category->id}}">
+                                </div>
+                                <div class="check_box_font mt-2">
+                                    <span>{{$category->name}}</span>
+                                </div>
                             </div>
-                            <div class="check_box_font">
-                                <span> Vocabulary</span>
-                                <span> Grammar</span>
-                                <span> Reading</span>
-                                <span> Listening</span>
-                                <span> Writing</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <!-- left-side bar end -->
@@ -84,117 +72,29 @@
                         </div>
                         <div class="row">
                             @foreach ($exams as $items)
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="test-border">
-                                    <div class="exam_img">
-                                        <img src="{{asset('image/uploads/exam/original_thumbnail/'.$items->thumbnail)}}" alt="" class="image-size">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="test-border">
+                                        <div class="exam_img">
+                                            <img src="{{asset('image/uploads/exam/original_thumbnail/'.$items->thumbnail)}}" alt="" class="image-size">
+                                        </div>
+                                        <div class="mt-2">
+                                            <h2 class="px-3 py-2">{{$items->title}}</h2>
+                                        </div>
+                                        <div>
+                                            <p class="px-3 main-text"><span class="exam_time">{{$items->time_limit}}</span> Minutes Long Test</p>
+                                        </div>
+                                        <div>
+                                            <p class="px-3 main-text">
+                                                {{substr($items->instruction, 0, 250)}}
+                                            </p>
+                                        </div>
+                                        <div class="pb-4 text-center">
+                                            <a href="{{route('frontend.exam.info', $items->id)}}" class="btn test-start-button">Start Test</a> 
+                                        </div>
                                     </div>
-                                    <div class="mt-2">
-                                        <h2 class="px-3 py-2">{{$items->title}}</h2>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text"><span class="exam_time">{{$items->time_limit}}</span> Minutes Long Test</p>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text">
-                                            {{substr($items->instruction, 0, 250)}}
-                                        </p>
-                                    </div>
-                                    <div class="pb-4 text-center">
-                                        <a href="{{route('frontend.exam.info', $items->id)}}" class="btn test-start-button">Start Test</a> 
-                                    </div>
-                                </div>
-                            </div> 
+                                </div> 
                             @endforeach
-                           
-                            {{-- <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="test-border">
-                                    <div>
-                                        <img src="{{asset('frontend/image/1.png')}}" alt="" class="image-size">
-                                    </div>
-                                    <div class="mt-2">
-                                        <h2 class="px-3 py-2">Tense</h2>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text">Study the grammar lessons that are typically included in each level: A1, A2, B1, B1+, B2. There are three or more exercises and an explanation in each lesson. And you will find feedback for every question!
-                                        </p>
-                                    </div>
-                                    <div class="pb-4 text-center">
-                                        <button class="test-start-button">Start Test</button> 
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="test-border">
-                                    <div>
-                                        <img src="{{asset('frontend/image/1.png')}}" alt="" class="image-size">
-                                    </div>
-                                    <div class="mt-2">
-                                        <h2 class="px-3 py-2">Voice Change</h2>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text">Study the grammar lessons that are typically included in each level: A1, A2, B1, B1+, B2. There are three or more exercises and an explanation in each lesson. And you will find feedback for every question!
-                                        </p>
-                                    </div>
-                                    <div class="pb-4 text-center">
-                                        <button class="test-start-button">Start Test</button> 
-                                    </div>
-                                </div>
-                            </div>  --}}
                         </div>
-                        {{-- <div class="row">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="test-border">
-                                    <div>
-                                        <img src="{{asset('frontend/image/1.png')}}" alt="" class="image-size">
-                                    </div>
-                                    <div class="mt-2">
-                                        <h2 class="px-3 py-2">Parts of speech</h2>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text">Study the grammar lessons that are typically included in each level: A1, A2, B1, B1+, B2. There are three or more exercises and an explanation in each lesson. And you will find feedback for every question!
-                                        </p>
-                                    </div>
-                                    <div class="pb-4 text-center">
-                                        <button class="test-start-button">Start Test</button> 
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="test-border">
-                                    <div>
-                                        <img src="{{asset('frontend/image/1.png')}}" alt="" class="image-size">
-                                    </div>
-                                    <div class="mt-2">
-                                        <h2 class="px-3 py-2">Tense</h2>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text">Study the grammar lessons that are typically included in each level: A1, A2, B1, B1+, B2. There are three or more exercises and an explanation in each lesson. And you will find feedback for every question!
-                                        </p>
-                                    </div>
-                                    <div class="pb-4 text-center">
-                                        <button class="test-start-button">Start Test</button> 
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                <div class="test-border">
-                                    <div>
-                                        <img src="{{asset('frontend/image/1.png')}}" alt="" class="image-size">
-                                    </div>
-                                    <div class="mt-2">
-                                        <h2 class="px-3 py-2">Voice Change</h2>
-                                    </div>
-                                    <div>
-                                        <p class="px-3 main-text">Study the grammar lessons that are typically included in each level: A1, A2, B1, B1+, B2. There are three or more exercises and an explanation in each lesson. And you will find feedback for every question!
-                                        </p>
-                                    </div>
-                                    <div class="pb-4 text-center">
-                                        <button class="test-start-button">Start Test</button> 
-                                    </div>
-                                </div>
-                            </div> 
-                        </div> --}}
                     </div>
                     <!-- service section end -->
                 </div>

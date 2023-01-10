@@ -21,10 +21,10 @@ class UserAuthenticationController extends Controller
             'password'=> 'required|min:8',
             'confirm_password' => 'required|same:password',
         ]);
-        if( $validation->fails())
-        {
-            return redirect('/')->with('errors', 'Validation failed');
-        }
+        // if( $validation->fails())
+        // {
+        //     return redirect('/')->with('errors', 'Validation failed');
+        // }
         $users = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -34,7 +34,17 @@ class UserAuthenticationController extends Controller
             'user_id'=> $users->id,
             'role'=> 'user',
         ]);
-        return redirect('/')->with('success', 'Registration Successful');
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $response = [
+                'success' => 200,
+                'data' => Auth::user(),
+                'is_login' => true,
+            ];
+            return response()->json($response, 202);
+        }
+        //return redirect('/')->with('success', 'Registration Successful');
+        
     }
     public function login(Request $request)
     {
@@ -45,12 +55,18 @@ class UserAuthenticationController extends Controller
    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->route('frontend.home')
-                        ->with('success','You have Successfully loggedin');
+            // return redirect()->route('frontend.home')
+            //             ->with('success','You have Successfully loggedin');
+            $response = [
+                'success' => 200,
+                'data' => Auth::user(),
+                'is_login' => true,
+            ];
+            return response()->json($response, 202);
         }
         
   
-        return redirect("/")->with('errors','Oppes! You have entered invalid credentials');
+        //return redirect("/")->with('errors','Oppes! You have entered invalid credentials');
     }
     public function logout(Request $request)
     {
