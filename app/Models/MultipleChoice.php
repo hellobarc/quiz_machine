@@ -21,4 +21,6 @@ class MultipleChoice extends Model
     {
         return $this->belongsTo(Quiz::class, 'quiz_id');
     }
+
+    
 }

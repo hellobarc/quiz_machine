@@ -39,5 +39,9 @@ class Quiz extends Model
     {
         return $this->hasMany(FillBlank::class, 'quiz_id');
     }
+    // public function getMultipleChoiceCountAttribute()
+    // {
+    //     return $this->multipleChoice->count();
+    // }
 
 }

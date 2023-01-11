@@ -21,19 +21,23 @@
                   <div class="content">
                       <h2 class="fw-bolder">{{$exams->title}}</h2>
                       <p>For the questions below, please choose the best option to complete the sentence or conversation.</p>
-                      <div class="progress">
-                          <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress" id="progress_wrapper">
+                          <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                       
-                      <div class="d-flex justify-content-between mt-1">
-                          <p>10% Completed</p>
-                          <p>2 of 5</p>
-                      </div>
-                      <div style="text-align:right;"><p id="timer" class="sub-title mt-2"></p></div>
-
+                      <div class="d-flex justify-content-between mt-1" id="progress_count"></div>
+                      <div style="text-align:right;" id="js_timer">
+                            <p id="countdown" class="sub-title mt-2"></p>
+                        </div>
+                       
                       <form action="{{route('frontend.exam.user.ans')}}" method="POST" enctype="multipart/form-data" id="check_form">
                         @csrf
                         <input type="hidden" name="exam_id" value="{{$exams->id}}">
+                        {{-- count question start --}}
+                        @php
+                            $total_question = 0;
+                        @endphp
+                        {{-- count question end --}}
                       {{-- quiz radio start --}}
                         @if($quizRadio != NULL)
                             <p class="main-text">Choose the correct option</p>
@@ -42,8 +46,10 @@
                                 <input type="hidden" name="radio_quiz_type" value="{{$rows->quiz_type}}">
                                 <input type="hidden" name="radio_question_id[]" value="{{$rows->quizRadio[0]->id}}">
                                 @php
-                                    $options = json_decode($rows->quizRadio[0]->option_text)  ;  
+                                    $countRadio = $rows->quiz_radio_count;
+                                    $options = json_decode($rows->quizRadio[0]->option_text);  
                                     $big_loop = $loop->index;
+                                    $total_question += $countRadio;
                                 @endphp
                                 <div class="questions_radio">
                                 <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p> 
@@ -66,6 +72,10 @@
                             @foreach ($multipleChoice as $rows)
                                 <input type="hidden" name="multiple[]" value="{{$rows->id}}">
                                 <input type="hidden" name="multiple_quiz_type" value="{{$rows->quiz_type}}">
+                                    @php
+                                        $countMultipleChoice = $rows->multiple_choice_count;
+                                        $total_question +=$countMultipleChoice;
+                                    @endphp
                                 @foreach ($rows->multipleChoice as $items)
                                     <input type="hidden" name="multiple_question_id[]" value="{{$items->id}}">
                                     @php
@@ -96,6 +106,8 @@
                                         @php
                                             $options = json_decode($rows->fillBlank[0]->blank_answer);
                                             shuffle($options);
+                                            $countFillBlank = count($options);
+                                            $total_question +=$countFillBlank;
                                         @endphp
                                         <div class="d-flex justify-content-start fw-bold main-text" style="width: 50%;">
                                             @foreach($options as $option)
@@ -115,7 +127,10 @@
                             @foreach ($dropDown as $rows)
                                 <input type="hidden" name="dropdown[]" value="{{$rows->id}}">
                                 <input type="hidden" name="dropDown_quiz_type" value="{{$rows->quiz_type}}">
-                                
+                                    @php
+                                        $countDropDown = $rows->drop_down_count;
+                                        $total_question +=$countDropDown;
+                                    @endphp
                                 @foreach ($rows->dropDown as $items)
                                     @php
                                         $options = json_decode($items->option_text);  
@@ -203,12 +218,48 @@
     });
 </script>
 <script>
+    var total_question =  "{{$total_question}}";
+    $(function(){
+        document.getElementById("progress_count").innerHTML =  `<p>0% Completed</p><p>0 of ${total_question}</p>`;
+    })();
+
     function countSelected(event){
+        event.target.classList.remove('ans_done')
         event.target.classList.add('ans_done')
-        const countAll = document.querySelectorAll('.ans_done').length;
-        
-        console.log(countAll);
+        let click_count = document.querySelectorAll('.ans_done').length;
+        console.log(click_count);
+        let percentages =    percentage(click_count, total_question); 
+        document.getElementById("progress_wrapper").innerHTML =  `<div class="progress-bar bg-warning" role="progressbar" style="width: ${percentages}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>`;
+        document.getElementById("progress_count").innerHTML =  `<p>${percentages}% Completed</p><p>${click_count} of ${total_question}</p>`;
     }
+
+    function percentage(partialValue, totalValue) {
+        return Math.round((100 * partialValue) / totalValue);
+    } 
+</script>
+<script> 
+const startingMinutes = "{{$exams->time_limit}}";
+let time = startingMinutes * 60;
+
+
+var myInterval = setInterval(updateCountDown, 1000);
+
+
+
+
+function updateCountDown(){
+    var countdownEle = document.getElementById('countdown');
+    const minutes = Math.floor( time /60 );  
+    let seconds = time % 60;
+    //seconds = seconds < 10 ? '0' + seconds : seconds;
+    countdownEle.innerHTML = `${minutes} : ${seconds}`;
+    time--;
+     if(minutes==0 && seconds==0){
+        countdownEle.innerHTML = "EXPIRED";
+        clearInterval(myInterval); 
+     }
+}
+
 </script>
 
 

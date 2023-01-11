@@ -24,6 +24,30 @@ class FrontendController extends Controller
         $levels = Level::all();
         return view('frontend.home', compact('exams', 'categories', 'levels'));
     }
+    public function frontendJsonExam(Request $request)
+    {
+        
+
+        if($request->filter_var!=null){
+            dd($request->filter_var);
+            $exam_query = Exam::query();
+
+            $exam_query->where();
+
+            $exam_query->get();
+
+           // $exams = Exam::with('category', 'level')->take(1)->get();
+        }else{
+            $exams = Exam::with('category', 'level')->get();
+        }
+        
+        $response = [
+            'success' => 200,
+            'data' => $exams,
+            'check' => $exams,
+        ];
+        return response()->json($response, 202);
+    }
     public function frontendExamInfo($test_id)
     {
         $exams = Exam::where('id', $test_id)->first();
@@ -35,11 +59,12 @@ class FrontendController extends Controller
         $exams = Exam::where('id', $test_id)->with('category')->first();
         //if category not equal reading
         if($exams->category != 'Reading'){
-        $quizRadio = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'radio')->with('quizRadio')->get();
-        $multipleChoice = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'multiple-choice')->with('multipleChoice')->get();
+        $quizRadio = Quiz::withCount(['quizRadio'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'radio')->with('quizRadio')->get();
+        $multipleChoice = Quiz::withCount(['multipleChoice'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'multiple-choice')->with('multipleChoice')->get();
         $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
-        $dropDown = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
+        $dropDown = Quiz::withCount(['dropDown'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
         }
+        //dd($exams);
         return view('frontend.start-exam', compact('test_id','exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown'));
 
     }

@@ -77,7 +77,9 @@ p,span,li,button,a{
 .side-bar-font{
     font-size: 1.25rem;
 }
-
+input[type=checkbox] {
+    accent-color: #ffc107;
+  }
 input.check_box{
     width: 25px;
     height: 25px;

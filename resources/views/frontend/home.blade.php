@@ -34,7 +34,7 @@
                         @foreach ($levels as $level)
                             <div class="d-flex">
                                 <div class="side-bar-font mt-1 d-block">
-                                    <input type="checkbox" class="check_box" value="{{$level->id}}" id="">
+                                    <input type="checkbox" class="check_box" value="{{$level->id}}" onclick="showExam('level',this.value)">
                                 </div>
                                 <div class="check_box_font mt-2">
                                     <span>{{$level->name}}</span>
@@ -47,7 +47,7 @@
                         @foreach ($categories as $category)
                             <div class="d-flex">
                                 <div class="side-bar-font mt-1">
-                                    <input type="checkbox" class="check_box" value="{{$category->id}}">
+                                    <input type="checkbox" class="check_box" value="{{$category->id}}" onclick="showExam('category',this.value)">
                                 </div>
                                 <div class="check_box_font mt-2">
                                     <span>{{$category->name}}</span>
@@ -70,30 +70,8 @@
                         <div class="mt-5">
                             <h3 class="fw-bolder">What would you like to practise today?</h3>
                         </div>
-                        <div class="row">
-                            @foreach ($exams as $items)
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="test-border">
-                                        <div class="exam_img">
-                                            <img src="{{asset('image/uploads/exam/original_thumbnail/'.$items->thumbnail)}}" alt="" class="image-size">
-                                        </div>
-                                        <div class="mt-2">
-                                            <h2 class="px-3 py-2">{{$items->title}}</h2>
-                                        </div>
-                                        <div>
-                                            <p class="px-3 main-text"><span class="exam_time">{{$items->time_limit}}</span> Minutes Long Test</p>
-                                        </div>
-                                        <div>
-                                            <p class="px-3 main-text">
-                                                {{substr($items->instruction, 0, 250)}}
-                                            </p>
-                                        </div>
-                                        <div class="pb-4 text-center">
-                                            <a href="{{route('frontend.exam.info', $items->id)}}" class="btn test-start-button">Start Test</a> 
-                                        </div>
-                                    </div>
-                                </div> 
-                            @endforeach
+                        <div class="row" id="exam_grid">
+
                         </div>
                     </div>
                     <!-- service section end -->
@@ -104,3 +82,65 @@
     </section>
     <!-- main section end -->
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        dataLoad(filter_type=null, filter_id = null);
+    });
+
+
+    var filter_var = [];
+
+    function dataLoad(filter_var=null){
+        
+        $.ajax({
+                type:'GET',
+                url:"{{route('frontend.exam.show')}}",
+                data:{"action":"Exam Show","filter_var":filter_var},
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data){
+                    let list_data =``;
+                    $.each(data.data, function(i, item) {
+                           list_data += `<div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="test-border">
+                                            <div class="exam_img">
+                                                <img src="image/uploads/exam/original_thumbnail/${item.thumbnail}" alt="" class="image-size">
+                                            </div>
+                                            <div class="mt-2">
+                                                <h2 class="px-3 py-2">${item.title}</h2>
+                                            </div>
+                                            <div>
+                                                <p class="px-3 main-text"><span class="exam_time">${item.time_limit}</span> Minutes Long Test</p>
+                                            </div>
+                                            <div>
+                                                <p class="px-3 main-text">
+                                                    ${item.instruction.substring(250)}
+                                                </p>
+                                            </div>
+                                            <div class="pb-4 text-center">
+                                                <a href="#" class="btn test-start-button">Start Test</a> 
+                                            </div>
+                                        </div>
+                                    </div> `;
+
+                    });
+
+                    $("#exam_grid").html(list_data);
+
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+    }
+
+  </script>
+  <script>
+    function showExam(filter_type,clicked_id){
+        filter_var.push({filter_type: filter_type, filter_id: clicked_id});
+        dataLoad(filter_var);
+    }
+  </script>
