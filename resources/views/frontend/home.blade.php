@@ -12,7 +12,7 @@
                     <div class="mt-3">
                         <form class="form-inline my-2 my-lg-0">
                            <div class="d-flex">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <input type="search" class="form-control mr-sm-2" placeholder="Search" aria-label="Search" name="search" id="search">
                             <button class="btn btn-warning my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
                            </div>
                         </form>
@@ -144,3 +144,42 @@
         dataLoad(filter_var);
     }
   </script>
+
+<script>
+    $(document).ready(function(){
+     
+        // fetch_customer_data();
+     
+        // function fetch_customer_data(query = '')
+        // {
+        //     $.ajax({
+        //         url:"{{ route('frontend.exam.search') }}",
+        //         method:'GET',
+        //         data:{query:query},
+        //         dataType:'json',
+        //         success:function(data)
+        //         {
+        //             $('tbody').html(data.table_data);
+        //             $('#total_records').text(data.total_data);
+        //         }
+        //     })
+        // }
+     
+        $(document).on('keyup', '#search', function(e){
+            e.preventDefault();
+            
+            let search_string = $('#search').val();
+            $.ajax({
+                url:"{{ route('frontend.exam.search') }}",
+                method:'GET',
+                data:{search_string:search_string},
+                dataType:'json',
+                success:function(data)
+                {
+                    $('tbody').html(data.table_data);
+                    $('#total_records').text(data.total_data);
+                }
+            });
+        });
+    });
+    </script>

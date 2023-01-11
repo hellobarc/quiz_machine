@@ -29,10 +29,16 @@ class FrontendController extends Controller
         
 
         if($request->filter_var!=null){
+            
             dd($request->filter_var);
+            foreach($request->filter_var as $rows){
+                $filter_type = $rows->filter_type;
+            }
             $exam_query = Exam::query();
-
-            $exam_query->where();
+            if($request->filter_type == 'level'){
+                $exam_query->where('level_id', $request->filter_id);
+            }
+            
 
             $exam_query->get();
 
@@ -44,7 +50,21 @@ class FrontendController extends Controller
         $response = [
             'success' => 200,
             'data' => $exams,
-            'check' => $exams,
+            // 'check' => $exams,
+        ];
+        return response()->json($response, 202);
+    }
+    public function frontendJsonSearch(Request $request)
+    {
+        $search = $request->search;
+        $converstion = implode(" ", $search);
+        $searchExam =  Exam::where('title', 'LIKE', "%{$converstion}%")
+        ->orWhere('short_description', 'LIKE', "%{$converstion}%")
+        ->orWhere('instruction', 'LIKE', "%{$converstion}%")
+        ->get();
+        $response = [
+            'success' => 200,
+            'data' => $searchExam,
         ];
         return response()->json($response, 202);
     }

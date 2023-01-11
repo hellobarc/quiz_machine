@@ -101,6 +101,7 @@ Route::group(['prefix'=> 'frontend'], function ($routes) {
     Route::post('/check-authentication', [FrontendController::class, 'checkAuthentication'])->name('frontend.check.authentication');
     Route::get('/user-dashboard', [FrontendController::class, 'userDashboard'])->name('frontend.user.dashboard');
     Route::get('/exam-show', [FrontendController::class, 'frontendJsonExam'])->name('frontend.exam.show');
+    Route::get('/exam-search', [FrontendController::class, 'frontendJsonSearch'])->name('frontend.exam.search');
 
 });
 
