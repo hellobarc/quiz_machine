@@ -15,6 +15,7 @@ class FillBlank extends Model
         'text',
         'is_show',
         'blank_answer',
+        'marks',
         'is_newline',
         'instruction',
     ];

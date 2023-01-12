@@ -38,6 +38,7 @@ class QuestionController extends Controller
         $quiz_id = $request->quiz_id;
         $instruction = $request->instruction;
         $text = $request->text;
+        $marks = $request->marks;
         $answer = explode(',', $request->blank_answer);
         
 
@@ -46,6 +47,7 @@ class QuestionController extends Controller
             'text' => $text,
             'blank_answer' => json_encode($answer),
             'instruction' => $instruction,
+            'marks' => $marks,
         ]);
         return redirect()->back()->with('success', 'Question Added Successfully.');
 
@@ -67,6 +69,7 @@ class QuestionController extends Controller
         $text = $input['text'];
         $blank_answer = $input['blank_answer'];
         $is_correct = $input['is_correct'];
+        $marks = $input['marks'];
         if($input['quiz_type'] == 'multiple-choice')
         {
             MultipleChoice::insert([
@@ -74,6 +77,7 @@ class QuestionController extends Controller
                 'text' => $text,
                 'option_text' =>  json_encode($blank_answer),
                 'is_correct' => json_encode($is_correct),
+                'marks' => $marks,
             ]);
         }elseif($input['quiz_type'] == 'radio'){
             QuizRadio::insert([
@@ -81,6 +85,7 @@ class QuestionController extends Controller
                 'text' => $text,
                 'option_text' =>  json_encode($blank_answer),
                 'is_correct' => json_encode($is_correct),
+                'marks' => $marks,
             ]);
         }elseif($input['quiz_type'] == 'drop-down'){
             QuizDropdown::insert([
@@ -88,6 +93,7 @@ class QuestionController extends Controller
                 'text' => $text,
                 'option_text' =>  json_encode($blank_answer),
                 'is_correct' => json_encode($is_correct),
+                'marks' => $marks,
             ]);
         }
         

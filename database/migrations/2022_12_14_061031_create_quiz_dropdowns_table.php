@@ -19,6 +19,7 @@ class CreateQuizDropdownsTable extends Migration
             $table->longText('text');
             $table->string('option_text');
             $table->string('is_correct');
+            $table->integer('marks');
             // $table->string('is_dropdown');
             // $table->string('correct_answer');
             // $table->string('is_newline');

@@ -19,6 +19,7 @@ class CreateMultipleChoicesTable extends Migration
             $table->string('text');
             $table->string('option_text');
             $table->string('is_correct');
+            $table->integer('marks');
             $table->timestamps();
         });
     }

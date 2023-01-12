@@ -121,7 +121,7 @@
                                                 </p>
                                             </div>
                                             <div class="pb-4 text-center">
-                                                <a href="#" class="btn test-start-button">Start Test</a> 
+                                                <a href="frontend/exam-info/${item.id}" class="btn test-start-button">Start Test</a> 
                                             </div>
                                         </div>
                                     </div> `;
@@ -147,28 +147,11 @@
 
 <script>
     $(document).ready(function(){
-     
-        // fetch_customer_data();
-     
-        // function fetch_customer_data(query = '')
-        // {
-        //     $.ajax({
-        //         url:"{{ route('frontend.exam.search') }}",
-        //         method:'GET',
-        //         data:{query:query},
-        //         dataType:'json',
-        //         success:function(data)
-        //         {
-        //             $('tbody').html(data.table_data);
-        //             $('#total_records').text(data.total_data);
-        //         }
-        //     })
-        // }
-     
         $(document).on('keyup', '#search', function(e){
             e.preventDefault();
             
             let search_string = $('#search').val();
+            
             $.ajax({
                 url:"{{ route('frontend.exam.search') }}",
                 method:'GET',
@@ -176,10 +159,38 @@
                 dataType:'json',
                 success:function(data)
                 {
-                    $('tbody').html(data.table_data);
-                    $('#total_records').text(data.total_data);
+                    let list_data =``;
+                    $.each(data.data, function(i, item) {
+                           list_data += `<div class="col-xl-4 col-lg-4 col-md-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="test-border">
+                                            <div class="exam_img">
+                                                <img src="image/uploads/exam/original_thumbnail/${item.thumbnail}" alt="" class="image-size">
+                                            </div>
+                                            <div class="mt-2">
+                                                <h2 class="px-3 py-2">${item.title}</h2>
+                                            </div>
+                                            <div>
+                                                <p class="px-3 main-text"><span class="exam_time">${item.time_limit}</span> Minutes Long Test</p>
+                                            </div>
+                                            <div>
+                                                <p class="px-3 main-text">
+                                                    ${item.instruction.substring(250)}
+                                                </p>
+                                            </div>
+                                            <div class="pb-4 text-center">
+                                                <a href="frontend/exam-info/${item.id}" class="btn test-start-button">Start Test</a> 
+                                            </div>
+                                        </div>
+                                    </div> `;
+
+                    });
+
+                    $("#exam_grid").html(list_data);
+                },
+                error: function(data){
+                    console.log(data);
                 }
             });
         });
     });
-    </script>
+</script>

@@ -19,6 +19,7 @@ class CreateFillBlanksTable extends Migration
             $table->longText('text')->default(NULL);
             $table->enum('is_show', ['yes', 'no'])->default(NULL);
             $table->string('blank_answer')->default(NULL);
+            $table->integer('marks');
             $table->string('is_newline')->default(NULL);
             $table->mediumText('instruction')->nullable();
             $table->timestamps();

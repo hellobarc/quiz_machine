@@ -153,18 +153,26 @@
                         <!-- check button -->
                         <div class="mt-4">
                                 @if(auth()->user())
-                                    <button type="submit" class="btn btn-dark fw-bolder">Check</button>
+                                    <button type="submit" class="btn btn-dark fw-bolder" name="submitType" value="check">Check</button>
+                                    <div class="text_right">
+                                        <button type="submit" class="btn btn-dark btn-lg fw-bolder" name="submitType" value="next">Next <i class="fa-solid fa-angle-right"></i></button>
+                                    </div>
                                 @else
                                     <div id="uncheck_button">
                                         <button type="submit" class="btn btn-dark fw-bolder" id="checkAuth" >check</button>
+                                        <!-- next page button -->
+                                        <div class="text_right">
+                                            <button type="submit" class="btn btn-dark btn-lg fw-bolder" id="resultCheckAuth">Next <i class="fa-solid fa-angle-right"></i></button>
+                                        </div>
                                     </div>
                                 @endif
+                                {{-- <!-- next page button -->
+                                <div class="text_right">
+                                    <button type="submit" class="btn btn-dark btn-lg fw-bolder" id="resultCheckAuth">Next <i class="fa-solid fa-angle-right"></i></button>
+                                </div> --}}
                             </form>
                         </div>
-                        <!-- next page button -->
-                        <div class="text_right">
-                            <a href="" class="btn btn-dark btn-lg fw-bolder">Next <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
+                        
                   </div>
                   <!-- main content start -->
                   <!-- content wrapper start -->
@@ -192,28 +200,10 @@
         $('#checkAuth').click(function (e) {
             e.preventDefault();
             $("#useLogin").modal('show');
-            // $.ajax({
-            //     type:'POST',
-            //     url:"{{route('frontend.check.authentication')}}",
-            //     data:{"action":"check-authentication"},
-            //     dataType: 'json',
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //     success: function(data){		
-            //         let is_login = data.is_login;
-            //         if(is_login == false){
-            //             $("#useLogin").modal('show');
-            //         }else{
-            //             $(this).trigger('submit');
-            //         }
-            //     },
-            //     error: function(data){
-            //         //console.log($data);
-            //         return false;
-            //     }
-            // });
-         
+        });
+        $('#resultCheckAuth').click(function (e) {
+            e.preventDefault();
+            $("#useLogin").modal('show');
         });
     });
 </script>
@@ -238,27 +228,27 @@
     } 
 </script>
 <script> 
-const startingMinutes = "{{$exams->time_limit}}";
-let time = startingMinutes * 60;
+    const startingMinutes = "{{$exams->time_limit}}";
+    let time = startingMinutes * 60;
 
 
-var myInterval = setInterval(updateCountDown, 1000);
+    var myInterval = setInterval(updateCountDown, 1000);
 
 
 
 
-function updateCountDown(){
-    var countdownEle = document.getElementById('countdown');
-    const minutes = Math.floor( time /60 );  
-    let seconds = time % 60;
-    //seconds = seconds < 10 ? '0' + seconds : seconds;
-    countdownEle.innerHTML = `${minutes} : ${seconds}`;
-    time--;
-     if(minutes==0 && seconds==0){
-        countdownEle.innerHTML = "EXPIRED";
-        clearInterval(myInterval); 
-     }
-}
+    function updateCountDown(){
+        var countdownEle = document.getElementById('countdown');
+        const minutes = Math.floor( time /60 );  
+        let seconds = time % 60;
+        //seconds = seconds < 10 ? '0' + seconds : seconds;
+        countdownEle.innerHTML = `${minutes} : ${seconds}`;
+        time--;
+        if(minutes==0 && seconds==0){
+            countdownEle.innerHTML = "EXPIRED";
+            clearInterval(myInterval); 
+        }
+    }
 
 </script>
 

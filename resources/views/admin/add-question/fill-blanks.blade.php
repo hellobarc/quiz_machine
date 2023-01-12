@@ -46,6 +46,10 @@
                                                     <label for="name" class="mb-2">Question Answer</label>
                                                     <input type="text" name="blank_answer" class="form-control" placeholder="answer1,answer2">
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="name" class="mb-2">Question Marks</label>
+                                                    <input type="text" name="marks" class="form-control" placeholder="Write your question marks">
+                                                </div>
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>
                                         </div>
@@ -61,6 +65,7 @@
                                                 <th>SL No</th>
                                                 <th>Quiz Name</th>
                                                 <th>Question</th>
+                                                <th>marks</th>
                                                 <th>Show Box</th>
                                                 <th>Action</th>
                                             </thead>
@@ -70,6 +75,7 @@
                                                     <td>{{$loop->index+1}}</td>
                                                     <td>{{$items->quiz->title}}</td>
                                                     <td>{!!$items->text!!}</td>
+                                                    <td>{{$items->marks}}</td>
                                                     <td>{{$items->is_show}}</td>
                                                     <td>
                                                         <a href="{{route('admin.settings.quiz.fill-blank.delete-question', $items->id)}}" class="btn btn-danger btn-sm">Delete</a>

@@ -45,21 +45,25 @@
                                                 <input type="hidden" name="quiz_type" value="{{$quizType}}">
                                                 <div class="form-group">
                                                     <label for="name" class="mb-2">Question Text</label>
-                                                    <input type="text" class="form-control" name="text" placeholder="Write your question">
-                                                    
+                                                    <input type="text" class="form-control" name="text" placeholder="Write your question" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="name" class="mb-2">Question Marks</label>
+                                                    <input type="text" class="form-control" name="marks" placeholder="Write your question marks" required>
                                                 </div>
                                                 <div id="add-option">
                                                     <label for="name" class="mb-2 fw-bold">Question Option</label>
                                                     <div class="d-flex justify-content-start">
                                                         <div class="form-group">
-                                                            <input type="text" name="blank_answer[]" class="form-control" placeholder="option">
+                                                            <input type="text" name="blank_answer[]" class="form-control" placeholder="option" required>
                                                         </div>
                                                         <div class="form-check mt-2">
-                                                            <input class="form-check-input" type="checkbox" name="is_correct[]" value="0" id="flexCheckDefault">
+                                                            <input class="form-check-input" type="checkbox" name="is_correct[]" value="0" id="flexCheckDefault" required>
                                                             <label class="form-check-label" for="flexCheckDefault">is correct</label>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
                                             
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>
@@ -77,6 +81,7 @@
                                                 <th>Quiz Name</th>
                                                 <th>Question</th>
                                                 <th>Question Option</th>
+                                                <th>Question Marks</th>
                                                 <th>Action</th>
                                             </thead>
                                            
@@ -88,6 +93,7 @@
                                                             <td>{{$items->quiz->title}}</td>
                                                             <td>{!!$items->text!!}</td>
                                                             <td>{!!$items->option_text!!}</td>
+                                                            <td>{{$items->marks}}</td>
                                                             <td>
                                                                 <a href="{{route('admin.settings.quiz.multiple-choice.delete-question', ['id'=>$items->id, 'quizType'=>$quizType])}}" class="btn btn-danger btn-sm">Delete</a>
                                                             </td>
@@ -100,6 +106,7 @@
                                                             <td>{{$items->quiz->title}}</td>
                                                             <td>{!!$items->text!!}</td>
                                                             <td>{!!$items->option_text!!}</td>
+                                                            <td>{{$items->marks}}</td>
                                                             <td>
                                                                 <a href="{{route('admin.settings.quiz.multiple-choice.delete-question', ['id'=>$items->id, 'quizType'=>$quizType])}}" class="btn btn-danger btn-sm">Delete</a>
                                                             </td>
@@ -112,6 +119,7 @@
                                                             <td>{{$items->quiz->title}}</td>
                                                             <td>{!!$items->text!!}</td>
                                                             <td>{!!$items->option_text!!}</td>
+                                                            <td>{{$items->marks}}</td>
                                                             <td>
                                                                 <a href="{{route('admin.settings.quiz.multiple-choice.delete-question', ['id'=>$items->id, 'quizType'=>$quizType])}}" class="btn btn-danger btn-sm">Delete</a>
                                                             </td>

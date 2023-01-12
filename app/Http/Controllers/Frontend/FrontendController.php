@@ -26,23 +26,22 @@ class FrontendController extends Controller
     }
     public function frontendJsonExam(Request $request)
     {
-        
-
         if($request->filter_var!=null){
             
             dd($request->filter_var);
+           
             foreach($request->filter_var as $rows){
                 $filter_type = $rows->filter_type;
-            }
-            $exam_query = Exam::query();
-            if($request->filter_type == 'level'){
-                $exam_query->where('level_id', $request->filter_id);
-            }
-            
+                $filter_id = $rows->filter_id;
 
-            $exam_query->get();
+                 $exam_query = Exam::query();
 
-           // $exams = Exam::with('category', 'level')->take(1)->get();
+                if($request->filter_type == 'level'){
+                    //$level = Exam::where('level_id', $filter_id)->get();
+                }
+                 $exam_query->get();
+            }
+            dd($level);
         }else{
             $exams = Exam::with('category', 'level')->get();
         }
@@ -56,11 +55,11 @@ class FrontendController extends Controller
     }
     public function frontendJsonSearch(Request $request)
     {
-        $search = $request->search;
-        $converstion = implode(" ", $search);
-        $searchExam =  Exam::where('title', 'LIKE', "%{$converstion}%")
-        ->orWhere('short_description', 'LIKE', "%{$converstion}%")
-        ->orWhere('instruction', 'LIKE', "%{$converstion}%")
+        $search = $request->search_string;
+        //$converstion = implode(" ", $search);
+        $searchExam =  Exam::where('title', 'LIKE', "%{$search}%")
+        // ->orWhere('short_description', 'LIKE', "%{$search}%")
+        // ->orWhere('instruction', 'LIKE', "%{$search}%")
         ->get();
         $response = [
             'success' => 200,
@@ -139,6 +138,7 @@ class FrontendController extends Controller
     public function frontendExamUserAns(Request $request)
     {
         $data = $request->input();
+        //dd($data);
         $exam_id = $data['exam_id'];
         $radios = $data['radio'];
         $radiosAns = $data['radioAns'];
@@ -157,9 +157,8 @@ class FrontendController extends Controller
         $dropdownsAns = $data['user_dropDown_ans'];
         $dropdownQuestionId = $data['dropDown_question_id'];
         $dropDown_quiz_type = $data['dropDown_quiz_type'];
+        $submitType = $data['submitType'];
         
-      //dd($data);
-       // $quiz_id = [];
         if(isset($radios)){
             foreach($radios as $index=>$radio){
                     foreach($radiosAns as $key=>$rAns){
@@ -247,8 +246,12 @@ class FrontendController extends Controller
             }
             
         }
+        if($submitType == 'check'){
+            return redirect()->route('frontend.exam.checked', ['test_id'=>$exam_id]);
+        }else{
+            return redirect()->route('frontend.exam.congratulation', ['test_id'=>$exam_id]);
+        }
         
-        return redirect()->route('frontend.exam.checked', ['test_id'=>$exam_id]);
     }
 
     private function examCreate($array)
@@ -316,8 +319,60 @@ class FrontendController extends Controller
     public function userDashboard()
     {
         $user_id = Auth::user()->id;
-        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->get();
-        return view('frontend.user.dashboard');
+        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->groupBy('user_id')->get();
+
+        foreach($result as $row)
+        {
+            $test_id = $row->exam->id;
+            $level_id = $row->exam->level_id;
+            $exam_title = $row->exam->title;
+            $exam_thumbnail = $row->exam->thumbnail;
+            $exam_time = $row->exam->time_limit;
+            $category_id = $row->exam->category_id;
+            $level = Level::find($level_id);
+            $category = Category::find($category_id);
+
+        
+
+            //mark calculation
+            $totalQuestion = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
+                                            ->where('quiz_type', '!=', 'fill-blank')
+                                            ->count();
+            $obtainMarks = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
+                                        ->where('quiz_type', '!=', 'fill-blank')
+                                        ->where('is_correct', '=', 'yes')
+                                        ->count();
+
+            //$totalFillBlanksCount = ExamSubmission::where('user_id', 1)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->count();
+            $totalFillBlanks = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)->where('quiz_type', 'fill-blank')->get();
+            $countOption = 0;
+            $result = 0;
+            foreach($totalFillBlanks as $rows){
+                $totalOption = json_decode($rows->answered_text);
+                $countOption = count($totalOption);
+                $result = $rows->is_correct;
+            }
+
+            $question = $totalQuestion + $countOption;
+            $marks = $obtainMarks + $result;
+
+
+            $data[] = array(
+                'exam_id' =>$test_id,
+                'level_title' =>$level->name,
+                'category_title' =>$category->name,
+                'exam_title' =>$exam_title,
+                'exam_thumbnail' =>$exam_thumbnail,
+                'exam_time' =>$exam_time,
+                'exam_total_question' =>$question,
+                'exam_total_marks' =>$marks,
+            );
+            
+        }
+      
+       //dd($data);
+        return view('frontend.user.dashboard')->with(['mydata'=>$data]);
+    
     }
 
 }

@@ -15,6 +15,7 @@ class QuizDropdown extends Model
         'text',
         'option_text',
         'is_correct',
+        'marks',
         // 'is_dropdown',
         // 'correct_answer',
         // 'is_newline',

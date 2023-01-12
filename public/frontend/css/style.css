@@ -37,11 +37,12 @@ p,span,li,button,a{
 }
 /* left side bar filter css start */
 .left_side_filter{
-    box-shadow: 0 4px 15px 4px #0000001a;
-    background: #fff;
+    /* box-shadow: 0 4px 15px 4px #0000001a;
+    background: #fff; */
     padding: 26px 26px 27px;
     border-radius: 5px;
     margin-top: 25px;
+    border: 1px solid #ddd;
 }
 .left_side_filter input{
     display: block;
@@ -85,10 +86,10 @@ input.check_box{
     height: 25px;
 }
 .check_box_font{
-    font-size: 1.34rem;
+    font-size: 1rem;
 }
 .main-text{
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 .text_right{
     text-align: right;

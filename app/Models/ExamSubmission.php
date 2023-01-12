@@ -25,4 +25,5 @@ class ExamSubmission extends Model
     {
         return $this->belongsTo(Exam::class, 'exam_id');
     }
+    
 }
