@@ -319,7 +319,7 @@ class FrontendController extends Controller
     public function userDashboard()
     {
         $user_id = Auth::user()->id;
-        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->groupBy('user_id')->get();
+        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->groupBy('exam_id')->get();
 
         foreach($result as $row)
         {
