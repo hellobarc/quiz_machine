@@ -29,7 +29,7 @@
                             <li class="nav-item mx-4">
                               <a class="nav-link text-dark" href="#">Blog</a>
                             </li>
-                            
+
                           </ul>
                         </div>
                       </nav>
@@ -42,16 +42,18 @@
                   @endphp
                   @if(Auth::check())
                   <div class="custom_dropdown">
-                    <a class="navbar-font text-dark text-decoration-none dropbtn" href="#" style="cursor: pointer;">
-                      {{Auth::user()->name}} <i class="fa-solid fa-angle-down"></i>
-                    </a>
+                        <a class="navbar-font text-dark text-decoration-none dropbtn" href="#" style="cursor: pointer;">
+                        {{Auth::user()->name}} <i class="fa-solid fa-angle-down"></i>
+                        </a>
                     <div class="dropdown-content">
                       <a href="{{route('frontend.user.dashboard')}}">Dashboard</a>
                       <a href="{{route('frontend.user.logout')}}">Logout</a>
                     </div>
                   </div>
                   @else
-                    <a class="navbar-font text-dark text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#useLogin">Login</a>
+                    <div id="auth_info">
+                        <a class="navbar-font text-dark text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#useLogin">Login</a>
+                    </div>
                   @endif
                 </div>
             </div>
@@ -103,7 +105,7 @@
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mx-auto">
                       <form id="signUpLogin">
-                        
+
                         <div class="mb-3">
                           <label for="name" class="form-label">Name</label>
                           <input type="text" class="form-control" name="name" id="register_name" placeholder="Enter your name">
@@ -134,11 +136,11 @@
       </div>
     <!-- LoginModal end-->
 </header>
-
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
+
+
   $("#user_login").show();
   $("#user_register").hide();
   $("#login").addClass('user_login_registration_active');
@@ -156,12 +158,11 @@ $(document).ready(function(){
     $("#login").removeClass('user_login_registration_active');
     $("#register").addClass('user_login_registration_active');
   });
-});
-</script>
-<script>
-  $(document).ready(function(){
-      $('#handleAjaxLogin').submit(function (e) {
+
+
+  $('#handleAjaxLogin').submit(function (e) {
           e.preventDefault();
+
           $.ajax({
               type:'POST',
               url:"{{route('frontend.user.login')}}",
@@ -173,22 +174,34 @@ $(document).ready(function(){
               success: function(data){
                 $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" >New check</button>`);
                 $("#useLogin").modal('hide');
+
+                 let info_content =  ` <div class="custom_dropdown">
+                                            <a class="navbar-font text-dark text-decoration-none dropbtn" href="#" style="cursor: pointer;">
+                                           ${data.data.name}<i class="fa-solid fa-angle-down"></i>
+                                            </a>
+                                        <div class="dropdown-content">
+                                        <a href="{{route('frontend.user.dashboard')}}">Dashboard</a>
+                                        <a href="{{route('frontend.user.logout')}}">Logout</a>
+                                        </div>
+                                    </div>`;
+                 $("#auth_info").html(info_content);
+
+
+                 //   console.log(Auth_info);
               },
               error: function(data){
-                  console.log($data);
+                  console.log(data);
               }
           });
 
           return false;
       });
-  });
-</script>
-<script>
-  $(document).ready(function(){
+
+
       $('#signUpLogin').submit(function (e) {
         //alert('registration');
           e.preventDefault();
-          
+
           //return false;
           $.ajax({
               type:'POST',
@@ -199,21 +212,24 @@ $(document).ready(function(){
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
               },
               success: function(data){
-                //alert('Register Successful');		
+                //alert('Register Successful');
                 $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" >New check</button>`);
                 $("#useLogin").modal('hide');
-                
-                //window.location.reload();
+                let info_content =  `<a href="{{route('frontend.user.dashboard')}}">Dashboard</a><a href="{{route('frontend.user.logout')}}">Logout</a>`;
+                $("#auth_info").html(info_content);
               },
               error: function(data){
-                  console.log($data);
+                  console.log(data);
               }
           });
 
           return false;
       });
-  });
+
+
+
+});
 </script>
 
 
-  
+

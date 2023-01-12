@@ -19,36 +19,68 @@ class FrontendController extends Controller
 {
     public function frontendHome()
     {
+
+        $data['title'] = "Home Page";
+        $data['meta_description'] = "Home Page";
+        $data['bread_chrumb'] = "Home";
+
         $exams = Exam::get();
         $categories = Category::all();
         $levels = Level::all();
         return view('frontend.home', compact('exams', 'categories', 'levels'));
     }
+
+
     public function frontendJsonExam(Request $request)
     {
+
+
+
         if($request->filter_var!=null){
-            
-            dd($request->filter_var);
-           
+            // ALGORITHM //
+            // 1.
+            $level_ids = [];
+            $category_ids = [];
+            $lavel_search = false;
+            $category_search = false;
+
+           // dd($request->filter_var );
             foreach($request->filter_var as $rows){
-                $filter_type = $rows->filter_type;
-                $filter_id = $rows->filter_id;
-
-                 $exam_query = Exam::query();
-
-                if($request->filter_type == 'level'){
-                    //$level = Exam::where('level_id', $filter_id)->get();
+                $filter_type = $rows['filter_type'];
+                $filter_id = $rows['filter_id'];
+                $exam_query = Exam::query();
+             //  $exam_query->where('level_id',  $filter_id );
+                if($filter_type== 'level'){
+                    $lavel_search = true;
+                    array_push($level_ids,$filter_id);
                 }
-                 $exam_query->get();
+
+                if($filter_type== 'category'){
+                    $category_search = true;
+                    array_push($category_ids,$filter_id);
+                }
+
+                if( $lavel_search ){
+                    $exam_query->orWhereIn('level_id', $level_ids);
+                }
+
+                if( $category_search ){
+                    $exam_query->orWhereIn('category_id', $category_ids);
+                }
+
+
             }
-            dd($level);
+
+
+            $exams =  $exam_query->get();
         }else{
-            $exams = Exam::with('category', 'level')->get();
+            $exams = Exam::get();
         }
-        
+
         $response = [
             'success' => 200,
-            'data' => $exams,
+          //  'filter_ids' =>   $filter_ids,
+            'data' =>$exams,
             // 'check' => $exams,
         ];
         return response()->json($response, 202);
@@ -89,6 +121,11 @@ class FrontendController extends Controller
     }
     public function frontendExamChecked(Request $request)
     {
+
+        $data['title'] = "Home Page";
+        $data['meta_description'] = "Home Page";
+        $data['bread_chrumb'] = "Home";
+
         $user_id = Auth::user()->id;
         $test_id = $request->test_id;
         $submittedAns = [];
@@ -127,16 +164,21 @@ class FrontendController extends Controller
 
         $question = $totalQuestion + $countOption;
         $marks = $obtainMarks + $result;
-           
+
         }
 
-        
+
         //dd($marks);
         return view('frontend.exam-checked', compact('exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown', 'radioExamSubmission', 'multipleChoiceExamSubmission', 'dropDownExamSubmission', 'fillBlankExamSubmission', 'question', 'marks'));
 
     }
     public function frontendExamUserAns(Request $request)
     {
+
+        $data['title'] = "Exam x...";
+        $data['meta_description'] = "Home Page";
+        $data['bread_chrumb'] = "Home";
+
         $data = $request->input();
         //dd($data);
         $exam_id = $data['exam_id'];
@@ -158,7 +200,7 @@ class FrontendController extends Controller
         $dropdownQuestionId = $data['dropDown_question_id'];
         $dropDown_quiz_type = $data['dropDown_quiz_type'];
         $submitType = $data['submitType'];
-        
+
         if(isset($radios)){
             foreach($radios as $index=>$radio){
                     foreach($radiosAns as $key=>$rAns){
@@ -172,11 +214,11 @@ class FrontendController extends Controller
                                 if($decode[0] == $ans[0]){
                                     $is_correct = "yes";
                                 }else{
-                                  $is_correct = "no";  
+                                  $is_correct = "no";
                                 }
                             }
                             $array = ['quiz_id'=>$radio,'exam_id'=>$exam_id,'question_id'=>$radioQuestionId[$index], 'fillblankans'=> NULL, 'submitted_ans'=>$ans, 'quiz_type' => $radio_quiz_type, 'is_correct'=>$is_correct];
-                        } 
+                        }
                     }
                 $this->examCreate($array);
             }
@@ -187,10 +229,10 @@ class FrontendController extends Controller
                 $question_id = $multipleQuestionId[$key];
                 foreach($multiples as $index=>$quiz_id){
 
-                    // 1. Pick the question detail by this question_id = $multipleQuestionId[$key] 
+                    // 1. Pick the question detail by this question_id = $multipleQuestionId[$key]
 
                     $allMultipleChoice = MultipleChoice::find($question_id);
-                    
+
                     $correct_array = json_decode($allMultipleChoice->is_correct);
                     if( in_array($userAns, $correct_array )  ){
                         $iscorrect= 'yes';
@@ -201,19 +243,19 @@ class FrontendController extends Controller
                     $this->examCreate($array);
                 }
             }
-            
+
         }
 
         $fill_correct = 0;
 
         if(isset($fillblanks)){
-        
+
             foreach($fillblanks as $index=>$fillblank){
                 $question_id = $fillblankQuestionId[$index];
 
                 $fillBlankInfo = FillBlank::find($question_id);
                 $correct_array = json_decode($fillBlankInfo->blank_answer);
-                
+
                 foreach($correct_array as $key=>$values){
                     $pos = strpos(" ".strtolower($values),strtolower($fillblankArr[$key]));
                     if($pos!=null)
@@ -230,11 +272,11 @@ class FrontendController extends Controller
             foreach($dropdownsAns as $key=>$values){
                 $question_id = $dropdownQuestionId[$key];
                 foreach($dropdowns as $index=>$dropdown){
-                    
-    
+
+
                     $dropDownInfo = QuizDropdown::find($question_id);
                     $correct_array = json_decode($dropDownInfo->is_correct);
-    
+
                     if($correct_array[0] == $values){
                         $is_correct = 'yes';
                     }else{
@@ -244,14 +286,14 @@ class FrontendController extends Controller
                     $this->examCreate($array);
                 }
             }
-            
+
         }
         if($submitType == 'check'){
             return redirect()->route('frontend.exam.checked', ['test_id'=>$exam_id]);
         }else{
             return redirect()->route('frontend.exam.congratulation', ['test_id'=>$exam_id]);
         }
-        
+
     }
 
     private function examCreate($array)
@@ -271,6 +313,10 @@ class FrontendController extends Controller
 
     public function congratulation(Request $request, $test_id)
     {
+        $data['title'] = "Cong ...";
+        $data['meta_description'] = "Home Page";
+        $data['bread_chrumb'] = "Home";
+
         $user_id = Auth::user()->id;
         $exams = Exam::where('id', $test_id)->first();
         //mark calculation
@@ -318,8 +364,13 @@ class FrontendController extends Controller
 
     public function userDashboard()
     {
+        $data['title'] = "Home Page";
+        $data['meta_description'] = "Home Page";
+        $data['bread_chrumb'] = "Home";
+
+
         $user_id = Auth::user()->id;
-        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->groupBy('user_id')->get();
+        $result = ExamSubmission::where('user_id', $user_id)->with('exam')->groupBy('exam_id')->get();
 
         foreach($result as $row)
         {
@@ -332,7 +383,7 @@ class FrontendController extends Controller
             $level = Level::find($level_id);
             $category = Category::find($category_id);
 
-        
+
 
             //mark calculation
             $totalQuestion = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
@@ -367,12 +418,12 @@ class FrontendController extends Controller
                 'exam_total_question' =>$question,
                 'exam_total_marks' =>$marks,
             );
-            
+
         }
-      
+
        //dd($data);
         return view('frontend.user.dashboard')->with(['mydata'=>$data]);
-    
+
     }
 
 }

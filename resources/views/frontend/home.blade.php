@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 @include('frontend.partials.flash-message')
-                
+
                 <div class="col-xl-6 col-lg-6 col-md-6 col-md-6 col-sm-6 col-xs-6"></div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-md-66 col-sm-12 col-xs-12">
                     <div class="mt-3">
@@ -34,7 +34,7 @@
                         @foreach ($levels as $level)
                             <div class="d-flex">
                                 <div class="side-bar-font mt-1 d-block">
-                                    <input type="checkbox" class="check_box" value="{{$level->id}}" onclick="showExam('level',this.value)">
+                                    <input type="checkbox" class="check_box" value="{{$level->id}}" onclick="showExam(this,'level',this.value)">
                                 </div>
                                 <div class="check_box_font mt-2">
                                     <span>{{$level->name}}</span>
@@ -47,7 +47,7 @@
                         @foreach ($categories as $category)
                             <div class="d-flex">
                                 <div class="side-bar-font mt-1">
-                                    <input type="checkbox" class="check_box" value="{{$category->id}}" onclick="showExam('category',this.value)">
+                                    <input type="checkbox" class="check_box" value="{{$category->id}}" onclick="showExam(this,'category',this.value)">
                                 </div>
                                 <div class="check_box_font mt-2">
                                     <span>{{$category->name}}</span>
@@ -77,7 +77,7 @@
                     <!-- service section end -->
                 </div>
             </div>
-            
+
         </div>
     </section>
     <!-- main section end -->
@@ -89,10 +89,8 @@
     });
 
 
-    var filter_var = [];
-
     function dataLoad(filter_var=null){
-        
+
         $.ajax({
                 type:'GET',
                 url:"{{route('frontend.exam.show')}}",
@@ -121,7 +119,7 @@
                                                 </p>
                                             </div>
                                             <div class="pb-4 text-center">
-                                                <a href="frontend/exam-info/${item.id}" class="btn test-start-button">Start Test</a> 
+                                                <a href="frontend/exam-info/${item.id}" class="btn test-start-button">Start Test</a>
                                             </div>
                                         </div>
                                     </div> `;
@@ -139,8 +137,14 @@
 
   </script>
   <script>
-    function showExam(filter_type,clicked_id){
-        filter_var.push({filter_type: filter_type, filter_id: clicked_id});
+    var filter_var = [];
+    function showExam(event,filter_type,clicked_id){
+        if(event.checked){
+            filter_var.push({filter_type: filter_type, filter_id: clicked_id});
+        }else{
+            var index = filter_var.indexOf({filter_type: filter_type, filter_id: clicked_id});
+            filter_var.splice(index, 1);
+        }
         dataLoad(filter_var);
     }
   </script>
@@ -149,9 +153,9 @@
     $(document).ready(function(){
         $(document).on('keyup', '#search', function(e){
             e.preventDefault();
-            
+
             let search_string = $('#search').val();
-            
+
             $.ajax({
                 url:"{{ route('frontend.exam.search') }}",
                 method:'GET',
@@ -178,7 +182,7 @@
                                                 </p>
                                             </div>
                                             <div class="pb-4 text-center">
-                                                <a href="frontend/exam-info/${item.id}" class="btn test-start-button">Start Test</a> 
+                                                <a href="frontend/exam-info/${item.id}" class="btn test-start-button">Start Test</a>
                                             </div>
                                         </div>
                                     </div> `;
