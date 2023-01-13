@@ -12,6 +12,10 @@ use App\Interfaces\ExamRepositoryInterface;
 use App\Repositories\ExamRepository;
 use App\Interfaces\QuizRepositoryInterface;
 use App\Repositories\QuizRepository;
+use App\Interfaces\MockRepositoryInterface;
+use App\Repositories\MockRepository;
+use App\Interfaces\MockQuestionRepositoryInterface;
+use App\Repositories\MockQuestionRepository;
 
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -38,6 +42,14 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             QuizRepositoryInterface::class, 
             QuizRepository::class
+            );
+        $this->app->bind(
+            MockRepositoryInterface::class, 
+            MockRepository::class
+            );
+        $this->app->bind(
+            MockQuestionRepositoryInterface::class, 
+            MockQuestionRepository::class
             );
 
     }

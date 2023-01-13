@@ -16,4 +16,8 @@ class MockDropDown extends Model
         'is_correct',
         'marks',
     ];
+    public function mockQuestion()
+    {
+        return $this->belongsTo(MockQuestion::class, 'mock_question_id');
+    }
 }

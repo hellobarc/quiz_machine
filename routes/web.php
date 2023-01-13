@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ListeningController;
+use App\Http\Controllers\Admin\Mock\MockController;
+use App\Http\Controllers\Admin\Mock\MockQuestionController;
+use App\Http\Controllers\Admin\Mock\AddMockQuestionController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\UserAuthenticationController;
 
@@ -82,7 +85,23 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::get('/listening/delelete/perm/{id}',  [ListeningController::class, 'listeningDelete'])->name('admin.settings.quiz.delete-listening');
     Route::get('/quiz/fillBlank/box/{quizId}/{quizType}',  [QuestionController::class, 'showOptionBox'])->name('admin.settings.quiz.show.box');
     Route::post('/quiz/fillBlank/box/add',  [QuestionController::class, 'showOptionBoxUpdate'])->name('admin.settings.quiz.update.box');
-
+    //mock test route
+    Route::get('/mock',  [MockController::class, 'allMock'])->name('admin.settings.mock');
+    Route::get('/mock/create',  [MockController::class, 'createMock'])->name('admin.settings.mock.create');
+    Route::post('/mock/store',  [MockController::class, 'storeMock'])->name('admin.settings.mock.store');
+    Route::get('/mock/edit/{id}',  [MockController::class, 'editMock'])->name('admin.settings.mock.edit');
+    Route::post('/mock/update/{id}',  [MockController::class, 'updateMock'])->name('admin.settings.mock.update');
+    Route::get('/mock/delete/{id}',  [MockController::class, 'deleteMock'])->name('admin.settings.mock.delete');
+    // mock question route
+    Route::get('/mock/question',  [MockQuestionController::class, 'allMockQuestion'])->name('admin.settings.mock.question');
+    Route::get('/mock/question/create',  [MockQuestionController::class, 'createMockQuestion'])->name('admin.settings.mock.question.create');
+    Route::post('/mock/question/store',  [MockQuestionController::class, 'storeMockQuestion'])->name('admin.settings.mock.question.store');
+    Route::get('/mock/question/edit/{id}',  [MockQuestionController::class, 'editMockQuestion'])->name('admin.settings.mock.question.edit');
+    Route::post('/mock/question/update/{id}',  [MockQuestionController::class, 'updateMockQuestion'])->name('admin.settings.mock.question.update');
+    Route::get('/mock/question/delete/{id}',  [MockQuestionController::class, 'deleteMockQuestion'])->name('admin.settings.mock.question.delete');
+    // mock add question route
+    Route::get('/mock/add-question/{questionType}/{questionId}',  [AddMockQuestionController::class, 'addMockQuestion'])->name('admin.settings.mock.add-question');
+    Route::post('/store-question/multiple-choice', [AddMockQuestionController::class, 'mockStoreMultipleChoice'])->name('admin.settings.mock.multiple-choice.store-question');
 });
 
 // frontend routes

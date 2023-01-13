@@ -58,6 +58,19 @@
 					<li><a href="{{route('admin.settings.quiz')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Quiz</a></li>
 				  </ul>
 				</li>
+				<li class="treeview">
+				  <a href="#">
+					<i span class="fa-solid fa-book"><span class="path1"></span><span class="path2"></span></i>
+					<span>Mock</span>
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+				  </a>
+				  <ul class="treeview-menu">
+					<li><a href="{{route('admin.settings.mock')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Mock</a></li>
+					<li><a href="{{route('admin.settings.mock.question')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Manage Mock Question</a></li>
+				  </ul>
+				</li>
 			  </ul>
 		  </div>
 		</div>

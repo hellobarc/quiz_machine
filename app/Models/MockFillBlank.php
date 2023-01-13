@@ -17,4 +17,8 @@ class MockFillBlank extends Model
         'marks',
         'instruction',
     ];
+    public function mockQuestion()
+    {
+        return $this->belongsTo(MockQuestion::class, 'mock_question_id');
+    }
 }

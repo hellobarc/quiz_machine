@@ -15,4 +15,8 @@ class MockQuestion extends Model
         'module',
         'passage_id',
     ];
+    public function mock()
+    {
+        return $this->belongsTo(Mock::class, 'mock_id');
+    }
 }
