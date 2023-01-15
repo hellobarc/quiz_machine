@@ -30,53 +30,56 @@
                       </div>
                       <div style="text-align:right;"><p id="timer" class="sub-title mt-2"></p></div>
                       {{-- quiz radio start --}}
-                        @if($quizRadio != NULL)
-                            <p class="main-text">Choose the correct option</p>
-                            @foreach ($quizRadio as $rows)
-                                @php
-                                    $options = json_decode($rows->quizRadio[0]->option_text);
-                                    $correct_ans = json_decode($rows->quizRadio[0]->is_correct);
-                                    $submitted_ans = json_decode($radioExamSubmission[$loop->index]['submitted_ans']);
-                                @endphp
-                                <div class="questions_radio">
-                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p>
-                                    @foreach( $options as $key=>$option)
-                                        <div class="d-flex">
-                                            @if(in_array( $loop->index ,$correct_ans))
-                                                <div class="side-bar-font">
-                                                    <input type="radio" class="check_box" checked="checked">
-                                                </div>
-                                                <div class="check_box_font">
-                                                    <span class="right_radio">
-                                                        {{$option}}
-                                                            <i class="fa-solid fa-check right_radio"></i>
-                                                    </span>
-                                                </div>
-                                            @else
-                                                <div class="side-bar-font">
-                                                    <input type="radio" class="check_box">
-                                                </div>
-                                                <div class="check_box_font">
-                                                    @if($correct_ans != $submitted_ans[0])
-                                                        @if($key == $submitted_ans[0])
-                                                            <span class="wrong_radio">
-                                                                {{$option}}
-                                                                    <i class="fa-solid fa-xmark wrong_radio"></i>
-                                                            </span>
-                                                        @else
-                                                            <span class="">
-                                                                {{$option}}
+                      @if($quizRadio != NULL)
+                      <p class="main-text">Choose the correct option</p>
+                      @foreach ($quizRadio as $rows)
+                          @foreach ($rows->quizRadio as $radioQuestion)
+                              @php
+                              dd($rows->quizRadio );
+                                  $options = json_decode($radioQuestion->option_text);
+                                  $correct_ans = json_decode($radioQuestion->is_correct);
+                                  $submitted_ans = json_decode($radioExamSubmission[$loop->index]['submitted_ans']);
+                              @endphp
+                              <div class="questions_radio">
+                                  <p class="check_box_font">{{$loop->index+1}}. {{$radioQuestion->text}}</p>
+                                  @foreach( $options as $key=>$option)
+                                      <div class="d-flex">
+                                          @if(in_array( $loop->index ,$correct_ans))
+                                              <div class="side-bar-font">
+                                                  <input type="radio" class="check_box" checked="checked">
+                                              </div>
+                                              <div class="check_box_font">
+                                                  <span class="right_radio">
+                                                      {{$option}}
+                                                          <i class="fa-solid fa-check right_radio"></i>
+                                                  </span>
+                                              </div>
+                                          @else
+                                              <div class="side-bar-font">
+                                                  <input type="radio" class="check_box">
+                                              </div>
+                                              <div class="check_box_font">
+                                                  @if($correct_ans != $submitted_ans[0])
+                                                      @if($key == $submitted_ans[0])
+                                                          <span class="wrong_radio">
+                                                              {{$option}}
+                                                                  <i class="fa-solid fa-xmark wrong_radio"></i>
+                                                          </span>
+                                                      @else
+                                                          <span class="">
+                                                              {{$option}}
 
-                                                            </span>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
-                        @endif
+                                                          </span>
+                                                      @endif
+                                                  @endif
+                                              </div>
+                                          @endif
+                                      </div>
+                                  @endforeach
+                              </div>
+                          @endforeach
+                      @endforeach
+                  @endif
                         {{-- quiz radio end --}}
                         {{-- quiz multiple choice start --}}
                         @if($multipleChoice != NULL)

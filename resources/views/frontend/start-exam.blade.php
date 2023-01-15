@@ -44,26 +44,30 @@
                             @foreach ($quizRadio as $rows)
                                 <input type="hidden" name="radio[]" value="{{$rows->id}}">
                                 <input type="hidden" name="radio_quiz_type" value="{{$rows->quiz_type}}">
-                                <input type="hidden" name="radio_question_id[]" value="{{$rows->quizRadio[0]->id}}">
                                 @php
                                     $countRadio = $rows->quiz_radio_count;
-                                    $options = json_decode($rows->quizRadio[0]->option_text);
                                     $big_loop = $loop->index;
                                     $total_question += $countRadio;
                                 @endphp
-                                <div class="questions_radio">
-                                <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p>
-                                    @foreach( $options as $option)
-                                        <div class="d-flex">
-                                            <div class="side-bar-font">
-                                                <input type="radio" class="check_box" name="radioAns[{{$rows->id}}][]" value="{{$loop->index}}" onclick="countSelected(event)">
+                                @foreach ($rows->quizRadio as $radioQuestion)
+                                    <input type="hidden" name="radio_question_id[]" value="{{$radioQuestion->id}}">
+                                    @php
+                                        $options = json_decode($radioQuestion->option_text);
+                                    @endphp
+                                    <div class="questions_radio">
+                                    <p class="check_box_font">{{$loop->index+1}}. {{$radioQuestion->text}}</p>
+                                        @foreach( $options as $option)
+                                            <div class="d-flex">
+                                                <div class="side-bar-font">
+                                                    <input type="radio" class="check_box" name="radioAns[{{$radioQuestion->id}}][]" value="{{$loop->index}}" onclick="countSelected(event)">
+                                                </div>
+                                                <div class="check_box_font">
+                                                    <span>{{$option}}</span>
+                                                </div>
                                             </div>
-                                            <div class="check_box_font">
-                                                <span>{{$option}}</span>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
                             @endforeach
                         @endif
                         {{-- quiz radio end --}}
@@ -86,7 +90,7 @@
                                         <div class="main-text">
                                             <input type="hidden"  value="" id="user_multiple_choice_{{$items->id}}" name="user_multipe_ans[]">
                                             @foreach( $options as $key=>$option)
-                                                <p class="mltiple_choice_option option_item{{$items->id}}" id="multipleColorChange_{{$items->id}}{{$key}}" onclick="hitMultipleChoice({{$key}},{{$items->id}}); countSelected(event)">{{$option}}</p>
+                                                <div  class="mltiple_choice_option option_item{{$items->id}} col-md-6 col-sm-12" id="multipleColorChange_{{$items->id}}{{$key}}" onclick="hitMultipleChoice({{$key}},{{$items->id}}); countSelected(event)">{{$option}}</div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -231,7 +235,6 @@
     const startingMinutes = "{{$time_limit}}";
     let time = startingMinutes * 60;
     let myInterval = setInterval(updateCountDown, 1000);
-
     function updateCountDown(){
         var countdownEle = document.getElementById('countdown');
         const minutes = Math.floor( time /60 );

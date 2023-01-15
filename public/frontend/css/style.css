@@ -99,7 +99,14 @@ input.check_box{
 }
 .check_box_font{
     font-size: 1rem;
+    font-weight: bold;
+    color: #284664;
 }
+
+.check_box_font span{
+    font-weight: 400;
+}
+
 .main-text{
     font-size: 1rem;
 }
@@ -329,21 +336,20 @@ input[name="wrong_radio"] {
 /* fith page css start */
 .mltiple_choice_option{
     background-color: #D9D9D9;
-    width: 100%;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    margin: 5px 0;
 }
 .mltiple_choice_option_correct{
     background-color: #00c437;
-    width: 100%;
+
     padding: 5px 10px;
     border-radius: 5px;
     position: relative;
 }
 .mltiple_choice_option_wrong{
     background-color: red;
-    width: 100%;
     padding: 5px 10px;
     border-radius: 5px;
     position: relative;

@@ -146,7 +146,7 @@ class FrontendController extends Controller
             $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
             $dropDown = Quiz::withCount(['dropDown'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
         }
-        //dd($exams);
+      //  dd($quizRadio);
         return view('frontend.start-exam', compact('test_id','exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown','time_limit'));
 
     }
@@ -270,16 +270,18 @@ class FrontendController extends Controller
         $multiplesAns = $data['user_multipe_ans'];
         $multipleQuestionId = $data['multiple_question_id'];
         $multiple_quiz_type = $data['multiple_quiz_type'];
-        $fillblanks = $data['fillblanks'];
-        $fillblankQuestionId = $data['fillBlank_question_id'];
-        $fillBlank_quiz_type = $data['fillBlank_quiz_type'];
-        $fillblankArr = $data['user_fillBlank_ans'];
-        $fillblankJson = json_encode($data['user_fillBlank_ans']);
+        $fillblanks = isset($data['fillblanks'])?$data['fillblanks']:null;
+        $fillblankQuestionId = isset($data['fillBlank_question_id'])?$data['fillBlank_question_id']:null;
+        $fillBlank_quiz_type = isset($data['fillBlank_quiz_type'])?$data['fillBlank_quiz_type']:null;
+        $fillblankArr = isset($data['user_fillBlank_ans'])?$data['fillBlank_quiz_type']:null;
+        $fillblankJson = json_encode(isset($data['user_fillBlank_ans'])?$data['user_fillBlank_ans']:null);
         $dropdowns = $data['dropdown'];
         $dropdownsAns = $data['user_dropDown_ans'];
         $dropdownQuestionId = $data['dropDown_question_id'];
         $dropDown_quiz_type = $data['dropDown_quiz_type'];
         $submitType = $data['submitType'];
+
+      //  dd($data);
 
         if(isset($radios)){
             foreach($radios as $index=>$radio){
@@ -304,24 +306,22 @@ class FrontendController extends Controller
             }
         }
         if(isset($multiples)){
-            foreach($multiplesAns as $key => $multipleBlanksAns){
-                $userAns = $multipleBlanksAns;
-                $question_id = $multipleQuestionId[$key];
-                foreach($multiples as $index=>$quiz_id){
 
-                    // 1. Pick the question detail by this question_id = $multipleQuestionId[$key]
+            foreach($multiplesAns as $key => $multipleBlanksAns){ // 15 tme
+                $question_id = $multipleQuestionId[$key];
 
                     $allMultipleChoice = MultipleChoice::find($question_id);
-
+                    $quiz_id =$allMultipleChoice->quiz_id;
                     $correct_array = json_decode($allMultipleChoice->is_correct);
-                    if( in_array($userAns, $correct_array )  ){
+
+                    if( in_array( $multipleBlanksAns, $correct_array )  ){
                         $iscorrect= 'yes';
                     }else{
                         $iscorrect= 'no';
                     }
-                    $array = ['quiz_id'=>$quiz_id,'exam_id'=>$exam_id, 'question_id'=> $question_id, 'fillblankans'=> NULL, 'submitted_ans'=>$userAns, 'quiz_type' => $multiple_quiz_type, 'is_correct'=>  $iscorrect];
+                    $array = ['quiz_id'=>$quiz_id,'exam_id'=>$exam_id, 'question_id'=> $question_id, 'fillblankans'=> NULL, 'submitted_ans'=>$multipleBlanksAns, 'quiz_type' => $multiple_quiz_type, 'is_correct'=>  $iscorrect];
                     $this->examCreate($array);
-                }
+
             }
 
         }
@@ -466,7 +466,6 @@ class FrontendController extends Controller
             $category = Category::find($category_id);
 
 
-
             //mark calculation
             $totalQuestion = ExamSubmission::where('user_id', $user_id)->where('exam_id', $test_id)
                                             ->where('quiz_type', '!=', 'fill-blank')
@@ -488,7 +487,6 @@ class FrontendController extends Controller
 
             $question = $totalQuestion + $countOption;
             $marks = $obtainMarks + $result;
-
 
             $course_data[] = array(
                 'exam_id' =>$test_id,
