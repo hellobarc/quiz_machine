@@ -39,7 +39,7 @@
                                         </div>
                                         <div>
                                             @include('admin.partials.flash-message')
-                                            <form action="{{route('admin.settings.quiz.multiple-choice.store-question')}}" method="POST">
+                                            <form action="{{route('admin.settings.quiz.multiple-choice.store-question')}}" method="POST" >
                                                 @csrf
                                                 <input type="hidden" name="quiz_id" value="{{$quizId}}">
                                                 <input type="hidden" name="quiz_type" value="{{$quizType}}">
@@ -55,17 +55,15 @@
                                                     <label for="name" class="mb-2 fw-bold">Question Option</label>
                                                     <div class="d-flex justify-content-start">
                                                         <div class="form-group">
-                                                            <input type="text" name="blank_answer[]" class="form-control" placeholder="option" required>
+                                                            <input type="text" name="blank_answer[]" class="form-control" placeholder="option">
                                                         </div>
                                                         <div class="form-check mt-2">
-                                                            <input class="form-check-input" type="checkbox" name="is_correct[]" value="0" id="flexCheckDefault" required>
+                                                            <input class="form-check-input" type="checkbox" name="is_correct[]" value="0" id="flexCheckDefault">
                                                             <label class="form-check-label" for="flexCheckDefault">is correct</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                            
-                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <input type="submit" class="btn btn-primary" value="Submit">
                                             </form>
                                         </div>
 								    </div>

@@ -101,7 +101,7 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
     Route::get('/mock/question/delete/{id}',  [MockQuestionController::class, 'deleteMockQuestion'])->name('admin.settings.mock.question.delete');
     // mock add question route
     Route::get('/mock/add-question/{questionType}/{questionId}',  [AddMockQuestionController::class, 'addMockQuestion'])->name('admin.settings.mock.add-question');
-    Route::post('/store-question/multiple-choice', [AddMockQuestionController::class, 'mockStoreMultipleChoice'])->name('admin.settings.mock.multiple-choice.store-question');
+    Route::post('/mock/store-question/multiple-choice', [AddMockQuestionController::class, 'mockStoreMultipleChoice'])->name('admin.settings.mock.multiple-choice.store-question');
 });
 
 // frontend routes

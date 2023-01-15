@@ -318,6 +318,7 @@ class FrontendController extends Controller
 
     public function userDashboard()
     {
+        $data = [];
         $user_id = Auth::user()->id;
         $result = ExamSubmission::where('user_id', $user_id)->with('exam')->groupBy('exam_id')->get();
 
@@ -370,7 +371,6 @@ class FrontendController extends Controller
             
         }
       
-       //dd($data);
         return view('frontend.user.dashboard')->with(['mydata'=>$data]);
     
     }

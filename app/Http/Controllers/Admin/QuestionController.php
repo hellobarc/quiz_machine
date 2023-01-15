@@ -63,8 +63,8 @@ class QuestionController extends Controller
     }
     public function storeMultipleChoice(Request $request) 
     {
-
         $input = $request->input();
+        //dd($input);
         $quiz_id = $input['quiz_id'];
         $text = $input['text'];
         $blank_answer = $input['blank_answer'];

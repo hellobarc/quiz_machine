@@ -20,22 +20,6 @@
                         <h2 class="fw-bolder">{{$exams->title}}</h2>
                         <p class="main-text">{{$exams->instruction}}</p>
 
-                        {{-- <p class="sub-title">Quiz  Content</p>
-                        <!-- quiz content collapse start-->
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed main-text fw-bold collapse_color" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                  <span class="mx-3"><i class="fa-solid fa-list-ul"></i> </span>  Quiz title
-                                </button>
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                  <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                </div>
-                              </div>
-                            </div>
-                        </div> --}}
                         <p class="sub-title mt-4">Learn for Quiz</p>
                         <!-- Learn for Quiz collapse start -->
                         <div class="accordion" id="accordionExample">
@@ -53,19 +37,6 @@
                                 </div>
                               </div>
                             @endforeach
-                            
-                            {{-- <div class="accordion-item mt-2">
-                              <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed main-text fw-bold collapse_color" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                  <span class="mx-3"><i class="fa-solid fa-book-open"></i></span>  Tense
-                                </button>
-                              </h2>
-                              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                  <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                </div>
-                              </div>
-                            </div> --}}
                         </div>
                         <div class="content_button">
                             <a href="{{route('frontend.exam.start', $exams->id)}}" class="btn btn-warning btn-lg fw-bolder">Start Now</a>
@@ -81,3 +52,4 @@
     </section>
     <!-- main section end -->
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
