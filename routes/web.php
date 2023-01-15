@@ -89,13 +89,13 @@ Route::group(['prefix'=> 'admin'], function ($routes) {
 Route::get('/', [FrontendController::class, 'frontendHome'])->name('frontend.home');
 
 Route::group(['prefix'=> 'frontend'], function ($routes) {
-    Route::post('/user-login', [UserAuthenticationController::class, 'login'])->name('frontend.user.login'); 
-    Route::post('/user-regitster', [UserAuthenticationController::class, 'register'])->name('frontend.user.register'); 
-    Route::get('/user-logout', [UserAuthenticationController::class, 'logout'])->name('frontend.user.logout'); 
-    Route::get('/exam-info/{test_id}', [FrontendController::class, 'frontendExamInfo'])->name('frontend.exam.info'); 
-    Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start'); 
-    Route::get('/start-exam/check/view', [FrontendController::class, 'frontendExamChecked'])->name('frontend.exam.checked'); 
-    Route::post('/start-exam/user-ans', [FrontendController::class, 'frontendExamUserAns'])->name('frontend.exam.user.ans'); 
+    Route::post('/user-login', [UserAuthenticationController::class, 'login'])->name('frontend.user.login');
+    Route::post('/user-regitster', [UserAuthenticationController::class, 'register'])->name('frontend.user.register');
+    Route::get('/user-logout', [UserAuthenticationController::class, 'logout'])->name('frontend.user.logout');
+    Route::get('/exam-info/{test_id}', [FrontendController::class, 'frontendExamInfo'])->name('frontend.exam.info');
+    Route::get('/start-exam/{test_id}', [FrontendController::class, 'frontendExamStart'])->name('frontend.exam.start');
+    Route::get('/start-exam/check/view', [FrontendController::class, 'frontendExamChecked'])->name('frontend.exam.checked');
+    Route::post('/start-exam/user-ans', [FrontendController::class, 'frontendExamUserAns'])->name('frontend.exam.user.ans');
     Route::get('/congratulation/{test_id}', [FrontendController::class, 'congratulation'])->name('frontend.exam.congratulation');
     Route::get('/test', [FrontendController::class, 'test'])->name('frontend.exam.test');
     Route::post('/check-authentication', [FrontendController::class, 'checkAuthentication'])->name('frontend.check.authentication');

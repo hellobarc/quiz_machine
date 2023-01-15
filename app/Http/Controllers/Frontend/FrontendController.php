@@ -13,6 +13,7 @@ use App\Models\ExamSubmission;
 use App\Models\MultipleChoice;
 use App\Models\FillBlank;
 use App\Models\QuizDropdown;
+use App\Models\ParticipantLog;
 use Auth;
 
 class FrontendController extends Controller
@@ -20,7 +21,7 @@ class FrontendController extends Controller
     public function frontendHome()
     {
 
-        $data['title'] = "Home Page";
+        $data['meta_title'] = "Home Page";
         $data['meta_description'] = "Home Page";
         $data['bread_chrumb'] = "Home";
 
@@ -99,30 +100,106 @@ class FrontendController extends Controller
         ];
         return response()->json($response, 202);
     }
+
+
     public function frontendExamInfo($test_id)
     {
+        $data['meta_title'] = "Home Page";
+        $data['meta_description'] = "Home Page";
+        $data['bread_chrumb'] = "Home";
+
         $exams = Exam::where('id', $test_id)->first();
         $quizzes = Quiz::where('exam_id', $test_id)->get();
         return view('frontend.test-info', compact('quizzes', 'exams'));
     }
-    public function frontendExamStart($test_id)
+
+// Exam start // Timer added by Tarique // $test_id is Exam ID
+    public function frontendExamStart(Request $request,$test_id)
     {
         $exams = Exam::where('id', $test_id)->with('category')->first();
+        $time_limit = $exams->time_limit;
+        $time = time();
+
+        $session = $request->session()->get('session');
+        $participiant_check = ParticipantLog::where('session', $session)->where('status','started')->latest()->first();
+
+       // dd( $participiant_check);
+
+        if($participiant_check==null){
+            $this->startExamSession($request,$test_id);
+        }else{
+            $participiant_check->start_time;
+            $time_different =  $time - $participiant_check->start_time;
+            $time_round = round(($time_different / 60));
+            $time_limit -=  $time_round;
+
+            if(  $time_round > $time_limit ){
+                $this->startExamSession($request,$test_id);
+            }
+
+        }
+
         //if category not equal reading
         if($exams->category != 'Reading'){
-        $quizRadio = Quiz::withCount(['quizRadio'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'radio')->with('quizRadio')->get();
-        $multipleChoice = Quiz::withCount(['multipleChoice'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'multiple-choice')->with('multipleChoice')->get();
-        $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
-        $dropDown = Quiz::withCount(['dropDown'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
+            $quizRadio = Quiz::withCount(['quizRadio'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'radio')->with('quizRadio')->get();
+            $multipleChoice = Quiz::withCount(['multipleChoice'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'multiple-choice')->with('multipleChoice')->get();
+            $fillBlank = Quiz::where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'fill-blank')->with('fillBlank')->get();
+            $dropDown = Quiz::withCount(['dropDown'])->where('exam_id', $test_id)->where('status', 'active')->where('quiz_type', 'drop-down')->with('dropDown')->get();
         }
         //dd($exams);
-        return view('frontend.start-exam', compact('test_id','exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown'));
+        return view('frontend.start-exam', compact('test_id','exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown','time_limit'));
 
     }
+
+
+    private function startExamSession(Request $request,$test_id){
+        $time = time();
+        if(Auth::user()){
+            $user_id = Auth::user()->id;
+        }else{
+            $user_id = 0;
+        }
+
+        $session = $time .'-'. rand(1000,9999);
+
+        $request->session()->put('start_time',  $time);
+        ParticipantLog::create(
+                                [
+                                    'user_id'=> $user_id,
+                                    'exam_id'=>$test_id,
+                                    'session'=> $session ,
+                                    'start_time'=>$time,
+                                    'end_time'=>0,
+                                    'status'=>'started'
+                                ]
+                             );
+        $request->session()->put('session', $session);
+    }
+
+    private function completeExamSession(Request $request,$test_id){
+
+        $time = time();
+        if(Auth::user()){
+            $user_id = Auth::user()->id;
+
+            $session = $request->session()->get('session');
+            ParticipantLog::where('session',$session)->update(
+                                    [
+                                        'user_id'=> $user_id,
+                                        'end_time'=>$time,
+                                        'status'=>'completed'
+                                    ]
+                                 );
+        }
+
+    }
+
+
+
     public function frontendExamChecked(Request $request)
     {
 
-        $data['title'] = "Home Page";
+        $data['meta_title'] = "Home Page";
         $data['meta_description'] = "Home Page";
         $data['bread_chrumb'] = "Home";
 
@@ -168,6 +245,9 @@ class FrontendController extends Controller
         }
 
 
+        $this->completeExamSession($request,$test_id);
+
+
         //dd($marks);
         return view('frontend.exam-checked', compact('exams', 'quizRadio', 'multipleChoice', 'fillBlank', 'dropDown', 'radioExamSubmission', 'multipleChoiceExamSubmission', 'dropDownExamSubmission', 'fillBlankExamSubmission', 'question', 'marks'));
 
@@ -175,7 +255,7 @@ class FrontendController extends Controller
     public function frontendExamUserAns(Request $request)
     {
 
-        $data['title'] = "Exam x...";
+        $data['meta_title'] = "Exam x...";
         $data['meta_description'] = "Home Page";
         $data['bread_chrumb'] = "Home";
 
@@ -313,7 +393,7 @@ class FrontendController extends Controller
 
     public function congratulation(Request $request, $test_id)
     {
-        $data['title'] = "Cong ...";
+        $data['meta_title'] = "Cong ...";
         $data['meta_description'] = "Home Page";
         $data['bread_chrumb'] = "Home";
 
@@ -364,9 +444,11 @@ class FrontendController extends Controller
 
     public function userDashboard()
     {
-        $data['title'] = "Home Page";
+        $data['meta_title'] = "Home Page";
         $data['meta_description'] = "Home Page";
         $data['bread_chrumb'] = "Home";
+
+        $course_data = [];
 
 
         $user_id = Auth::user()->id;
@@ -408,7 +490,7 @@ class FrontendController extends Controller
             $marks = $obtainMarks + $result;
 
 
-            $data[] = array(
+            $course_data[] = array(
                 'exam_id' =>$test_id,
                 'level_title' =>$level->name,
                 'category_title' =>$category->name,
@@ -422,7 +504,7 @@ class FrontendController extends Controller
         }
 
        //dd($data);
-        return view('frontend.user.dashboard')->with(['mydata'=>$data]);
+        return view('frontend.user.dashboard')->with(['mydata'=>$course_data,'meta'=>$data]);
 
     }
 

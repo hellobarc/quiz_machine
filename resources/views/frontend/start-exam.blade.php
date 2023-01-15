@@ -24,12 +24,12 @@
                       <div class="progress" id="progress_wrapper">
                           <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
-                      
+
                       <div class="d-flex justify-content-between mt-1" id="progress_count"></div>
                       <div style="text-align:right;" id="js_timer">
                             <p id="countdown" class="sub-title mt-2"></p>
                         </div>
-                       
+
                       <form action="{{route('frontend.exam.user.ans')}}" method="POST" enctype="multipart/form-data" id="check_form">
                         @csrf
                         <input type="hidden" name="exam_id" value="{{$exams->id}}">
@@ -47,19 +47,19 @@
                                 <input type="hidden" name="radio_question_id[]" value="{{$rows->quizRadio[0]->id}}">
                                 @php
                                     $countRadio = $rows->quiz_radio_count;
-                                    $options = json_decode($rows->quizRadio[0]->option_text);  
+                                    $options = json_decode($rows->quizRadio[0]->option_text);
                                     $big_loop = $loop->index;
                                     $total_question += $countRadio;
                                 @endphp
                                 <div class="questions_radio">
-                                <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p> 
+                                <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p>
                                     @foreach( $options as $option)
                                         <div class="d-flex">
                                             <div class="side-bar-font">
                                                 <input type="radio" class="check_box" name="radioAns[{{$rows->id}}][]" value="{{$loop->index}}" onclick="countSelected(event)">
                                             </div>
                                             <div class="check_box_font">
-                                                <span>{{$option}}</span>  
+                                                <span>{{$option}}</span>
                                             </div>
                                         </div>
                                     @endforeach
@@ -79,7 +79,7 @@
                                 @foreach ($rows->multipleChoice as $items)
                                     <input type="hidden" name="multiple_question_id[]" value="{{$items->id}}">
                                     @php
-                                        $options = json_decode($items->option_text);  
+                                        $options = json_decode($items->option_text);
                                     @endphp
                                     <div class="questions_radio">
                                         <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
@@ -133,7 +133,7 @@
                                     @endphp
                                 @foreach ($rows->dropDown as $items)
                                     @php
-                                        $options = json_decode($items->option_text);  
+                                        $options = json_decode($items->option_text);
                                     @endphp
                                      <input type="hidden" name="dropDown_question_id[]" value="{{$items->id}}">
                                     <div class="questions_radio">
@@ -143,7 +143,7 @@
                                                 @foreach( $options as $key=>$option)
                                                     <option value="{{$key}}">{{$option}}</option>
                                                 @endforeach
-                                            </select> 
+                                            </select>
                                         </div>
                                     </div>
                                 @endforeach
@@ -159,10 +159,10 @@
                                     </div>
                                 @else
                                     <div id="uncheck_button">
-                                        <button type="submit" class="btn btn-dark fw-bolder" id="checkAuth" >check</button>
+                                        <button type="submit" class="btn btn-dark fw-bolder" id="checkAuth"  name="submitType" value="check" >check</button>
                                         <!-- next page button -->
                                         <div class="text_right">
-                                            <button type="submit" class="btn btn-dark btn-lg fw-bolder" id="resultCheckAuth">Next <i class="fa-solid fa-angle-right"></i></button>
+                                            <button type="submit" class="btn btn-dark btn-lg fw-bolder" id="resultCheckAuth" name="submitType" value="next">Next <i class="fa-solid fa-angle-right"></i></button>
                                         </div>
                                     </div>
                                 @endif
@@ -172,13 +172,13 @@
                                 </div> --}}
                             </form>
                         </div>
-                        
+
                   </div>
                   <!-- main content start -->
                   <!-- content wrapper start -->
               </div>
           </div>
-          
+
       </div>
   </section>
     <!-- main section end -->
@@ -218,35 +218,30 @@
         event.target.classList.add('ans_done')
         let click_count = document.querySelectorAll('.ans_done').length;
         console.log(click_count);
-        let percentages =    percentage(click_count, total_question); 
+        let percentages =    percentage(click_count, total_question);
         document.getElementById("progress_wrapper").innerHTML =  `<div class="progress-bar bg-warning" role="progressbar" style="width: ${percentages}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>`;
         document.getElementById("progress_count").innerHTML =  `<p>${percentages}% Completed</p><p>${click_count} of ${total_question}</p>`;
     }
 
     function percentage(partialValue, totalValue) {
         return Math.round((100 * partialValue) / totalValue);
-    } 
+    }
 </script>
-<script> 
-    const startingMinutes = "{{$exams->time_limit}}";
+<script>
+    const startingMinutes = "{{$time_limit}}";
     let time = startingMinutes * 60;
-
-
-    var myInterval = setInterval(updateCountDown, 1000);
-
-
-
+    let myInterval = setInterval(updateCountDown, 1000);
 
     function updateCountDown(){
         var countdownEle = document.getElementById('countdown');
-        const minutes = Math.floor( time /60 );  
+        const minutes = Math.floor( time /60 );
         let seconds = time % 60;
         //seconds = seconds < 10 ? '0' + seconds : seconds;
         countdownEle.innerHTML = `${minutes} : ${seconds}`;
         time--;
         if(minutes==0 && seconds==0){
             countdownEle.innerHTML = "EXPIRED";
-            clearInterval(myInterval); 
+            clearInterval(myInterval);
         }
     }
 
@@ -254,4 +249,3 @@
 
 
 
-    

@@ -34,12 +34,12 @@
                             <p class="main-text">Choose the correct option</p>
                             @foreach ($quizRadio as $rows)
                                 @php
-                                    $options = json_decode($rows->quizRadio[0]->option_text);  
-                                    $correct_ans = json_decode($rows->quizRadio[0]->is_correct);   
+                                    $options = json_decode($rows->quizRadio[0]->option_text);
+                                    $correct_ans = json_decode($rows->quizRadio[0]->is_correct);
                                     $submitted_ans = json_decode($radioExamSubmission[$loop->index]['submitted_ans']);
                                 @endphp
                                 <div class="questions_radio">
-                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p> 
+                                    <p class="check_box_font">{{$loop->index+1}}. {{$rows->quizRadio[0]->text}}</p>
                                     @foreach( $options as $key=>$option)
                                         <div class="d-flex">
                                             @if(in_array( $loop->index ,$correct_ans))
@@ -47,8 +47,8 @@
                                                     <input type="radio" class="check_box" checked="checked">
                                                 </div>
                                                 <div class="check_box_font">
-                                                    <span class="right_radio"> 
-                                                        {{$option}} 
+                                                    <span class="right_radio">
+                                                        {{$option}}
                                                             <i class="fa-solid fa-check right_radio"></i>
                                                     </span>
                                                 </div>
@@ -59,14 +59,14 @@
                                                 <div class="check_box_font">
                                                     @if($correct_ans != $submitted_ans[0])
                                                         @if($key == $submitted_ans[0])
-                                                            <span class="wrong_radio"> 
-                                                                {{$option}} 
+                                                            <span class="wrong_radio">
+                                                                {{$option}}
                                                                     <i class="fa-solid fa-xmark wrong_radio"></i>
                                                             </span>
                                                         @else
-                                                            <span class=""> 
-                                                                {{$option}} 
-                                                                    
+                                                            <span class="">
+                                                                {{$option}}
+
                                                             </span>
                                                         @endif
                                                     @endif
@@ -81,12 +81,12 @@
                         {{-- quiz multiple choice start --}}
                         @if($multipleChoice != NULL)
                             @foreach ($multipleChoice as $rows)
-                                
+
                                 @foreach ($rows->multipleChoice as $items)
                                     @php
                                         $options = json_decode($items->option_text);
-                                        $correct_ans = json_decode($items->is_correct)  ; 
-                                        $submitted_ans = json_decode($multipleChoiceExamSubmission[$loop->index]['submitted_ans']); 
+                                        $correct_ans = json_decode($items->is_correct)  ;
+                                        $submitted_ans = json_decode($multipleChoiceExamSubmission[$loop->index]['submitted_ans']);
                                     @endphp
                                     <div class="questions_radio">
                                         <p class="check_box_font">{{$loop->index+1}}. {{$items->text}}</p>
@@ -154,11 +154,11 @@
                                                 $show_ans = $row_options[$key-1] . '<i class="fa-solid fa-check right_radio mx-2"></i>';
 
                                                 if($row_options[$key-1] != $submitted_ans[$key-1]){
-                                                    $show_ans = '<span style="border-bottom: 2px solid red; color:red">'.$submitted_ans[$key-1].'<i class="fa-solid fa-xmark wrong_radio mx-2"></i>'.'</span>'."&emsp; " .$row_options[$key-1]. '<i class="fa-solid fa-check right_radio mx-2"></i>';  
-                                                }  
+                                                    $show_ans = '<span style="border-bottom: 2px solid red; color:red">'.$submitted_ans[$key-1].'<i class="fa-solid fa-xmark wrong_radio mx-2"></i>'.'</span>'."&emsp; " .$row_options[$key-1]. '<i class="fa-solid fa-check right_radio mx-2"></i>';
+                                                }
 
-                                              $processed_content .= '<span>' . '<span style="border-bottom: 2px solid #00c437; color:#00c437">'.$show_ans.'</span>'.' '.    $value .'</span>'; 
-                                                
+                                              $processed_content .= '<span>' . '<span style="border-bottom: 2px solid #00c437; color:#00c437">'.$show_ans.'</span>'.' '.    $value .'</span>';
+
                                            }
                                         }
                                     @endphp
@@ -174,8 +174,8 @@
                             @foreach ($dropDown as $rows)
                                 @foreach ($rows->dropDown as $items)
                                     @php
-                                        $options = json_decode($items->option_text); 
-                                        $correct_ans = json_decode($items->is_correct)  ; 
+                                        $options = json_decode($items->option_text);
+                                        $correct_ans = json_decode($items->is_correct)  ;
                                         $dropDown_submitted_ans = json_decode($dropDownExamSubmission[$loop->index]['submitted_ans']);
                                     @endphp
                                     <div class="questions_radio">
@@ -225,7 +225,7 @@
                   <!-- content wrapper start -->
               </div>
           </div>
-          
+
       </div>
   </section>
     <!-- main section end -->

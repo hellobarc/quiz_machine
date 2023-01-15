@@ -30,10 +30,22 @@ p,span,li,button,a{
 }
 
 .logo-image-size{
-    width: 100%;
+    width: 20%;
 }
 .image-size{
     width: 100%;
+}
+.login_ul{
+    position: absolute;
+    top: 27%;
+    right: 1%;
+}
+.login_ul li{
+    margin-top: 2px;
+    list-style: none;
+}
+.login_ul a{
+
 }
 /* left side bar filter css start */
 .left_side_filter{
@@ -147,7 +159,7 @@ input.check_box{
     margin-left: 40%;
 }
 footer{
-   
+
 }
 /* login css start */
 .user_login_registration ul{
@@ -160,13 +172,13 @@ footer{
     font-weight: 700;
     margin: 30px;
     cursor: pointer;
-    
-    
+
+
 }
 .user_login_registration_active{
     color: #EB1010;
     border-bottom: 2px solid #EB1010;
-} 
+}
 /* login css end */
 /* custom dropdown css start */
 .custom_dropdown {
@@ -232,7 +244,7 @@ footer{
 }
 .questions_radio span{
     display: block;
-    margin-top: 1px;
+    margin-top: 8px;
 }
 .right_radio{
     color: #00c437;
@@ -406,8 +418,8 @@ button.owl-next {
     margin: 27px !important;
 }
 .owl-nav {
-    display: flex; 
-    justify-content: space-between; 
+    display: flex;
+    justify-content: space-between;
 }
 .owl-nav span{
     font-size: 60px;
@@ -427,6 +439,7 @@ button.owl-next {
 
 /* responsive css start */
 @media only screen and (max-width:500px) {
+    /* header css */
     .logo-image-size{
         width: 15%;
     }
@@ -434,6 +447,9 @@ button.owl-next {
         position: absolute;
         top: 0;
         left: 79%;
+    }
+    .login_button{
+
     }
     input.check_box{
     display: inherit;

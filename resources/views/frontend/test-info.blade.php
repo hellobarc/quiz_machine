@@ -53,7 +53,6 @@
                                 </div>
                               </div>
                             @endforeach
-                            
                             {{-- <div class="accordion-item mt-2">
                               <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed main-text fw-bold collapse_color" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -76,8 +75,9 @@
                     <!-- content wrapper start -->
                 </div>
             </div>
-            
+
         </div>
     </section>
     <!-- main section end -->
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

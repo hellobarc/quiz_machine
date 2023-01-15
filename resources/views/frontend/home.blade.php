@@ -13,7 +13,7 @@
                         <form class="form-inline my-2 my-lg-0">
                            <div class="d-flex">
                             <input type="search" class="form-control mr-sm-2" placeholder="Search" aria-label="Search" name="search" id="search">
-                            <button class="btn btn-warning my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                            <button class="btn btn-warning my-2 my-sm-0" type="submit" id="search_button"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
                            </div>
                         </form>
                     </div>
@@ -151,6 +151,12 @@
 
 <script>
     $(document).ready(function(){
+
+        $("#search_button").click(function(e){
+            e.preventDefault();
+            return false;
+        });
+
         $(document).on('keyup', '#search', function(e){
             e.preventDefault();
 

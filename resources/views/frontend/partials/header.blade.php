@@ -1,61 +1,69 @@
 <header class="header_style">
     <div class="container">
         <div class="row">
-            <div class="col-xl-1 col-lg-1 col-md-1 col-md-1 col-sm-1 col-xs-1">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-md-3 col-sm-3 col-xs-3">
                 <div>
-                    <img src="{{asset('frontend/image/logo.png')}}" alt="" class="logo-image-size">
+                    <a href="{{route('frontend.home')}}"><img src="{{asset('frontend/image/logo.png')}}" alt="" class="logo-image-size"></a>
                 </div>
             </div>
-            <div class="col-xl-9 col-lg-9 col-md-9 col-md-9 col-sm-9 col-xs-9">
-                <div class="mt-2 nav_bar">
-                    <nav class="navbar navbar-expand-lg navbar-light ml-5">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                          <ul class="navbar-nav navbar-font nav-margin">
-                            <li class="nav-item active mx-4">
-                              <a class="nav-link text-dark" href="#">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item mx-4">
-                              <a class="nav-link text-dark" href="#">Why Choose Us?</a>
-                            </li>
-                            <li class="nav-item mx-4">
-                              <a class="nav-link text-dark" href="#">Exam and Test <i class="fa-solid fa-angle-down"></i></li></a>
-                            </li>
-                            <li class="nav-item mx-4">
-                              <a class="nav-link text-dark" href="#">Learn English <i class="fa-solid fa-angle-down"></i></li></a>
-                            </li>
-                            <li class="nav-item mx-4">
-                              <a class="nav-link text-dark" href="#">Blog</a>
-                            </li>
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+              <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
 
-                          </ul>
-                        </div>
-                      </nav>
-                </div>
-            </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <div class="mt-4">
-                  @php
-                     //dd(Auth::user()) ;
-                  @endphp
-                  @if(Auth::check())
-                  <div class="custom_dropdown">
-                        <a class="navbar-font text-dark text-decoration-none dropbtn" href="#" style="cursor: pointer;">
-                        {{Auth::user()->name}} <i class="fa-solid fa-angle-down"></i>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto navbar-font">
+                    <li class="nav-item active">
+                      <a class="nav-link text-dark" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item mx-5">
+                      <a class="nav-link text-dark" href="#">Why Choose Us?</a>
+                    </li>
+                    <li class="nav-item dropdown mx-5">
+                      <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Exam and Test
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                    </li>
+                    <li class="nav-item dropdown mx-5">
+                      <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Blog
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul class="login_ul navbar-font">
+                    <li class="nav-item">
+                      @if(!(Auth::check()))
+                      <a class="nav-link text-dark" href="#" id="login_button">Login</a>
+                      @else
+                      <li class="nav-item dropdown mx-5">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{Auth::user()->name}}
                         </a>
-                    <div class="dropdown-content">
-                      <a href="{{route('frontend.user.dashboard')}}">Dashboard</a>
-                      <a href="{{route('frontend.user.logout')}}">Logout</a>
-                    </div>
-                  </div>
-                  @else
-                    <div id="auth_info">
-                        <a class="navbar-font text-dark text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#useLogin">Login</a>
-                    </div>
-                  @endif
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{route('frontend.user.dashboard')}}">Dashboard</a>
+                          <a class="dropdown-item" href="{{route('frontend.user.logout')}}">Logout</a>
+                          {{-- <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="#">Something else here</a> --}}
+                        </div>
+                      </li>
+                      @endif
+                    </li>
+                  </ul>
                 </div>
+              </nav>
             </div>
         </div>
     </div>
@@ -136,11 +144,11 @@
       </div>
     <!-- LoginModal end-->
 </header>
+
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-
-
   $("#user_login").show();
   $("#user_register").hide();
   $("#login").addClass('user_login_registration_active');
@@ -158,11 +166,16 @@ $(document).ready(function(){
     $("#login").removeClass('user_login_registration_active');
     $("#register").addClass('user_login_registration_active');
   });
+  $("#login_button").click(function(){
+    $("#useLogin").modal('show');
 
-
-  $('#handleAjaxLogin').submit(function (e) {
+  });
+});
+</script>
+<script>
+  $(document).ready(function(){
+      $('#handleAjaxLogin').submit(function (e) {
           e.preventDefault();
-
           $.ajax({
               type:'POST',
               url:"{{route('frontend.user.login')}}",
@@ -172,22 +185,11 @@ $(document).ready(function(){
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
               },
               success: function(data){
-                $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" >New check</button>`);
+                $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" name="submitType" value="check">Check</button>
+                                            <div class="text_right">
+                                                <button type="submit" class="btn btn-dark btn-lg fw-bolder" name="submitType" value="next">Next <i class="fa-solid fa-angle-right"></i></button>
+                                            </div>`);
                 $("#useLogin").modal('hide');
-
-                 let info_content =  ` <div class="custom_dropdown">
-                                            <a class="navbar-font text-dark text-decoration-none dropbtn" href="#" style="cursor: pointer;">
-                                           ${data.data.name}<i class="fa-solid fa-angle-down"></i>
-                                            </a>
-                                        <div class="dropdown-content">
-                                        <a href="{{route('frontend.user.dashboard')}}">Dashboard</a>
-                                        <a href="{{route('frontend.user.logout')}}">Logout</a>
-                                        </div>
-                                    </div>`;
-                 $("#auth_info").html(info_content);
-
-
-                 //   console.log(Auth_info);
               },
               error: function(data){
                   console.log(data);
@@ -196,8 +198,10 @@ $(document).ready(function(){
 
           return false;
       });
-
-
+  });
+</script>
+<script>
+  $(document).ready(function(){
       $('#signUpLogin').submit(function (e) {
         //alert('registration');
           e.preventDefault();
@@ -213,23 +217,22 @@ $(document).ready(function(){
               },
               success: function(data){
                 //alert('Register Successful');
-                $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" >New check</button>`);
+                $("#uncheck_button").html(`<button type="submit" class="btn btn-dark fw-bolder" name="submitType" value="check">Check</button>
+                                            <div class="text_right">
+                                                <button type="submit" class="btn btn-dark btn-lg fw-bolder" name="submitType" value="next">Next <i class="fa-solid fa-angle-right"></i></button>
+                                            </div>`);
                 $("#useLogin").modal('hide');
-                let info_content =  `<a href="{{route('frontend.user.dashboard')}}">Dashboard</a><a href="{{route('frontend.user.logout')}}">Logout</a>`;
-                $("#auth_info").html(info_content);
+
+                //window.location.reload();
               },
               error: function(data){
-                  console.log(data);
+                  console.log($data);
               }
           });
 
           return false;
       });
-
-
-
-});
+  });
 </script>
-
 
 
