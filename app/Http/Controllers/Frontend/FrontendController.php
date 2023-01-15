@@ -281,13 +281,15 @@ class FrontendController extends Controller
         $dropDown_quiz_type = $data['dropDown_quiz_type'];
         $submitType = $data['submitType'];
 
-      //  dd($data);
+       dd($radiosAns);
 
         if(isset($radios)){
-            foreach($radios as $index=>$radio){
+            $counter = 1;
+            foreach($radios as $index=>$radio){ // 2 times
                     foreach($radiosAns as $key=>$rAns){
-                        if($radio == $key){
-                            $ans= $rAns;
+                        $ans= $rAns;
+                      //  if($radio == $key){  // $radio actually quiz_id
+
 
                             $allRadio = QuizRadio::where('quiz_id', $radio)->get();
 
@@ -299,8 +301,11 @@ class FrontendController extends Controller
                                   $is_correct = "no";
                                 }
                             }
-                            $array = ['quiz_id'=>$radio,'exam_id'=>$exam_id,'question_id'=>$radioQuestionId[$index], 'fillblankans'=> NULL, 'submitted_ans'=>$ans, 'quiz_type' => $radio_quiz_type, 'is_correct'=>$is_correct];
-                        }
+                            $counter++;
+
+                     //   }
+
+                        $array = ['quiz_id'=>$radio,'exam_id'=>$exam_id,'question_id'=>$radioQuestionId[$index], 'fillblankans'=>  $counter, 'submitted_ans'=>$ans, 'quiz_type' => $radio_quiz_type, 'is_correct'=>$is_correct];
                     }
                 $this->examCreate($array);
             }

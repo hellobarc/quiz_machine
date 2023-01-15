@@ -35,7 +35,6 @@
                       @foreach ($quizRadio as $rows)
                           @foreach ($rows->quizRadio as $radioQuestion)
                               @php
-                              dd($rows->quizRadio );
                                   $options = json_decode($radioQuestion->option_text);
                                   $correct_ans = json_decode($radioQuestion->is_correct);
                                   $submitted_ans = json_decode($radioExamSubmission[$loop->index]['submitted_ans']);
